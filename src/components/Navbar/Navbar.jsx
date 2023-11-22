@@ -1,5 +1,4 @@
-import Sidebar from "./Sidebar";
-import Topbar from "./Topbar";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
@@ -185,9 +184,9 @@ const Navbar = () => {
         >
           <ul className="space-y-5">
             <li>
-              <a
-                className="flex items-center gap-x-3.5 py-5 px-2.5 bg-color-1 text-sm rounded-lg dark:text-white dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-color-1 font-bold"
-                href="#"
+              <Link
+                className="flex items-center gap-x-3.5 py-5 px-2.5 bg-color-1 text-sm rounded-lg dark:text-white font-bold"
+                to="/"
               >
                 <svg
                   className="flex-shrink-0 w-4 h-4"
@@ -205,13 +204,13 @@ const Navbar = () => {
                   <polyline points="9 22 9 12 15 12 15 22" />
                 </svg>
                 Dashboard
-              </a>
+              </Link>
             </li>
 
             <li>
-              <a
-                className="flex items-center gap-x-3.5 py-5 px-2.5 hover:bg-color-1 text-sm rounded-lg dark:hover:text-white dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-color-1"
-                href="#"
+              <Link
+                className="flex items-center gap-x-3.5 py-5 px-2.5 hover:bg-color-1 text-sm rounded-lg dark:hover:text-white "
+                to="/kelola-barang"
               >
                 <svg
                   className="flex-shrink-0 w-4 h-4"
@@ -237,13 +236,13 @@ const Navbar = () => {
                   <path d="M16 18h.01" />
                 </svg>
                 Kelola Barang
-              </a>
+              </Link>
             </li>
 
             <li className="hs-accordion" id="account-accordion">
               <button
                 type="button"
-                className="hs-accordion-toggle w-full text-start flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-color-5 rounded-lg hover:bg-color-1 dark:hover:bg-color-1 dark:text-color-5 dark:hover:text-color-6 dark:hs-accordion-active:text-color-4 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-color-1"
+                className="hs-accordion-toggle w-full text-start flex items-center gap-x-3.5 py-5 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-color-5 rounded-lg hover:bg-color-1 dark:hover:bg-color-1 dark:text-color-5 dark:hover:text-color-6 dark:hs-accordion-active:text-color-4 "
               >
                 <svg
                   className="flex-shrink-0 mt-0.5 w-4 h-4"
@@ -306,37 +305,37 @@ const Navbar = () => {
               >
                 <ul className="pt-2 ps-2">
                   <li>
-                    <a
+                    <Link
                       className="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-lg dark:bg-color-1 dark:text-color-6"
-                      href="#"
+                      to="/kelola-produk/merk-produk"
                     >
                       Merk Produk
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a
-                      className="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-lg hover:bg-gray-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-                      href="#"
+                    <Link
+                      className="flex items-center gap-x-3.5 py-2 my-1 px-2.5 text-sm text-color-5 rounded-lg hover:bg-color-1 dark:text-color-5 dark:hover:text-color-6 "
+                      to="/kelola-produk/kategori"
                     >
                       Kategori
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a
-                      className="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-lg hover:bg-gray-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-                      href="#"
+                    <Link
+                      className="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-color-5 rounded-lg hover:bg-color-1 dark:text-color-5 dark:hover:text-color-6 "
+                      to="/kelola-produk/ukuran"
                     >
                       Ukuran
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </div>
             </li>
 
             <li>
-              <a
-                className="flex items-center gap-x-3.5 py-5 px-2.5 hover:bg-color-1 text-sm rounded-lg dark:hover:text-white dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-color-1"
-                href="#"
+              <Link
+                className="flex items-center gap-x-3.5 py-5 px-2.5 hover:bg-color-1 text-sm rounded-lg dark:hover:text-white"
+                to="/laporan-keuangan"
               >
                 <svg
                   className="flex-shrink-0 w-4 h-4"
@@ -362,7 +361,7 @@ const Navbar = () => {
                   <path d="M16 18h.01" />
                 </svg>
                 Laporan Keuangan
-              </a>
+              </Link>
             </li>
           </ul>
         </nav>
