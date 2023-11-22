@@ -155,7 +155,11 @@ const Dashboard = () => {
                                 2
                               </td>
                               <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
-                                <img src="./src/assets/react.svg" alt="" />
+                                <img
+                                  className="w-16"
+                                  src="./src/assets/no-preview.png"
+                                  alt=""
+                                />
                               </td>
                             </tr>
                             <tr>
@@ -169,7 +173,11 @@ const Dashboard = () => {
                                 4
                               </td>
                               <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
-                                <img src="./src/assets/react.svg" alt="" />
+                                <img
+                                  className="w-16"
+                                  src="./src/assets/no-preview.png"
+                                  alt=""
+                                />
                               </td>
                             </tr>
                             <tr>
@@ -183,7 +191,11 @@ const Dashboard = () => {
                                 5
                               </td>
                               <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
-                                <img src="./src/assets/react.svg" alt="" />
+                                <img
+                                  className="w-16"
+                                  src="./src/assets/no-preview.png"
+                                  alt=""
+                                />
                               </td>
                             </tr>
                             <tr>
@@ -197,7 +209,11 @@ const Dashboard = () => {
                                 5
                               </td>
                               <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
-                                <img src="./src/assets/react.svg" alt="" />
+                                <img
+                                  className="w-16"
+                                  src="./src/assets/no-preview.png"
+                                  alt=""
+                                />
                               </td>
                             </tr>
                             <tr>
@@ -211,7 +227,11 @@ const Dashboard = () => {
                                 8
                               </td>
                               <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
-                                <img src="./src/assets/react.svg" alt="" />
+                                <img
+                                  className="w-16"
+                                  src="./src/assets/no-preview.png"
+                                  alt=""
+                                />
                               </td>
                             </tr>
                           </tbody>
