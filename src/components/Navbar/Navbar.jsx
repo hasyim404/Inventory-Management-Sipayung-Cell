@@ -14,8 +14,7 @@ const Navbar = () => {
               href="#"
               aria-label="Brand"
             >
-              <img src="./src/assets/react.svg" alt="" />
-              <p className="pl-4">SIPAYUNG CELL</p>
+              <img src="./src/assets/main-logo.png" alt="" />
             </a>
           </div>
 
@@ -172,9 +171,7 @@ const Navbar = () => {
             href="#"
             aria-label="Brand"
           >
-            {" "}
-            <img src="./src/assets/react.svg" alt="" />
-            <p className="pl-2">SIPAYUNG CELL</p>
+            <img className="w-21" src="./src/assets/main-logo.png" alt="" />
           </a>
         </div>
 
