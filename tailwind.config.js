@@ -14,6 +14,7 @@ export default {
         "color-4": "#767676",
         "color-5": "#23232",
         "color-6": "#FFFFFE",
+        "6hover": "#056A6A",
         "color-danger": "#E3B84A",
         "color-warning": "#E34A4A",
       },

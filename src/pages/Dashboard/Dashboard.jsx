@@ -20,7 +20,7 @@ const Dashboard = () => {
       <p className="mb-2 text-sm font-normal text-color-4"> Dashboard</p>
 
       {/* Content */}
-      <div className="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-0 lg:py-5 ">
+      <div className="px-4 py-10 sm:px-6 lg:px-0 lg:py-5 ">
         {/* 3 Card info */}
         <div className="grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-3 sm:gap-6">
           <div
@@ -218,7 +218,7 @@ const Dashboard = () => {
                         </table>
                       </div>
                       <div className=" py-1 px-8">
-                        <nav className="flex items-center justify-end space-x-1">
+                        <nav className="flex items-center justify-start space-x-1">
                           <button
                             type="button"
                             className="p-2.5 inline-flex items-center gap-x-2 text-sm rounded-full text-color-5 hover:text-color-6 disabled:opacity-50 disabled:pointer-events-none dark:text-color-5 dark:hover:bg-color-1 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
@@ -228,7 +228,7 @@ const Dashboard = () => {
                           </button>
                           <button
                             type="button"
-                            className="min-w-[40px] flex justify-center items-center text-color-5 hover:bg-color-1 py-2.5 text-sm rounded-full disabled:opacity-50 disabled:pointer-events-none hover:text-color-6 dark:hover:bg-color-1"
+                            className="min-w-[40px] flex justify-center items-center text-color-5 bg-color-1 py-2.5 text-sm rounded-full disabled:opacity-50 disabled:pointer-events-none text-color-6 dark:hover:bg-color-1"
                             aria-current="page"
                           >
                             1
