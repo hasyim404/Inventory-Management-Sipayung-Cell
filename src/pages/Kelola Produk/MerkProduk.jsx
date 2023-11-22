@@ -115,7 +115,11 @@ const MerkProduk = () => {
                                 ANKER
                               </td>
                               <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
-                                <img src="../src/assets/react.svg" alt="" />
+                                <img
+                                  className="w-16"
+                                  src="../src/assets/no-preview.png"
+                                  alt=""
+                                />
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
                                 <div className="text-center">
@@ -143,7 +147,11 @@ const MerkProduk = () => {
                                 Xiaomi
                               </td>
                               <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
-                                <img src="../src/assets/react.svg" alt="" />
+                                <img
+                                  className="w-16"
+                                  src="../src/assets/no-preview.png"
+                                  alt=""
+                                />
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
                                 <div className="text-center">
@@ -171,7 +179,11 @@ const MerkProduk = () => {
                                 Robot
                               </td>
                               <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
-                                <img src="../src/assets/react.svg" alt="" />
+                                <img
+                                  className="w-16"
+                                  src="../src/assets/no-preview.png"
+                                  alt=""
+                                />
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
                                 <div className="text-center">
@@ -199,7 +211,11 @@ const MerkProduk = () => {
                                 Simpati
                               </td>
                               <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
-                                <img src="../src/assets/react.svg" alt="" />
+                                <img
+                                  className="w-16"
+                                  src="../src/assets/no-preview.png"
+                                  alt=""
+                                />
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
                                 <div className="text-center">
@@ -227,7 +243,11 @@ const MerkProduk = () => {
                                 Indosat
                               </td>
                               <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
-                                <img src="../src/assets/react.svg" alt="" />
+                                <img
+                                  className="w-16"
+                                  src="../src/assets/no-preview.png"
+                                  alt=""
+                                />
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
                                 <div className="text-center">
@@ -255,7 +275,11 @@ const MerkProduk = () => {
                                 Lainnya
                               </td>
                               <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
-                                <img src="../src/assets/react.svg" alt="" />
+                                <img
+                                  className="w-16"
+                                  src="../src/assets/no-preview.png"
+                                  alt=""
+                                />
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
                                 <div className="text-center">

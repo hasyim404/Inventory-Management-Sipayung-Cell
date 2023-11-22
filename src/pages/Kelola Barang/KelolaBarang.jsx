@@ -215,7 +215,11 @@ const KelolaBarang = () => {
                                   Rp. 30.000
                                 </td>
                                 <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
-                                  <img src="./src/assets/react.svg" alt="" />
+                                  <img
+                                    className="w-16"
+                                    src="./src/assets/no-preview.png"
+                                    alt=""
+                                  />
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
                                   <div className="text-center">
@@ -258,7 +262,11 @@ const KelolaBarang = () => {
                                   Rp. 30.000
                                 </td>
                                 <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
-                                  <img src="./src/assets/react.svg" alt="" />
+                                  <img
+                                    className="w-16"
+                                    src="./src/assets/no-preview.png"
+                                    alt=""
+                                  />
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
                                   <div className="text-center">
@@ -301,7 +309,11 @@ const KelolaBarang = () => {
                                   Rp. 30.000
                                 </td>
                                 <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
-                                  <img src="./src/assets/react.svg" alt="" />
+                                  <img
+                                    className="w-16"
+                                    src="./src/assets/no-preview.png"
+                                    alt=""
+                                  />
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
                                   <div className="text-center">
@@ -344,7 +356,11 @@ const KelolaBarang = () => {
                                   Rp. 30.000
                                 </td>
                                 <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
-                                  <img src="./src/assets/react.svg" alt="" />
+                                  <img
+                                    className="w-16"
+                                    src="./src/assets/no-preview.png"
+                                    alt=""
+                                  />
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
                                   <div className="text-center">
@@ -387,7 +403,11 @@ const KelolaBarang = () => {
                                   Rp. 30.000
                                 </td>
                                 <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
-                                  <img src="./src/assets/react.svg" alt="" />
+                                  <img
+                                    className="w-16"
+                                    src="./src/assets/no-preview.png"
+                                    alt=""
+                                  />
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
                                   <div className="text-center">
@@ -430,7 +450,11 @@ const KelolaBarang = () => {
                                   Rp. 30.000
                                 </td>
                                 <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
-                                  <img src="./src/assets/react.svg" alt="" />
+                                  <img
+                                    className="w-16"
+                                    src="./src/assets/no-preview.png"
+                                    alt=""
+                                  />
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
                                   <div className="text-center">
