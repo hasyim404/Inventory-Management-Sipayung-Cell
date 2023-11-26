@@ -1,6 +1,49 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faDesktop,
+  faBoxesStacked,
+  faBoxesPacking,
+  faFileLines,
+  faAngleUp,
+  faAngleDown,
+  faRightFromBracket,
+} from "@fortawesome/free-solid-svg-icons";
 
 const Navbar = () => {
+  const menus = [
+    {
+      path: "/",
+      name: "Dashboard",
+      icon: faDesktop,
+    },
+    {
+      path: "/kelola-barang",
+      name: "Kelola Barang",
+      icon: faBoxesStacked,
+    },
+    {
+      path: "/laporan-keuangan/",
+      name: "Laporan Keuangan",
+      icon: faFileLines,
+    },
+  ];
+
+  const subsNav = [
+    {
+      path: "/kelola-produk/merk-produk",
+      name: "Merk Produk",
+    },
+    {
+      path: "/kelola-produk/kategori",
+      name: "Kategori",
+    },
+    {
+      path: "/kelola-produk/ukuran",
+      name: "Ukuran",
+    },
+  ];
+
   return (
     <div>
       <header className="sticky top-0 inset-x-0 flex flex-wrap sm:justify-start sm:flex-nowrap z-[48] w-full border-b text-sm py-2.5 sm:py-4 lg:ps-64 bg-color-6 ">
@@ -14,17 +57,17 @@ const Navbar = () => {
               href="#"
               aria-label="Brand"
             >
-              <img src="./src/assets/main-logo.png" alt="" />
+              <img src="./src/assets/main-logo.png" width={200} alt="" />
             </a>
           </div>
 
           <div className="w-full flex items-center justify-end ms-auto sm:justify-between sm:gap-x-3 sm:order-3">
             <div className="hidden sm:block"></div>
 
-            <div className="flex flex-row items-center justify-end gap-2">
+            <div className="flex flex-row items-center justify-end gap-3">
               <button
                 type="button"
-                className="w-[2.375rem] h-[2.375rem] inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent disabled:opacity-50 disabled:pointer-events-none text-color-5 bg-color-3 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-color-2"
+                className="w-[2.375rem] h-[2.375rem] inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent disabled:opacity-50 disabled:pointer-events-none text-color-5 bg-color-2 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-color-2 shadow-sm"
               >
                 <svg
                   className="flex-shrink-0 w-4 h-4"
@@ -43,54 +86,39 @@ const Navbar = () => {
                 </svg>
               </button>
 
-              <div className="hs-dropdown relative inline-flex [--placement:bottom-right]">
+              <div className=" hs-dropdown relative inline-flex [--placement:bottom-right]">
                 <button
                   id="hs-dropdown-with-header"
                   type="button"
-                  className="inline-flex justify-center items-center gap-x-3 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-color-5 bg-zinc-100 "
+                  className="pr-5 py-0.5 inline-flex justify-center items-center gap-x-5 text-sm font-semibold rounded-full border border-transparent text-gray-800 disabled:opacity-50 disabled:pointer-events-none dark:text-color-5 bg-color-2 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-color-2 shadow-md"
                 >
                   <img
                     className="inline-block h-[2.375rem] w-[2.375rem] rounded-full "
                     src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=htmlFormat&fit=facearea&facepad=2&w=320&h=320&q=80"
                     alt="Image Description"
                   />
-                  Administrator
+                  <p>Administrator</p>
                 </button>
 
                 <div
-                  className="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-[15rem] bg-white shadow-md rounded-lg p-2 dark:bg-gray-800 dark:border dark:border-gray-700"
+                  className="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-[10rem] bg-color-3 shadow-md rounded-lg p-2 "
                   aria-labelledby="hs-dropdown-with-header"
                 >
-                  <div className="py-3 px-5 -m-2 bg-gray-100 rounded-t-lg dark:bg-gray-700">
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                      Masuk sebagai
-                    </p>
-                    <p className="text-sm font-medium text-gray-800 dark:text-gray-300">
+                  <div className="py-3 px-5 -m-2 border bg-color-2 rounded-t-lg ">
+                    <p className="text-sm  dark:text-gray-500">Masuk sebagai</p>
+                    <p className="text-sm font-medium dark:text-gray-600">
                       admin@sipayungcell.com
                     </p>
                   </div>
                   <div className="mt-2 py-2 first:pt-0 last:pb-0">
                     <a
-                      className="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-gray-400 bg-red-500 dark:hover:text-gray-300"
+                      className="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-color-6 hover:bg-red-500 bg-red-600 dark:hover:text-white-300"
                       href="#"
                     >
-                      <svg
+                      <FontAwesomeIcon
+                        icon={faRightFromBracket}
                         className="flex-shrink-0 w-4 h-4"
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-                        <circle cx="9" cy="7" r="4" />
-                        <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
-                        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                      </svg>
+                      />
                       Log Out
                     </a>
                   </div>
@@ -166,13 +194,12 @@ const Navbar = () => {
         className="hs-overlay hs-overlay-open:translate-x-0 -translate-x-full transition-all duration-300 transhtmlForm hidden fixed top-0 start-0 bottom-0 z-[60] w-64 bg-white border-e border-gray-200 pt-7 pb-10 overflow-y-auto lg:block lg:translate-x-0 lg:end-auto lg:bottom-0 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-slate-700 dark:[&::-webkit-scrollbar-thumb]:bg-slate-500 dark:bg-color-6 dark:border-color-3"
       >
         <div className="px-6">
-          <a
+          <NavLink
             className="flex text-xl font-semibold dark:text-color-5 fosiz dark:focus:outline-none "
-            href="#"
-            aria-label="Brand"
+            to={"/"}
           >
-            <img className="w-21" src="./src/assets/main-logo.png" alt="" />
-          </a>
+            <img src="./src/assets/main-logo.png" width={200} alt="" />
+          </NavLink>
         </div>
 
         <nav
@@ -180,120 +207,40 @@ const Navbar = () => {
           data-hs-accordion-always-open
         >
           <ul className="space-y-5">
-            <li>
-              <Link
-                className="flex items-center gap-x-3.5 py-5 px-2.5 bg-color-1 text-sm rounded-lg dark:text-white font-bold"
-                to="/"
+            {menus.map((menu) => (
+              <NavLink
+                key={menu.name}
+                to={menu.path}
+                className={({ isActive }) => {
+                  return (
+                    "flex items-center gap-x-3.5 py-5 px-2.5 text-sm rounded-lg " +
+                    (!isActive
+                      ? "hover:bg-color-1 dark:hover:text-white hover:font-bold"
+                      : "bg-color-1 dark:text-white font-bold")
+                  );
+                }}
               >
-                <svg
-                  className="flex-shrink-0 w-4 h-4"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-                  <polyline points="9 22 9 12 15 12 15 22" />
-                </svg>
-                Dashboard
-              </Link>
-            </li>
-
-            <li>
-              <Link
-                className="flex items-center gap-x-3.5 py-5 px-2.5 hover:bg-color-1 text-sm rounded-lg dark:hover:text-white "
-                to="/kelola-barang"
-              >
-                <svg
-                  className="flex-shrink-0 w-4 h-4"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <rect width="18" height="18" x="3" y="4" rx="2" ry="2" />
-                  <line x1="16" x2="16" y1="2" y2="6" />
-                  <line x1="8" x2="8" y1="2" y2="6" />
-                  <line x1="3" x2="21" y1="10" y2="10" />
-                  <path d="M8 14h.01" />
-                  <path d="M12 14h.01" />
-                  <path d="M16 14h.01" />
-                  <path d="M8 18h.01" />
-                  <path d="M12 18h.01" />
-                  <path d="M16 18h.01" />
-                </svg>
-                Kelola Barang
-              </Link>
-            </li>
-
+                <li>
+                  <FontAwesomeIcon icon={menu.icon} className="pr-2" />{" "}
+                  {menu.name}
+                </li>
+              </NavLink>
+            ))}
             <li className="hs-accordion" id="account-accordion">
               <button
                 type="button"
-                className="hs-accordion-toggle w-full text-start flex items-center gap-x-3.5 py-5 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-color-5 rounded-lg hover:bg-color-1 dark:hover:bg-color-1 dark:text-color-5 dark:hover:text-color-6 dark:hs-accordion-active:text-color-4 "
+                className="hs-accordion-toggle w-full text-start flex items-center gap-x-3.5 py-5 px-2.5 text-sm text-color-5 rounded-lg hover:bg-color-1 hs-accordion-active:bg-color-1  dark:hover:bg-color-1 dark:text-color-5 dark:hover:text-color-6 dark:hs-accordion-active:text-color-6 hs-accordion-active:font-bold"
               >
-                <svg
-                  className="flex-shrink-0 mt-0.5 w-4 h-4"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <circle cx="18" cy="15" r="3" />
-                  <circle cx="9" cy="7" r="4" />
-                  <path d="M10 15H6a4 4 0 0 0-4 4v2" />
-                  <path d="m21.7 16.4-.9-.3" />
-                  <path d="m15.2 13.9-.9-.3" />
-                  <path d="m16.6 18.7.3-.9" />
-                  <path d="m19.1 12.2.3-.9" />
-                  <path d="m19.6 18.7-.4-1" />
-                  <path d="m16.8 12.3-.4-1" />
-                  <path d="m14.3 16.6 1-.4" />
-                  <path d="m20.7 13.8 1-.4" />
-                </svg>
+                <FontAwesomeIcon icon={faBoxesPacking} />
                 Kelola Produk
-                <svg
+                <FontAwesomeIcon
+                  icon={faAngleUp}
                   className="hs-accordion-active:block ms-auto hidden w-4 h-4"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="m18 15-6-6-6 6" />
-                </svg>
-                <svg
+                />
+                <FontAwesomeIcon
+                  icon={faAngleDown}
                   className="hs-accordion-active:hidden ms-auto block w-4 h-4"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="m6 9 6 6 6-6" />
-                </svg>
+                />
               </button>
 
               <div
@@ -301,64 +248,48 @@ const Navbar = () => {
                 className="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden"
               >
                 <ul className="pt-2 ps-2">
-                  <li>
-                    <Link
+                  {subsNav.map((sub) => (
+                    <NavLink
+                      key={sub.name}
+                      to={sub.path}
+                      className={({ isActive }) => {
+                        return (
+                          "flex items-center gap-x-3.5 py-2 my-1 px-2.5 text-sm rounded-lg  " +
+                          (!isActive
+                            ? "dark:hover:bg-color-1 dark:hover:text-color-6 "
+                            : "dark:bg-color-1 dark:text-color-6 font-bold")
+                        );
+                      }}
+                    >
+                      <li>{sub.name}</li>
+                    </NavLink>
+                  ))}
+                  {/* <li>
+                    <NavLink
                       className="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-lg dark:bg-color-1 dark:text-color-6"
                       to="/kelola-produk/merk-produk"
                     >
                       Merk Produk
-                    </Link>
+                    </NavLink>
                   </li>
                   <li>
-                    <Link
+                    <NavLink
                       className="flex items-center gap-x-3.5 py-2 my-1 px-2.5 text-sm text-color-5 rounded-lg hover:bg-color-1 dark:text-color-5 dark:hover:text-color-6 "
                       to="/kelola-produk/kategori"
                     >
                       Kategori
-                    </Link>
+                    </NavLink>
                   </li>
                   <li>
-                    <Link
+                    <NavLink
                       className="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-color-5 rounded-lg hover:bg-color-1 dark:text-color-5 dark:hover:text-color-6 "
                       to="/kelola-produk/ukuran"
                     >
                       Ukuran
-                    </Link>
-                  </li>
+                    </NavLink>
+                  </li> */}
                 </ul>
               </div>
-            </li>
-
-            <li>
-              <Link
-                className="flex items-center gap-x-3.5 py-5 px-2.5 hover:bg-color-1 text-sm rounded-lg dark:hover:text-white"
-                to="/laporan-keuangan"
-              >
-                <svg
-                  className="flex-shrink-0 w-4 h-4"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <rect width="18" height="18" x="3" y="4" rx="2" ry="2" />
-                  <line x1="16" x2="16" y1="2" y2="6" />
-                  <line x1="8" x2="8" y1="2" y2="6" />
-                  <line x1="3" x2="21" y1="10" y2="10" />
-                  <path d="M8 14h.01" />
-                  <path d="M12 14h.01" />
-                  <path d="M16 14h.01" />
-                  <path d="M8 18h.01" />
-                  <path d="M12 18h.01" />
-                  <path d="M16 18h.01" />
-                </svg>
-                Laporan Keuangan
-              </Link>
             </li>
           </ul>
         </nav>

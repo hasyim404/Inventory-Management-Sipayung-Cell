@@ -216,9 +216,10 @@ const KelolaBarang = () => {
                                 </td>
                                 <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
                                   <img
-                                    className="w-16"
+                                    className="w-16 cursor-pointer"
                                     src="./src/assets/no-preview.png"
                                     alt=""
+                                    data-hs-overlay="#hs-sign-out-alert-small-window"
                                   />
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
@@ -263,9 +264,10 @@ const KelolaBarang = () => {
                                 </td>
                                 <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
                                   <img
-                                    className="w-16"
+                                    className="w-16 cursor-pointer"
                                     src="./src/assets/no-preview.png"
                                     alt=""
+                                    data-hs-overlay="#hs-sign-out-alert-small-window"
                                   />
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
@@ -310,9 +312,10 @@ const KelolaBarang = () => {
                                 </td>
                                 <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
                                   <img
-                                    className="w-16"
+                                    className="w-16 cursor-pointer"
                                     src="./src/assets/no-preview.png"
                                     alt=""
+                                    data-hs-overlay="#hs-sign-out-alert-small-window"
                                   />
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
@@ -357,9 +360,10 @@ const KelolaBarang = () => {
                                 </td>
                                 <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
                                   <img
-                                    className="w-16"
+                                    className="w-16 cursor-pointer"
                                     src="./src/assets/no-preview.png"
                                     alt=""
+                                    data-hs-overlay="#hs-sign-out-alert-small-window"
                                   />
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
@@ -404,9 +408,10 @@ const KelolaBarang = () => {
                                 </td>
                                 <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
                                   <img
-                                    className="w-16"
+                                    className="w-16 cursor-pointer"
                                     src="./src/assets/no-preview.png"
                                     alt=""
+                                    data-hs-overlay="#hs-sign-out-alert-small-window"
                                   />
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
@@ -451,9 +456,10 @@ const KelolaBarang = () => {
                                 </td>
                                 <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
                                   <img
-                                    className="w-16"
+                                    className="w-16 cursor-pointer"
                                     src="./src/assets/no-preview.png"
                                     alt=""
+                                    data-hs-overlay="#hs-sign-out-alert-small-window"
                                   />
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
@@ -471,6 +477,56 @@ const KelolaBarang = () => {
                                     >
                                       <FontAwesomeIcon icon={faTrashCan} />
                                     </button>
+                                  </div>
+                                </td>
+                              </tr>
+                              {/* Modals Img */}
+                              <tr>
+                                <td>
+                                  <div
+                                    id="hs-sign-out-alert-small-window"
+                                    className="hs-overlay hidden w-full h-full fixed top-0 start-0 z-[70] overflow-x-hidden overflow-y-auto"
+                                  >
+                                    <div className="hs-overlay-open:mt-40 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all sm:max-w-xs sm:w-full m-3 sm:mx-auto">
+                                      <div className="relative flex flex-col dark:bg-color-3 shadow-md rounded-xl">
+                                        <div className="absolute top-2 end-2">
+                                          <button
+                                            type="button"
+                                            className="flex justify-center items-center w-7 h-7 text-sm font-semibold rounded-lg border border-transparent text-color-5 hover:bg-color-1 disabled:opacity-50 disabled:pointer-events-none dark:color-5 dark:border-transparent hover:text-color-6 dark:hover:bg-color-1 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                                            data-hs-overlay="#hs-sign-out-alert-small-window"
+                                          >
+                                            <span className="sr-only">
+                                              Close
+                                            </span>
+                                            <svg
+                                              className="flex-shrink-0 w-4 h-4"
+                                              xmlns="http://www.w3.org/2000/svg"
+                                              width="24"
+                                              height="24"
+                                              viewBox="0 0 24 24"
+                                              fill="none"
+                                              stroke="currentColor"
+                                              strokeWidth="2"
+                                              strokeLinecap="round"
+                                              strokeLinejoin="round"
+                                            >
+                                              <path d="M18 6 6 18" />
+                                              <path d="m6 6 12 12" />
+                                            </svg>
+                                          </button>
+                                        </div>
+
+                                        <div className="p-4 sm:p-10 text-center overflow-y-auto">
+                                          <div className="mt-6 grid gap-y-2">
+                                            <img
+                                              src="./src/assets/no-preview.png"
+                                              alt=""
+                                              className="rounded-lg"
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
                                   </div>
                                 </td>
                               </tr>
@@ -620,13 +676,24 @@ const KelolaBarang = () => {
                                                 defaultValue={"DEFAULT"}
                                                 className="py-3 px-4 pe-9 block w-full rounded-lg text-sm  dark:bg-color-5 dark:text-gray-400"
                                               >
-                                                <option>Pilih merk</option>
-                                                <option selected>ANKER</option>
-                                                <option>Xiaomi</option>
-                                                <option>Robot</option>
-                                                <option>Simpati</option>
-                                                <option>Indosat</option>
-                                                <option>Xl</option>
+                                                <option value="">
+                                                  Pilih merk
+                                                </option>
+                                                <option
+                                                  value="DEFAULT"
+                                                  selected
+                                                >
+                                                  ANKER
+                                                </option>
+                                                <option value="">Xiaomi</option>
+                                                <option value="">Robot</option>
+                                                <option value="">
+                                                  Simpati
+                                                </option>
+                                                <option value="">
+                                                  Indosat
+                                                </option>
+                                                <option value="">Xl</option>
                                               </select>
                                             </div>
                                           </div>
@@ -674,29 +741,32 @@ const KelolaBarang = () => {
                                                 defaultValue={"DEFAULT"}
                                                 className="py-3 px-4 pe-9 block w-full rounded-lg text-sm  dark:bg-color-5 dark:text-gray-400"
                                               >
-                                                <option value="DEFAULT">
+                                                <option value="">
                                                   Pilih Kategori
                                                 </option>
-                                                <option value="1" selected>
+                                                <option
+                                                  value="DEFAULT"
+                                                  selected
+                                                >
                                                   Kabel Data
                                                 </option>
-                                                <option value="1">
+                                                <option value="">
                                                   Aksesoris
                                                 </option>
-                                                <option value="1">
+                                                <option value="">
                                                   Casing HP
                                                 </option>
-                                                <option value="1">
+                                                <option value="">
                                                   Charger
                                                 </option>
-                                                <option value="1">
+                                                <option value="">
                                                   Kartu Perdana
                                                 </option>
-                                                <option value="1">
+                                                <option value="">
                                                   Tempered Glass
                                                 </option>
-                                                <option value="1">Pulsa</option>
-                                                <option value="1">
+                                                <option value="">Pulsa</option>
+                                                <option value="">
                                                   Lainnya
                                                 </option>
                                               </select>
@@ -717,8 +787,15 @@ const KelolaBarang = () => {
                                                 defaultValue={"DEFAULT"}
                                                 className="py-3 px-4 pe-9 block w-full rounded-lg text-sm  dark:bg-color-5 dark:text-gray-400"
                                               >
-                                                <option>Pilih Ukuran</option>
-                                                <option selected>-</option>
+                                                <option value="">
+                                                  Pilih Ukuran
+                                                </option>
+                                                <option
+                                                  value="DEFAULT"
+                                                  selected
+                                                >
+                                                  -
+                                                </option>
                                               </select>
                                             </div>
                                           </div>
@@ -887,15 +964,22 @@ const KelolaBarang = () => {
                                                 defaultValue={"DEFAULT"}
                                                 className="py-3 px-4 pe-9 block w-full rounded-lg text-sm  dark:bg-color-5 dark:text-gray-400"
                                               >
-                                                <option selected>
+                                                <option
+                                                  value="DEFAULT"
+                                                  selected
+                                                >
                                                   Pilih merk
                                                 </option>
-                                                <option>ANKER</option>
-                                                <option>Xiaomi</option>
-                                                <option>Robot</option>
-                                                <option>Simpati</option>
-                                                <option>Indosat</option>
-                                                <option>Xl</option>
+                                                <option value="">ANKER</option>
+                                                <option value="">Xiaomi</option>
+                                                <option value="">Robot</option>
+                                                <option value="">
+                                                  Simpati
+                                                </option>
+                                                <option value="">
+                                                  Indosat
+                                                </option>
+                                                <option value="">Xl</option>
                                               </select>
                                             </div>
                                           </div>
@@ -949,26 +1033,26 @@ const KelolaBarang = () => {
                                                 >
                                                   Pilih Kategori
                                                 </option>
-                                                <option value="1">
+                                                <option value="">
                                                   Kabel Data
                                                 </option>
-                                                <option value="1">
+                                                <option value="">
                                                   Aksesoris
                                                 </option>
-                                                <option value="1">
+                                                <option value="">
                                                   Casing HP
                                                 </option>
-                                                <option value="1">
+                                                <option value="">
                                                   Charger
                                                 </option>
-                                                <option value="1">
+                                                <option value="">
                                                   Kartu Perdana
                                                 </option>
-                                                <option value="1">
+                                                <option value="">
                                                   Tempered Glass
                                                 </option>
-                                                <option value="1">Pulsa</option>
-                                                <option value="1">
+                                                <option value="">Pulsa</option>
+                                                <option value="">
                                                   Lainnya
                                                 </option>
                                               </select>
@@ -989,10 +1073,13 @@ const KelolaBarang = () => {
                                                 defaultValue={"DEFAULT"}
                                                 className="py-3 px-4 pe-9 block w-full rounded-lg text-sm  dark:bg-color-5 dark:text-gray-400"
                                               >
-                                                <option selected>
+                                                <option
+                                                  value="DEFAULT"
+                                                  selected
+                                                >
                                                   Pilih Ukuran
                                                 </option>
-                                                <option>-</option>
+                                                <option value="">-</option>
                                               </select>
                                             </div>
                                           </div>
