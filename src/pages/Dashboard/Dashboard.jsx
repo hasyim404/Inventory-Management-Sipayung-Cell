@@ -10,6 +10,7 @@ import {
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie } from "react-chartjs-2";
 ChartJS.register(ArcElement, Tooltip, Legend);
+import ModalImage from "react-modal-image";
 
 const Dashboard = () => {
   return (
@@ -155,11 +156,11 @@ const Dashboard = () => {
                                 2
                               </td>
                               <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
-                                <img
-                                  className="w-16 cursor-pointer"
-                                  src="./src/assets/no-preview.png"
-                                  alt=""
-                                  data-hs-overlay="#hs-sign-out-alert-small-window"
+                                <ModalImage
+                                  className="w-20 p-1 rounded-s-md border border-color-2 disabled:opacity-50 disabled:pointer-events-none dark:bg-color-2 dark:text-gray-400 dark:focus:ring-color-2"
+                                  small={`./src/assets/no-preview.png`}
+                                  medium={`./src/assets/no-preview.png`}
+                                  hideDownload
                                 />
                               </td>
                             </tr>
@@ -174,11 +175,11 @@ const Dashboard = () => {
                                 4
                               </td>
                               <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
-                                <img
-                                  className="w-16 cursor-pointer"
-                                  src="./src/assets/no-preview.png"
-                                  alt=""
-                                  data-hs-overlay="#hs-sign-out-alert-small-window"
+                                <ModalImage
+                                  className="w-20 p-1 rounded-s-md border border-color-2 disabled:opacity-50 disabled:pointer-events-none dark:bg-color-2 dark:text-gray-400 dark:focus:ring-color-2"
+                                  small={`./src/assets/no-preview.png`}
+                                  medium={`./src/assets/no-preview.png`}
+                                  hideDownload
                                 />
                               </td>
                             </tr>
@@ -187,17 +188,17 @@ const Dashboard = () => {
                                 3.
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5">
-                                Charger HP Anker Lightning
+                                Charger HP Anker Lightning lorem
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
                                 5
                               </td>
                               <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
-                                <img
-                                  className="w-16 cursor-pointer"
-                                  src="./src/assets/no-preview.png"
-                                  alt=""
-                                  data-hs-overlay="#hs-sign-out-alert-small-window"
+                                <ModalImage
+                                  className="w-20 p-1 rounded-s-md border border-color-2 disabled:opacity-50 disabled:pointer-events-none dark:bg-color-2 dark:text-gray-400 dark:focus:ring-color-2"
+                                  small={`./src/assets/no-preview.png`}
+                                  medium={`./src/assets/no-preview.png`}
+                                  hideDownload
                                 />
                               </td>
                             </tr>
@@ -212,11 +213,11 @@ const Dashboard = () => {
                                 5
                               </td>
                               <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
-                                <img
-                                  className="w-16 cursor-pointer"
-                                  src="./src/assets/no-preview.png"
-                                  alt=""
-                                  data-hs-overlay="#hs-sign-out-alert-small-window"
+                                <ModalImage
+                                  className="w-20 p-1 rounded-s-md border border-color-2 disabled:opacity-50 disabled:pointer-events-none dark:bg-color-2 dark:text-gray-400 dark:focus:ring-color-2"
+                                  small={`./src/assets/no-preview.png`}
+                                  medium={`./src/assets/no-preview.png`}
+                                  hideDownload
                                 />
                               </td>
                             </tr>
@@ -231,11 +232,11 @@ const Dashboard = () => {
                                 8
                               </td>
                               <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
-                                <img
-                                  className="w-16 cursor-pointer"
-                                  src="./src/assets/no-preview.png"
-                                  alt=""
-                                  data-hs-overlay="#hs-sign-out-alert-small-window"
+                                <ModalImage
+                                  className="w-20 p-1 rounded-s-md border border-color-2 disabled:opacity-50 disabled:pointer-events-none dark:bg-color-2 dark:text-gray-400 dark:focus:ring-color-2"
+                                  small={`./src/assets/no-preview.png`}
+                                  medium={`./src/assets/no-preview.png`}
+                                  hideDownload
                                 />
                               </td>
                             </tr>
@@ -275,10 +276,11 @@ const Dashboard = () => {
 
                                       <div className="p-4 sm:p-10 text-center overflow-y-auto">
                                         <div className="mt-6 grid gap-y-2">
-                                          <img
-                                            src="./src/assets/no-preview.png"
-                                            alt=""
-                                            className="rounded-lg"
+                                          <ModalImage
+                                            className="w-20 p-1 rounded-s-md border border-color-2 disabled:opacity-50 disabled:pointer-events-none dark:bg-color-2 dark:text-gray-400 dark:focus:ring-color-2"
+                                            small={`./src/assets/no-preview.png`}
+                                            medium={`./src/assets/no-preview.png`}
+                                            hideDownload
                                           />
                                         </div>
                                       </div>

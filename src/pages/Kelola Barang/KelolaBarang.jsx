@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPenToSquare,
@@ -7,8 +8,39 @@ import {
   faFileExcel,
   faFilePdf,
 } from "@fortawesome/free-solid-svg-icons";
+import ModalImage from "react-modal-image";
+
+// Data
+import items from "../../utils/constants/barang";
 
 const KelolaBarang = () => {
+  const theads = [
+    {
+      judul: "No",
+    },
+    {
+      judul: "Nama Barang",
+    },
+    {
+      judul: "Stok",
+    },
+    {
+      judul: "Kategori",
+    },
+    {
+      judul: "Harga Beli",
+    },
+    {
+      judul: "Harga Jual",
+    },
+    {
+      judul: "Gambar",
+    },
+    {
+      judul: "Action",
+    },
+  ];
+
   return (
     <div>
       <div className="w-full pt-10 px-4 sm:px-6 md:px-8 lg:ps-72">
@@ -135,401 +167,65 @@ const KelolaBarang = () => {
                           <table className="table-fixed md:table-fixed min-w-full divide-y ">
                             <thead className=" dark:bg-color-6">
                               <tr>
-                                <th
-                                  scope="col"
-                                  className="px-6 py-3 text-center text-sm font-bold text-color-5 uppercase"
-                                >
-                                  No
-                                </th>
-                                <th
-                                  scope="col"
-                                  className="px-6 py-3 text-start text-sm font-bold text-color-5 uppercase"
-                                >
-                                  Nama Barang
-                                </th>
-                                <th
-                                  scope="col"
-                                  className="px-6 py-3 text-center text-sm font-boldtext-color-5 uppercase"
-                                >
-                                  Stok
-                                </th>
-                                <th
-                                  scope="col"
-                                  className="px-6 py-3 text-center text-sm font-boldtext-color-5 uppercase"
-                                >
-                                  Merk
-                                </th>
-                                <th
-                                  scope="col"
-                                  className="px-6 py-3 text-center text-sm font-boldtext-color-5 uppercase"
-                                >
-                                  Kategori
-                                </th>
-                                <th
-                                  scope="col"
-                                  className="px-6 py-3 text-center text-sm font-boldtext-color-5 uppercase"
-                                >
-                                  Harga Beli
-                                </th>
-                                <th
-                                  scope="col"
-                                  className="px-6 py-3 text-center text-sm font-boldtext-color-5 uppercase"
-                                >
-                                  Harga Jual
-                                </th>
-                                <th
-                                  scope="col"
-                                  className="px-6 py-3 text-center text-sm font-boldtext-color-5 uppercase"
-                                >
-                                  Gambar
-                                </th>
-                                <th
-                                  scope="col"
-                                  className="px-6 py-3 text-center text-sm font-boldtext-color-5 uppercase"
-                                >
-                                  Action
-                                </th>
+                                {theads.map((thead, index) => (
+                                  <th
+                                    key={index}
+                                    scope="col"
+                                    className="py-3 text-sm font-bold text-color-5 uppercase"
+                                  >
+                                    {thead.judul}
+                                  </th>
+                                ))}
                               </tr>
                             </thead>
                             <tbody className="divide-y">
-                              <tr>
-                                <td className="px-6 text-center py-4 whitespace-nowrap text-sm font-medium text-color-5">
-                                  1.
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5">
-                                  Kabel Data ANKER Micro Usb
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  30
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  ANKER
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  Kabel Data
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  Rp. 24.600
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  Rp. 30.000
-                                </td>
-                                <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
-                                  <img
-                                    className="w-16 cursor-pointer"
-                                    src="./src/assets/no-preview.png"
-                                    alt=""
-                                    data-hs-overlay="#hs-sign-out-alert-small-window"
-                                  />
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  <div className="text-center">
-                                    <button
-                                      type="button"
-                                      className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-yellow-500 text-white hover:bg-yellow-600 disabled:opacity-50 disabled:pointer-events-none "
-                                      data-hs-overlay="#hs-danger-alert"
-                                    >
-                                      <FontAwesomeIcon icon={faPenToSquare} />
-                                    </button>
-                                    <button
-                                      type="buton"
-                                      className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none "
-                                    >
-                                      <FontAwesomeIcon icon={faTrashCan} />
-                                    </button>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td className="px-6 text-center py-4 whitespace-nowrap text-sm font-medium text-color-5">
-                                  2.
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5">
-                                  Kabel Data ANKER Micro Usb
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  30
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  ANKER
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  Kabel Data
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  Rp. 24.600
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  Rp. 30.000
-                                </td>
-                                <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
-                                  <img
-                                    className="w-16 cursor-pointer"
-                                    src="./src/assets/no-preview.png"
-                                    alt=""
-                                    data-hs-overlay="#hs-sign-out-alert-small-window"
-                                  />
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  <div className="text-center">
-                                    <button
-                                      type="button"
-                                      className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-yellow-500 text-white hover:bg-yellow-600 disabled:opacity-50 disabled:pointer-events-none "
-                                      data-hs-overlay="#hs-danger-alert"
-                                    >
-                                      <FontAwesomeIcon icon={faPenToSquare} />
-                                    </button>
-                                    <button
-                                      type="button"
-                                      className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none "
-                                    >
-                                      <FontAwesomeIcon icon={faTrashCan} />
-                                    </button>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td className="px-6 text-center py-4 whitespace-nowrap text-sm font-medium text-color-5">
-                                  3.
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5">
-                                  Kabel Data ANKER Micro Usb
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  30
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  ANKER
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  Kabel Data
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  Rp. 24.600
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  Rp. 30.000
-                                </td>
-                                <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
-                                  <img
-                                    className="w-16 cursor-pointer"
-                                    src="./src/assets/no-preview.png"
-                                    alt=""
-                                    data-hs-overlay="#hs-sign-out-alert-small-window"
-                                  />
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  <div className="text-center">
-                                    <button
-                                      type="button"
-                                      className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-yellow-500 text-white hover:bg-yellow-600 disabled:opacity-50 disabled:pointer-events-none "
-                                      data-hs-overlay="#hs-danger-alert"
-                                    >
-                                      <FontAwesomeIcon icon={faPenToSquare} />
-                                    </button>
-                                    <button
-                                      type="button"
-                                      className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none "
-                                    >
-                                      <FontAwesomeIcon icon={faTrashCan} />
-                                    </button>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td className="px-6 text-center py-4 whitespace-nowrap text-sm font-medium text-color-5">
-                                  4.
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5">
-                                  Kabel Data ANKER Micro Usb
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  30
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  ANKER
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  Kabel Data
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  Rp. 24.600
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  Rp. 30.000
-                                </td>
-                                <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
-                                  <img
-                                    className="w-16 cursor-pointer"
-                                    src="./src/assets/no-preview.png"
-                                    alt=""
-                                    data-hs-overlay="#hs-sign-out-alert-small-window"
-                                  />
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  <div className="text-center">
-                                    <button
-                                      type="button"
-                                      className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-yellow-500 text-white hover:bg-yellow-600 disabled:opacity-50 disabled:pointer-events-none "
-                                      data-hs-overlay="#hs-danger-alert"
-                                    >
-                                      <FontAwesomeIcon icon={faPenToSquare} />
-                                    </button>
-                                    <button
-                                      type="button"
-                                      className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none "
-                                    >
-                                      <FontAwesomeIcon icon={faTrashCan} />
-                                    </button>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td className="px-6 text-center py-4 whitespace-nowrap text-sm font-medium text-color-5">
-                                  5.
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5">
-                                  Kabel Data ANKER Micro Usb
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  30
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  ANKER
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  Kabel Data
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  Rp. 24.600
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  Rp. 30.000
-                                </td>
-                                <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
-                                  <img
-                                    className="w-16 cursor-pointer"
-                                    src="./src/assets/no-preview.png"
-                                    alt=""
-                                    data-hs-overlay="#hs-sign-out-alert-small-window"
-                                  />
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  <div className="text-center">
-                                    <button
-                                      type="button"
-                                      className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-yellow-500 text-white hover:bg-yellow-600 disabled:opacity-50 disabled:pointer-events-none "
-                                      data-hs-overlay="#hs-danger-alert"
-                                    >
-                                      <FontAwesomeIcon icon={faPenToSquare} />
-                                    </button>
-                                    <button
-                                      type="button"
-                                      className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none "
-                                    >
-                                      <FontAwesomeIcon icon={faTrashCan} />
-                                    </button>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td className="px-6 text-center py-4 whitespace-nowrap text-sm font-medium text-color-5">
-                                  6.
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5">
-                                  Kabel Data ANKER Micro Usb
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  30
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  ANKER
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  Kabel Data
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  Rp. 24.600
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  Rp. 30.000
-                                </td>
-                                <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
-                                  <img
-                                    className="w-16 cursor-pointer"
-                                    src="./src/assets/no-preview.png"
-                                    alt=""
-                                    data-hs-overlay="#hs-sign-out-alert-small-window"
-                                  />
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  <div className="text-center">
-                                    <button
-                                      type="button"
-                                      className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-yellow-500 text-white hover:bg-yellow-600 disabled:opacity-50 disabled:pointer-events-none "
-                                      data-hs-overlay="#hs-danger-alert"
-                                    >
-                                      <FontAwesomeIcon icon={faPenToSquare} />
-                                    </button>
-                                    <button
-                                      type="button"
-                                      className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none "
-                                    >
-                                      <FontAwesomeIcon icon={faTrashCan} />
-                                    </button>
-                                  </div>
-                                </td>
-                              </tr>
-                              {/* Modals Img */}
-                              <tr>
-                                <td>
-                                  <div
-                                    id="hs-sign-out-alert-small-window"
-                                    className="hs-overlay hidden w-full h-full fixed top-0 start-0 z-[70] overflow-x-hidden overflow-y-auto"
-                                  >
-                                    <div className="hs-overlay-open:mt-40 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all sm:max-w-xs sm:w-full m-3 sm:mx-auto">
-                                      <div className="relative flex flex-col dark:bg-color-3 shadow-md rounded-xl">
-                                        <div className="absolute top-2 end-2">
-                                          <button
-                                            type="button"
-                                            className="flex justify-center items-center w-7 h-7 text-sm font-semibold rounded-lg border border-transparent text-color-5 hover:bg-color-1 disabled:opacity-50 disabled:pointer-events-none dark:color-5 dark:border-transparent hover:text-color-6 dark:hover:bg-color-1 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-                                            data-hs-overlay="#hs-sign-out-alert-small-window"
-                                          >
-                                            <span className="sr-only">
-                                              Close
-                                            </span>
-                                            <svg
-                                              className="flex-shrink-0 w-4 h-4"
-                                              xmlns="http://www.w3.org/2000/svg"
-                                              width="24"
-                                              height="24"
-                                              viewBox="0 0 24 24"
-                                              fill="none"
-                                              stroke="currentColor"
-                                              strokeWidth="2"
-                                              strokeLinecap="round"
-                                              strokeLinejoin="round"
-                                            >
-                                              <path d="M18 6 6 18" />
-                                              <path d="m6 6 12 12" />
-                                            </svg>
-                                          </button>
-                                        </div>
-
-                                        <div className="p-4 sm:p-10 text-center overflow-y-auto">
-                                          <div className="mt-6 grid gap-y-2">
-                                            <img
-                                              src="./src/assets/no-preview.png"
-                                              alt=""
-                                              className="rounded-lg"
-                                            />
-                                          </div>
-                                        </div>
-                                      </div>
+                              {items.map((item, index) => (
+                                <tr key={item.id} className="text-center ">
+                                  <td className="py-4 whitespace-nowrap text-sm font-medium text-color-5">
+                                    {index + 1}.
+                                  </td>
+                                  <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5">
+                                    {item.nama}
+                                  </td>
+                                  <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
+                                    {item.stok.jml} -/{item.stok.tipe}
+                                  </td>
+                                  <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
+                                    {item.kategori}
+                                  </td>
+                                  <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
+                                    Rp. {item.h_beli}
+                                  </td>
+                                  <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
+                                    Rp. {item.h_jual}
+                                  </td>
+                                  <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
+                                    <ModalImage
+                                      className="w-20 border border-color-2 shadow-sm rounded-sm"
+                                      small={`./src/assets/${item.gambar}`}
+                                      medium={`./src/assets/${item.gambar}`}
+                                      hideDownload
+                                    />
+                                  </td>
+                                  <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
+                                    <div className="text-center">
+                                      <button
+                                        type="button"
+                                        className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-yellow-500 text-white hover:bg-yellow-600 disabled:opacity-50 disabled:pointer-events-none "
+                                        data-hs-overlay="#hs-danger-alert"
+                                      >
+                                        <FontAwesomeIcon icon={faPenToSquare} />
+                                      </button>
+                                      <button
+                                        type="buton"
+                                        className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none "
+                                      >
+                                        <FontAwesomeIcon icon={faTrashCan} />
+                                      </button>
                                     </div>
-                                  </div>
-                                </td>
-                              </tr>
+                                  </td>
+                                </tr>
+                              ))}
                             </tbody>
                           </table>
 
@@ -587,8 +283,8 @@ const KelolaBarang = () => {
                                               <input
                                                 type="text"
                                                 name="hs-leading-icon"
-                                                className="py-3 px-4 block w-full border-color-1 shadow-sm rounded-lg text-sm focus:z-10 focus:border-color-1 focus:ring-color-1 disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:border-color-1 dark:text-gray-400 dark:focus:ring-color-1"
-                                                placeholder="Kabel Data ANKER Micro Usb"
+                                                className="py-3 px-4 block w-full border-color-3 shadow-sm rounded-lg text-sm focus:z-10 focus:border-color-2  disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:text-gray-400 dark:focus:ring-color-2"
+                                                placeholder="Kabel Data ANKER Micro USB"
                                               />
                                             </div>
                                           </div>
@@ -597,18 +293,25 @@ const KelolaBarang = () => {
                                               htmlFor="hs-leading-icon"
                                               className="block text-md font-medium mb-2 dark:text-color-5"
                                             >
-                                              Upload Gambar
+                                              Harga Beli{" "}
+                                              <span className="italic text-color-warning">
+                                                *
+                                              </span>
                                             </label>
-                                            <div className="relative dark:bg-color-6 rounded-md p-1">
-                                              <label className="block">
-                                                <span className="sr-only">
-                                                  Pilih Gambar
-                                                </span>
+                                            <div className="relative">
+                                              <div className="flex rounded-lg shadow-sm">
+                                                <div className="px-3.5 inline-flex items-center min-w-fit rounded-s-md border border-color-2  disabled:opacity-50 disabled:pointer-events-none dark:bg-color-2 dark:text-gray-400 dark:focus:ring-color-2">
+                                                  <span className="text-sm text-color-4 font-semibold">
+                                                    Rp.
+                                                  </span>
+                                                </div>
                                                 <input
-                                                  type="file"
-                                                  className="block w-full text-sm text-gray-500 file:me-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700 file:disabled:opacity-50 file:disabled:pointer-events-none dark:file:bg-blue-500 dark:hover:file:bg-blue-400"
+                                                  type="text"
+                                                  name="hs-input-with-add-on-url"
+                                                  className="py-3 px-4 pe-11  block w-full border-color-3 shadow-sm rounded-e-md text-sm focus:z-10 focus:border-color-2  disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:text-gray-400 dark:focus:ring-color-2"
+                                                  placeholder="24600"
                                                 />
-                                              </label>
+                                              </div>
                                             </div>
                                           </div>
                                         </div>
@@ -627,9 +330,26 @@ const KelolaBarang = () => {
                                               <input
                                                 type="text"
                                                 name="hs-leading-icon"
-                                                className="py-3 px-4 block w-full border-color-1 shadow-sm rounded-lg text-sm focus:z-10 focus:border-color-1 focus:ring-color-1 disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:border-color-1 dark:text-gray-400 dark:focus:ring-color-1"
+                                                className="py-3 px-4 block w-full border-color-3 shadow-sm rounded-lg text-sm focus:z-10 focus:border-color-2  disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:text-gray-400 dark:focus:ring-color-2"
                                                 placeholder="30"
                                               />
+                                              <div class="absolute inset-y-0 end-0 flex items-center text-gray-500 pe-px">
+                                                <label
+                                                  for="hs-inline-leading-select-currency"
+                                                  class="sr-only"
+                                                >
+                                                  satuan barang
+                                                </label>
+                                                <select
+                                                  id="hs-inline-leading-select-currency"
+                                                  name="hs-inline-leading-select-currency"
+                                                  class="py-3 border-color-3 shadow-sm rounded-lg text-sm focus:z-10 focus:border-color-2 disabled:opacity-50 disabled:pointer-events-none dark:bg-color-2 dark:text-color-4 font-semibold dark:focus:ring-color-2"
+                                                >
+                                                  <option>-/pcs</option>
+                                                  <option>-/paket</option>
+                                                  <option>-/set</option>
+                                                </select>
+                                              </div>
                                             </div>
                                           </div>
                                           <div className="col-span-5">
@@ -637,23 +357,23 @@ const KelolaBarang = () => {
                                               htmlFor="hs-leading-icon"
                                               className="block text-md font-medium mb-2 dark:text-color-5"
                                             >
-                                              Harga Beli{" "}
+                                              Harga Jual{" "}
                                               <span className="italic text-color-warning">
                                                 *
                                               </span>
                                             </label>
                                             <div className="relative">
                                               <div className="flex rounded-lg shadow-sm">
-                                                <div className="px-4 inline-flex items-center min-w-fit rounded-s-md border border-e-0 border-gray-200 bg-gray-50 dark:bg-color-5 ">
-                                                  <span className="text-sm text-gray-500 dark:text-gray-400">
+                                                <div className="px-3.5 inline-flex items-center min-w-fit rounded-s-md border border-color-2  disabled:opacity-50 disabled:pointer-events-none dark:bg-color-2 dark:text-gray-400 dark:focus:ring-color-2">
+                                                  <span className="text-sm text-color-4 font-semibold">
                                                     Rp.
                                                   </span>
                                                 </div>
                                                 <input
                                                   type="text"
                                                   name="hs-input-with-add-on-url"
-                                                  className="py-3 px-4 pe-11 block w-full  shadow-sm rounded-lg text-sm focus:z-10 disabled:pointer-events-none dark:bg-color-6 "
-                                                  placeholder="24.600"
+                                                  className="py-3 px-4 pe-11  block w-full border-color-3 shadow-sm rounded-e-md text-sm focus:z-10 focus:border-color-2  disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:text-gray-400 dark:focus:ring-color-2"
+                                                  placeholder="30000"
                                                 />
                                               </div>
                                             </div>
@@ -674,15 +394,12 @@ const KelolaBarang = () => {
                                               <select
                                                 id="hs-select-label"
                                                 defaultValue={"DEFAULT"}
-                                                className="py-3 px-4 pe-9 block w-full rounded-lg text-sm  dark:bg-color-5 dark:text-gray-400"
+                                                className="py-3 px-4 pe-9 block w-full  border-color-3 shadow-sm rounded-lg text-sm focus:z-10 focus:border-color-2  disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:text-gray-400 dark:focus:ring-color-2"
                                               >
-                                                <option value="">
+                                                <option value="DEFAULT">
                                                   Pilih merk
                                                 </option>
-                                                <option
-                                                  value="DEFAULT"
-                                                  selected
-                                                >
+                                                <option selected value="">
                                                   ANKER
                                                 </option>
                                                 <option value="">Xiaomi</option>
@@ -702,29 +419,26 @@ const KelolaBarang = () => {
                                               htmlFor="hs-leading-icon"
                                               className="block text-md font-medium mb-2 dark:text-color-5"
                                             >
-                                              Harga Jual{" "}
-                                              <span className="italic text-color-warning">
-                                                *
-                                              </span>
+                                              Upload Gambar
                                             </label>
-                                            <div className="relative">
-                                              <div className="flex rounded-lg shadow-sm">
-                                                <div className="px-4 inline-flex items-center min-w-fit rounded-s-md border border-e-0 border-gray-200 bg-gray-50 dark:bg-color-5 ">
-                                                  <span className="text-sm text-gray-500 dark:text-gray-400">
-                                                    Rp.
-                                                  </span>
-                                                </div>
+                                            <div className="relative  rounded-md bg-color-2 ">
+                                              <div className="flex items-center">
+                                                <ModalImage
+                                                  className="w-24 p-1 rounded-s-md border border-color-2 disabled:opacity-50 disabled:pointer-events-none dark:bg-color-2 dark:text-gray-400 dark:focus:ring-color-2"
+                                                  small={`./src/assets/no-preview.png`}
+                                                  medium={`./src/assets/no-preview.png`}
+                                                  hideDownload
+                                                />
+
                                                 <input
-                                                  type="text"
-                                                  name="hs-input-with-add-on-url"
-                                                  className="py-3 px-4 pe-11 block w-full  shadow-sm rounded-lg text-sm focus:z-10 disabled:pointer-events-none dark:bg-color-6 "
-                                                  placeholder="30.000"
+                                                  type="file"
+                                                  className="block bg-color-6 mr-2 w-full text-sm text-gray-500 file:me-4 file:py-1.5 file:px-2.5 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-color-1 file:text-white hover:file:bg-6hover file:disabled:opacity-50 file:cursor-pointe border-color-3 focus:z-10 focus:border-color-2 dark:focus:ring-color-2"
                                                 />
                                               </div>
                                             </div>
                                           </div>
                                         </div>
-                                        <div className="mt-5 grid grid-cols-10 gap-3">
+                                        <div className="grid grid-cols-10 gap-3">
                                           <div className="col-span-5">
                                             <label
                                               htmlFor="hs-leading-icon"
@@ -738,16 +452,12 @@ const KelolaBarang = () => {
                                             <div className="relative">
                                               <select
                                                 id="hs-select-label"
-                                                defaultValue={"DEFAULT"}
-                                                className="py-3 px-4 pe-9 block w-full rounded-lg text-sm  dark:bg-color-5 dark:text-gray-400"
+                                                className="py-3 px-4 pe-9 block w-full rounded-lg border-color-3 shadow-sm text-sm focus:z-10 focus:border-color-2  disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:text-gray-400 dark:focus:ring-color-2"
                                               >
-                                                <option value="">
+                                                <option value="DEFAULT">
                                                   Pilih Kategori
                                                 </option>
-                                                <option
-                                                  value="DEFAULT"
-                                                  selected
-                                                >
+                                                <option selected value="">
                                                   Kabel Data
                                                 </option>
                                                 <option value="">
@@ -785,15 +495,12 @@ const KelolaBarang = () => {
                                               <select
                                                 id="hs-select-label"
                                                 defaultValue={"DEFAULT"}
-                                                className="py-3 px-4 pe-9 block w-full rounded-lg text-sm  dark:bg-color-5 dark:text-gray-400"
+                                                className="py-3 px-4 pe-9 block w-full rounded-lg border-color-3 shadow-sm text-sm focus:z-10 focus:border-color-2  disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:text-gray-400 dark:focus:ring-color-2"
                                               >
-                                                <option value="">
+                                                <option value="DEFAULT">
                                                   Pilih Ukuran
                                                 </option>
-                                                <option
-                                                  value="DEFAULT"
-                                                  selected
-                                                >
+                                                <option selected value="">
                                                   -
                                                 </option>
                                               </select>
@@ -875,7 +582,7 @@ const KelolaBarang = () => {
                                               <input
                                                 type="text"
                                                 name="hs-leading-icon"
-                                                className="py-3 px-4 block w-full border-color-1 shadow-sm rounded-lg text-sm focus:z-10 focus:border-color-1 focus:ring-color-1 disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:border-color-1 dark:text-gray-400 dark:focus:ring-color-1"
+                                                className="py-3 px-4 block w-full border-color-3 shadow-sm rounded-lg text-sm focus:z-10 focus:border-color-2  disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:text-gray-400 dark:focus:ring-color-2"
                                                 placeholder="Masukkan nama barang"
                                               />
                                             </div>
@@ -885,18 +592,25 @@ const KelolaBarang = () => {
                                               htmlFor="hs-leading-icon"
                                               className="block text-md font-medium mb-2 dark:text-color-5"
                                             >
-                                              Upload Gambar
+                                              Harga Beli{" "}
+                                              <span className="italic text-color-warning">
+                                                *
+                                              </span>
                                             </label>
-                                            <div className="relative dark:bg-color-6 rounded-md p-1">
-                                              <label className="block">
-                                                <span className="sr-only">
-                                                  Pilih Gambar
-                                                </span>
+                                            <div className="relative">
+                                              <div className="flex rounded-lg shadow-sm">
+                                                <div className="px-3.5 inline-flex items-center min-w-fit rounded-s-md border border-color-2  disabled:opacity-50 disabled:pointer-events-none dark:bg-color-2 dark:text-gray-400 dark:focus:ring-color-2">
+                                                  <span className="text-sm text-color-4 font-semibold">
+                                                    Rp.
+                                                  </span>
+                                                </div>
                                                 <input
-                                                  type="file"
-                                                  className="block w-full text-sm text-gray-500 file:me-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700 file:disabled:opacity-50 file:disabled:pointer-events-none dark:file:bg-blue-500 dark:hover:file:bg-blue-400"
+                                                  type="text"
+                                                  name="hs-input-with-add-on-url"
+                                                  className="py-3 px-4 pe-11  block w-full border-color-3 shadow-sm rounded-e-md text-sm focus:z-10 focus:border-color-2  disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:text-gray-400 dark:focus:ring-color-2"
+                                                  placeholder="Masukkan harga beli"
                                                 />
-                                              </label>
+                                              </div>
                                             </div>
                                           </div>
                                         </div>
@@ -915,9 +629,26 @@ const KelolaBarang = () => {
                                               <input
                                                 type="text"
                                                 name="hs-leading-icon"
-                                                className="py-3 px-4 block w-full border-color-1 shadow-sm rounded-lg text-sm focus:z-10 focus:border-color-1 focus:ring-color-1 disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:border-color-1 dark:text-gray-400 dark:focus:ring-color-1"
+                                                className="py-3 px-4 block w-full border-color-3 shadow-sm rounded-lg text-sm focus:z-10 focus:border-color-2  disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:text-gray-400 dark:focus:ring-color-2"
                                                 placeholder="Masukkan jumlah stok"
                                               />
+                                              <div class="absolute inset-y-0 end-0 flex items-center text-gray-500 pe-px">
+                                                <label
+                                                  for="hs-inline-leading-select-currency"
+                                                  class="sr-only"
+                                                >
+                                                  satuan barang
+                                                </label>
+                                                <select
+                                                  id="hs-inline-leading-select-currency"
+                                                  name="hs-inline-leading-select-currency"
+                                                  class="py-3 border-color-3 shadow-sm rounded-lg text-sm focus:z-10 focus:border-color-2 disabled:opacity-50 disabled:pointer-events-none dark:bg-color-2 dark:text-color-4 font-semibold dark:focus:ring-color-2"
+                                                >
+                                                  <option>-/pcs</option>
+                                                  <option>-/paket</option>
+                                                  <option>-/set</option>
+                                                </select>
+                                              </div>
                                             </div>
                                           </div>
                                           <div className="col-span-5">
@@ -925,23 +656,23 @@ const KelolaBarang = () => {
                                               htmlFor="hs-leading-icon"
                                               className="block text-md font-medium mb-2 dark:text-color-5"
                                             >
-                                              Harga Beli{" "}
+                                              Harga Jual{" "}
                                               <span className="italic text-color-warning">
                                                 *
                                               </span>
                                             </label>
                                             <div className="relative">
                                               <div className="flex rounded-lg shadow-sm">
-                                                <div className="px-4 inline-flex items-center min-w-fit rounded-s-md border border-e-0 border-gray-200 bg-gray-50 dark:bg-color-5 ">
-                                                  <span className="text-sm text-gray-500 dark:text-gray-400">
+                                                <div className="px-3.5 inline-flex items-center min-w-fit rounded-s-md border border-color-2  disabled:opacity-50 disabled:pointer-events-none dark:bg-color-2 dark:text-gray-400 dark:focus:ring-color-2">
+                                                  <span className="text-sm text-color-4 font-semibold">
                                                     Rp.
                                                   </span>
                                                 </div>
                                                 <input
                                                   type="text"
                                                   name="hs-input-with-add-on-url"
-                                                  className="py-3 px-4 pe-11 block w-full  shadow-sm rounded-lg text-sm focus:z-10 disabled:pointer-events-none dark:bg-color-6 "
-                                                  placeholder="Masukkan harga beli"
+                                                  className="py-3 px-4 pe-11  block w-full border-color-3 shadow-sm rounded-e-md text-sm focus:z-10 focus:border-color-2  disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:text-gray-400 dark:focus:ring-color-2"
+                                                  placeholder="Masukkan harga jual"
                                                 />
                                               </div>
                                             </div>
@@ -962,7 +693,7 @@ const KelolaBarang = () => {
                                               <select
                                                 id="hs-select-label"
                                                 defaultValue={"DEFAULT"}
-                                                className="py-3 px-4 pe-9 block w-full rounded-lg text-sm  dark:bg-color-5 dark:text-gray-400"
+                                                className="py-3 px-4 pe-9 block w-full  border-color-3 shadow-sm rounded-lg text-sm focus:z-10 focus:border-color-2  disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:text-gray-400 dark:focus:ring-color-2"
                                               >
                                                 <option
                                                   value="DEFAULT"
@@ -988,29 +719,26 @@ const KelolaBarang = () => {
                                               htmlFor="hs-leading-icon"
                                               className="block text-md font-medium mb-2 dark:text-color-5"
                                             >
-                                              Harga Jual{" "}
-                                              <span className="italic text-color-warning">
-                                                *
-                                              </span>
+                                              Upload Gambar
                                             </label>
-                                            <div className="relative">
-                                              <div className="flex rounded-lg shadow-sm">
-                                                <div className="px-4 inline-flex items-center min-w-fit rounded-s-md border border-e-0 border-gray-200 bg-gray-50 dark:bg-color-5 ">
-                                                  <span className="text-sm text-gray-500 dark:text-gray-400">
-                                                    Rp.
-                                                  </span>
-                                                </div>
+                                            <div className="relative  rounded-md bg-color-2 ">
+                                              <div className="flex items-center">
+                                                <ModalImage
+                                                  className="w-24 p-1 rounded-s-md border border-color-2 disabled:opacity-50 disabled:pointer-events-none dark:bg-color-2 dark:text-gray-400 dark:focus:ring-color-2"
+                                                  small={`./src/assets/no-preview.png`}
+                                                  medium={`./src/assets/no-preview.png`}
+                                                  hideDownload
+                                                />
+
                                                 <input
-                                                  type="text"
-                                                  name="hs-input-with-add-on-url"
-                                                  className="py-3 px-4 pe-11 block w-full  shadow-sm rounded-lg text-sm focus:z-10 disabled:pointer-events-none dark:bg-color-6 "
-                                                  placeholder="Masukkan harga jual"
+                                                  type="file"
+                                                  className="block bg-color-6 mr-2 w-full text-sm text-gray-500 file:me-4 file:py-1.5 file:px-2.5 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-color-1 file:text-white hover:file:bg-6hover file:disabled:opacity-50 file:cursor-pointe border-color-3 focus:z-10 focus:border-color-2 dark:focus:ring-color-2"
                                                 />
                                               </div>
                                             </div>
                                           </div>
                                         </div>
-                                        <div className="mt-5 grid grid-cols-10 gap-3">
+                                        <div className="grid grid-cols-10 gap-3">
                                           <div className="col-span-5">
                                             <label
                                               htmlFor="hs-leading-icon"
@@ -1025,7 +753,7 @@ const KelolaBarang = () => {
                                               <select
                                                 id="hs-select-label"
                                                 defaultValue={"DEFAULT"}
-                                                className="py-3 px-4 pe-9 block w-full rounded-lg text-sm  dark:bg-color-5 dark:text-gray-400"
+                                                className="py-3 px-4 pe-9 block w-full rounded-lg border-color-3 shadow-sm text-sm focus:z-10 focus:border-color-2  disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:text-gray-400 dark:focus:ring-color-2"
                                               >
                                                 <option
                                                   value="DEFAULT"
@@ -1071,7 +799,7 @@ const KelolaBarang = () => {
                                               <select
                                                 id="hs-select-label"
                                                 defaultValue={"DEFAULT"}
-                                                className="py-3 px-4 pe-9 block w-full rounded-lg text-sm  dark:bg-color-5 dark:text-gray-400"
+                                                className="py-3 px-4 pe-9 block w-full rounded-lg border-color-3 shadow-sm text-sm focus:z-10 focus:border-color-2  disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:text-gray-400 dark:focus:ring-color-2"
                                               >
                                                 <option
                                                   value="DEFAULT"
