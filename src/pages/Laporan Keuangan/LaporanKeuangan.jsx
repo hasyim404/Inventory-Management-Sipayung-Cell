@@ -1,9 +1,13 @@
 import React from "react";
+import Navbar from "../../components/Navbar/Navbar";
 
 const LaporanKeuangan = () => {
   return (
     <>
-      <div></div>
+      <Navbar />
+      <div>
+        <p>Hal laporan keuangan</p>
+      </div>
     </>
   );
 };
