@@ -3,20 +3,22 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import Navbar from "../../components/Navbar/Navbar";
+import MainTitle from "../../components/MainTitle";
+import Subnav from "../../components/Subnav";
 
 const MerkProduk = () => {
   return (
     <>
       <Navbar active="active" display="block" />
       <div className="w-full pt-10 px-4 sm:px-6 md:px-8 lg:ps-72">
-        <h1 className="block text-2xl font-bold sm:text-3xl text-color-5">
-          Kelola Produk
-        </h1>
-        <p className="mb-2 text-sm font-normal text-color-4">
+        <MainTitle size="text-3xl" main="Kelola Produk" />
+        <p className="mb-2 text-md font-normal text-color-4">
           {" "}
-          <Link to="/">Dashboard </Link>/{" "}
-          <span className="italic">Kelola Produk / </span>
-          <span className="italic"> Merk Produk</span>
+          <Link className="text-color-4" to="/dashboard">
+            Dashboard{" "}
+          </Link>
+          / <span className="text-color-5 italic">Kelola Produk </span>/
+          <span className="text-color-5 italic"> Merk Produk</span>
         </p>
 
         {/* Content */}
@@ -26,12 +28,11 @@ const MerkProduk = () => {
               <div className="p-4 md:p-5">
                 <div className="grid grid-flow-col gap-4 place-content-between">
                   <div className="col-span-3">
-                    <p className="text-xl font-bold sm:text-xl text-color-5">
-                      Daftar Merk
-                    </p>
-                    <p className="mb-2 text-md font-normal text-color-4">
-                      Berisi daftar seluruh merk produk
-                    </p>
+                    <MainTitle size="text-xl" main="Daftar Merk" />
+                    <Subnav
+                      subnav="Berisi daftar seluruh merk produk"
+                      color="text-color-4"
+                    />
                   </div>
                   <div className="col-span-7 flex justify-end">
                     <div className="py-2 px-3">

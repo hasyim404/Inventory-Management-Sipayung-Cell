@@ -13,7 +13,7 @@ import {
 const Navbar = (props) => {
   const menus = [
     {
-      path: "/",
+      path: "/dashboard",
       name: "Dashboard",
       icon: faDesktop,
     },
@@ -105,7 +105,7 @@ const Navbar = (props) => {
                     className="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-[10rem] bg-color-3 shadow-md rounded-lg p-2 "
                     aria-labelledby="hs-dropdown-with-header"
                   >
-                    <div className="py-3 px-5 -m-2 border bg-color-2 rounded-t-lg ">
+                    <div className="py-3 px-5 -m-2 border bg-color-6 rounded-t-lg">
                       <p className="text-sm  dark:text-gray-500">
                         Masuk sebagai
                       </p>
@@ -113,17 +113,18 @@ const Navbar = (props) => {
                         admin@sipayungcell.com
                       </p>
                     </div>
-                    <div className="mt-2 py-2 first:pt-0 last:pb-0">
-                      <a
+                    <div className="mt-4 py-2 first:pt-0 last:pb-0">
+                      <NavLink
                         className="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-color-6 hover:bg-red-500 bg-red-600 dark:hover:text-white-300"
-                        href="#"
+                        to="/login"
                       >
                         <FontAwesomeIcon
                           icon={faRightFromBracket}
                           className="flex-shrink-0 w-4 h-4"
                         />
                         Log Out
-                      </a>
+                      </NavLink>
+                      <a></a>
                     </div>
                   </div>
                 </div>
@@ -199,7 +200,7 @@ const Navbar = (props) => {
           <div className="px-6">
             <NavLink
               className="flex text-xl font-semibold dark:text-color-5 fosiz dark:focus:outline-none "
-              to={"/"}
+              to={"/dashboard"}
             >
               <img src="./src/assets/main-logo.svg" width={200} alt="" />
             </NavLink>
@@ -216,10 +217,10 @@ const Navbar = (props) => {
                   to={menu.path}
                   className={({ isActive }) => {
                     return (
-                      "flex items-center gap-x-3.5 py-5 px-2.5 text-sm rounded-lg " +
+                      "flex items-center gap-x-3.5 py-5 px-2.5 text-sm rounded-lg font-semibold " +
                       (!isActive
-                        ? "hover:bg-color-1 dark:hover:text-white hover:font-bold"
-                        : "bg-color-1 dark:text-white font-bold")
+                        ? "hover:bg-color-1 dark:hover:text-white"
+                        : "bg-color-1 dark:text-white")
                     );
                   }}
                 >
@@ -251,7 +252,7 @@ const Navbar = (props) => {
 
                 <div
                   id="account-accordion-child"
-                  className="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden"
+                  className="hs-accordion-content w-full overflow-hidden bg-color-3 py-1 shadow-md rounded-b-xl transition-[height] duration-300 hidden"
                   style={{ display: `${props.display}` }}
                 >
                   <ul className="pt-2 ps-2">
@@ -261,10 +262,10 @@ const Navbar = (props) => {
                         to={sub.path}
                         className={({ isActive }) => {
                           return (
-                            "flex items-center gap-x-3.5 py-2 my-1 px-2.5 text-sm rounded-lg  " +
+                            "flex items-center gap-x-3.5 py-2 my-1 px-2.5 text-sm rounded-lg font-semibold " +
                             (!isActive
                               ? "dark:hover:bg-color-1 dark:hover:text-color-6 "
-                              : "dark:bg-color-1 dark:text-color-6 font-bold")
+                              : "dark:bg-color-1 dark:text-color-6 ")
                           );
                         }}
                       >

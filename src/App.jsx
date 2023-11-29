@@ -8,13 +8,15 @@ import Kategori from "./pages/Kelola Produk/Kategori";
 import Ukuran from "./pages/Kelola Produk/Ukuran";
 import LaporanKeuangan from "./pages/Laporan Keuangan/LaporanKeuangan";
 import Blank from "./pages/Blank";
+import Login from "./pages/Login/Login";
 
 const App = () => {
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Dashboard />} />
+          <Route path="/" element={<Login />} />
+          <Route path="login" element={<Login />} />
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="kelola-barang" element={<KelolaBarang />} />
           <Route path="kelola-merk-produk" element={<MerkProduk />} />

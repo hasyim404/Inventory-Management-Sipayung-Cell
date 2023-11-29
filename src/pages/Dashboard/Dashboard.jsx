@@ -7,20 +7,20 @@ import {
   faCircleExclamation,
   faMoneyBillTrendUp,
 } from "@fortawesome/free-solid-svg-icons";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, Title } from "chart.js";
 import { Pie } from "react-chartjs-2";
 ChartJS.register(ArcElement, Tooltip, Legend);
 import ModalImage from "react-modal-image";
+import Subnav from "../../components/Subnav";
+import MainTitle from "../../components/MainTitle";
 
 const Dashboard = () => {
   return (
     <>
       <Navbar />
       <div className="w-full pt-10 px-4 sm:px-6 md:px-8 lg:ps-72">
-        <h1 className="block text-2xl font-bold sm:text-3xl text-color-5">
-          Dashboard
-        </h1>
-        <p className="mb-2 text-sm font-normal text-color-4"> Dashboard</p>
+        <MainTitle size="text-3xl" main="Dashboard" />
+        <Subnav color=" text-color-5" subnav="Dashboard" />
 
         {/* Content */}
         <div className="px-4 py-10 sm:px-6 lg:px-0 lg:py-5 ">
@@ -103,14 +103,12 @@ const Dashboard = () => {
           <div className="mt-6 grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-3 sm:gap-6">
             <div className="group flex flex-col bg-white shadow-md rounded-xl hover:shadow-md transition dark:bg-color-6 col-span-2 ">
               <div className="p-4 md:p-5">
-                <p className="text-xl font-bold sm:text-xl text-color-5">
-                  Produk dengan Stok Terendah
-                </p>
-                <p className="mb-2 text-md font-normal text-color-4">
-                  {" "}
-                  Daftar list produk dengan stok paling rendah akan ditampilkan
-                  disini
-                </p>
+                <MainTitle size="text-xl" main="Produk dengan Stok Terendah" />
+                <Subnav
+                  subnav="Daftar list produk dengan stok paling rendah akan ditampilkan
+                  disini"
+                  color="text-color-4"
+                />
 
                 <div className="flex flex-col mt-5">
                   <div className="-m-1.5 overflow-x-auto">
@@ -352,13 +350,11 @@ const Dashboard = () => {
               href="#"
             >
               <div className="p-4 md:p-5">
-                <p className="text-xl font-bold sm:text-xl text-color-5">
-                  Produk Terlaris
-                </p>
-                <p className="mb-2 text-md font-normal text-color-4">
-                  {" "}
-                  Produk yang sering terjual
-                </p>
+                <MainTitle size="text-xl" main="Produk Terlaris" />
+                <Subnav
+                  subnav="Produk yang sering terjual"
+                  color="text-color-4"
+                />
               </div>
               <div className="flex justify-center items-center">
                 <Pie
