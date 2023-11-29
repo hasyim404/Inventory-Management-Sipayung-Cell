@@ -1,4 +1,4 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faDesktop,
@@ -10,7 +10,7 @@ import {
   faRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
 
-const Navbar = () => {
+const Navbar = (props) => {
   const menus = [
     {
       path: "/",
@@ -229,10 +229,13 @@ const Navbar = () => {
                   </li>
                 </NavLink>
               ))}
-              <li className="hs-accordion" id="account-accordion">
+              <li
+                className={`hs-accordion ${props.active}`}
+                id="account-accordion"
+              >
                 <button
                   type="button"
-                  className="hs-accordion-toggle w-full text-start flex items-center gap-x-3.5 py-5 px-2.5 text-sm text-color-5 rounded-lg hover:bg-color-1 hs-accordion-active:bg-color-1  dark:hover:bg-color-1 dark:text-color-5 dark:hover:text-color-6 dark:hs-accordion-active:text-color-6 hs-accordion-active:font-bold"
+                  className={`hs-accordion-toggle w-full text-start flex items-center gap-x-3.5 py-5 px-2.5 text-sm text-color-5 rounded-lg hover:bg-color-1 hs-accordion-active:bg-color-1  dark:hover:bg-color-1 dark:text-color-5 dark:hover:text-color-6 dark:hs-accordion-active:text-color-6 hs-accordion-active:font-bold`}
                 >
                   <FontAwesomeIcon icon={faBoxesPacking} />
                   Kelola Produk
@@ -249,6 +252,7 @@ const Navbar = () => {
                 <div
                   id="account-accordion-child"
                   className="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden"
+                  style={{ display: `${props.display}` }}
                 >
                   <ul className="pt-2 ps-2">
                     {subsNav.map((sub) => (

@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Navbar from "../../components/Navbar/Navbar";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -42,7 +43,8 @@ const KelolaBarang = () => {
   ];
 
   return (
-    <div>
+    <>
+      <Navbar />
       <div className="w-full pt-10 px-4 sm:px-6 md:px-8 lg:ps-72">
         <h1 className="block text-2xl font-bold sm:text-3xl text-color-5">
           Kelola Barang
@@ -885,7 +887,7 @@ const KelolaBarang = () => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
