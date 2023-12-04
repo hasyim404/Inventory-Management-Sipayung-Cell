@@ -150,7 +150,7 @@ const Dashboard = () => {
                                   1.
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5">
-                                  Gantungan Hp
+                                  Case Handphone Transparan
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
                                   2
@@ -158,8 +158,8 @@ const Dashboard = () => {
                                 <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
                                   <ModalImage
                                     className="w-20 p-1 rounded-s-md border border-color-2 disabled:opacity-50 disabled:pointer-events-none dark:bg-color-2 dark:text-gray-400 dark:focus:ring-color-2"
-                                    small={`./src/assets/no-preview.png`}
-                                    medium={`./src/assets/no-preview.png`}
+                                    small={`./src/assets/casehp.jfif`}
+                                    medium={`./src/assets/casehp.jfif`}
                                     hideDownload
                                   />
                                 </td>
@@ -169,7 +169,7 @@ const Dashboard = () => {
                                   2.
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5">
-                                  Charger HP Anker Type C
+                                  Powerbank Robot
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
                                   4
@@ -177,8 +177,8 @@ const Dashboard = () => {
                                 <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
                                   <ModalImage
                                     className="w-20 p-1 rounded-s-md border border-color-2 disabled:opacity-50 disabled:pointer-events-none dark:bg-color-2 dark:text-gray-400 dark:focus:ring-color-2"
-                                    small={`./src/assets/no-preview.png`}
-                                    medium={`./src/assets/no-preview.png`}
+                                    small={`./src/assets/powerbank.jfif`}
+                                    medium={`./src/assets/powerbank.jfif`}
                                     hideDownload
                                   />
                                 </td>
@@ -188,7 +188,7 @@ const Dashboard = () => {
                                   3.
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5">
-                                  Charger HP Anker Lightning lorem
+                                  Samsung Buds pro
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
                                   5
@@ -196,8 +196,8 @@ const Dashboard = () => {
                                 <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
                                   <ModalImage
                                     className="w-20 p-1 rounded-s-md border border-color-2 disabled:opacity-50 disabled:pointer-events-none dark:bg-color-2 dark:text-gray-400 dark:focus:ring-color-2"
-                                    small={`./src/assets/no-preview.png`}
-                                    medium={`./src/assets/no-preview.png`}
+                                    small={`./src/assets/samsung Buds pro.jfif`}
+                                    medium={`./src/assets/samsung Buds pro.jfif`}
                                     hideDownload
                                   />
                                 </td>
@@ -207,7 +207,7 @@ const Dashboard = () => {
                                   4.
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5">
-                                  Charger HP Anker Micro
+                                  Kabel charger
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
                                   5
@@ -215,8 +215,8 @@ const Dashboard = () => {
                                 <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
                                   <ModalImage
                                     className="w-20 p-1 rounded-s-md border border-color-2 disabled:opacity-50 disabled:pointer-events-none dark:bg-color-2 dark:text-gray-400 dark:focus:ring-color-2"
-                                    small={`./src/assets/no-preview.png`}
-                                    medium={`./src/assets/no-preview.png`}
+                                    small={`./src/assets/kabel.jfif`}
+                                    medium={`./src/assets/kabel.jfif`}
                                     hideDownload
                                   />
                                 </td>
@@ -226,7 +226,7 @@ const Dashboard = () => {
                                   5.
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5">
-                                  Charger HP Anker Type A
+                                  Voucher Telkomsel 7GB 30hari
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
                                   8
@@ -234,8 +234,8 @@ const Dashboard = () => {
                                 <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
                                   <ModalImage
                                     className="w-20 p-1 rounded-s-md border border-color-2 disabled:opacity-50 disabled:pointer-events-none dark:bg-color-2 dark:text-gray-400 dark:focus:ring-color-2"
-                                    small={`./src/assets/no-preview.png`}
-                                    medium={`./src/assets/no-preview.png`}
+                                    small={`./src/assets/voucher.png`}
+                                    medium={`./src/assets/voucher.png`}
                                     hideDownload
                                   />
                                 </td>
