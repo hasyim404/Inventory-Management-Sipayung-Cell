@@ -121,7 +121,7 @@ const MerkProduk = () => {
                                 <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
                                   <img
                                     className="w-16 cursor-pointer"
-                                    src="../src/assets/no-preview.png"
+                                    src="../src/assets/kabel.jfif"
                                     alt=""
                                     data-hs-overlay="#hs-sign-out-alert-small-window"
                                   />

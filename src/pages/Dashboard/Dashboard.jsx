@@ -40,7 +40,7 @@ const Dashboard = () => {
                       Total barang
                     </h3>
                     <p className="text-5xl font-semibold text-color-5">
-                      512{" "}
+                      120{" "}
                       <span className="text-sm font-normal text-gray-500">
                         Barang
                       </span>
@@ -90,7 +90,7 @@ const Dashboard = () => {
                       Pemasukan Bulanan
                     </h3>
                     <p className="text-3xl font-semibold text-color-5">
-                      Rp.5.000.000
+                      Rp.4.000.000
                     </p>
                   </div>
                   <div className="ps-3"></div>
@@ -207,7 +207,7 @@ const Dashboard = () => {
                                   4.
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5">
-                                  Kabel charger
+                                  Kabel charger USB-A to USB-C
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
                                   5
@@ -359,7 +359,7 @@ const Dashboard = () => {
               <div className="flex justify-center items-center">
                 <Pie
                   data={{
-                    labels: ["Red", "Blue", "Yellow", "Green", "Purple"],
+                    labels: ["Case", "Kabel", "Powerbank", "Buds", "Voucher"],
                     datasets: [
                       {
                         label: "Terjual",

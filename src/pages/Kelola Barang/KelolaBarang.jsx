@@ -430,8 +430,8 @@ const KelolaBarang = () => {
                                               <div className="flex items-center">
                                                 <ModalImage
                                                   className="w-24 p-1 rounded-s-md border border-color-2 disabled:opacity-50 disabled:pointer-events-none dark:bg-color-2 dark:text-gray-400 dark:focus:ring-color-2"
-                                                  small={`./src/assets/no-preview.png`}
-                                                  medium={`./src/assets/no-preview.png`}
+                                                  small={`./src/assets/voucher.png`}
+                                                  medium={`./src/assets/voucher.png`}
                                                   hideDownload
                                                 />
 
