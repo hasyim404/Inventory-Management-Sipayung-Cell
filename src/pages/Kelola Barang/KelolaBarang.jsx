@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { Link } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
 
@@ -43,6 +44,17 @@ const KelolaBarang = () => {
       judul: "Action",
     },
   ];
+
+  const [barang, setBarang] = useState([]);
+
+  useEffect(() => {
+    getBarang();
+  }, []);
+
+  const getBarang = async () => {
+    const response = await axios.get("http://localhost:1023/barang");
+    console.log(response.data);
+  };
 
   return (
     <>
@@ -338,17 +350,17 @@ const KelolaBarang = () => {
                                                 className="py-3 px-4 block w-full border-color-3 shadow-sm rounded-lg text-sm focus:z-10 focus:border-color-2  disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:text-gray-400 dark:focus:ring-color-2"
                                                 placeholder="30"
                                               />
-                                              <div class="absolute inset-y-0 end-0 flex items-center text-gray-500 pe-px">
+                                              <div className="absolute inset-y-0 end-0 flex items-center text-gray-500 pe-px">
                                                 <label
-                                                  for="hs-inline-leading-select-currency"
-                                                  class="sr-only"
+                                                  htmlFor="hs-inline-leading-select-currency"
+                                                  className="sr-only"
                                                 >
                                                   satuan barang
                                                 </label>
                                                 <select
                                                   id="hs-inline-leading-select-currency"
                                                   name="hs-inline-leading-select-currency"
-                                                  class="py-3 border-color-3 shadow-sm rounded-lg text-sm focus:z-10 focus:border-color-2 disabled:opacity-50 disabled:pointer-events-none dark:bg-color-2 dark:text-color-4 font-semibold dark:focus:ring-color-2"
+                                                  className="py-3 border-color-3 shadow-sm rounded-lg text-sm focus:z-10 focus:border-color-2 disabled:opacity-50 disabled:pointer-events-none dark:bg-color-2 dark:text-color-4 font-semibold dark:focus:ring-color-2"
                                                 >
                                                   <option>-/pcs</option>
                                                   <option>-/paket</option>
@@ -637,17 +649,17 @@ const KelolaBarang = () => {
                                                 className="py-3 px-4 block w-full border-color-3 shadow-sm rounded-lg text-sm focus:z-10 focus:border-color-2  disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:text-gray-400 dark:focus:ring-color-2"
                                                 placeholder="Masukkan jumlah stok"
                                               />
-                                              <div class="absolute inset-y-0 end-0 flex items-center text-gray-500 pe-px">
+                                              <div className="absolute inset-y-0 end-0 flex items-center text-gray-500 pe-px">
                                                 <label
-                                                  for="hs-inline-leading-select-currency"
-                                                  class="sr-only"
+                                                  htmlFor="hs-inline-leading-select-currency"
+                                                  className="sr-only"
                                                 >
                                                   satuan barang
                                                 </label>
                                                 <select
                                                   id="hs-inline-leading-select-currency"
                                                   name="hs-inline-leading-select-currency"
-                                                  class="py-3 border-color-3 shadow-sm rounded-lg text-sm focus:z-10 focus:border-color-2 disabled:opacity-50 disabled:pointer-events-none dark:bg-color-2 dark:text-color-4 font-semibold dark:focus:ring-color-2"
+                                                  className="py-3 border-color-3 shadow-sm rounded-lg text-sm focus:z-10 focus:border-color-2 disabled:opacity-50 disabled:pointer-events-none dark:bg-color-2 dark:text-color-4 font-semibold dark:focus:ring-color-2"
                                                 >
                                                   <option>-/pcs</option>
                                                   <option>-/paket</option>
