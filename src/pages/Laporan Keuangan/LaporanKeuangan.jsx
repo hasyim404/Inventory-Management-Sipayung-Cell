@@ -21,13 +21,12 @@ const Dashboard = () => {
       <div className="w-full pt-10 px-4 sm:px-6 md:px-8 lg:ps-72">
         <MainTitle size="text-3xl" main="Laporan keuangan" />
         <Subnav color=" text-color-5" subnav="Pemasukan" />
-        
+
         {/* Table */}
-        <div className="mt-6 grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-3 sm:gap-6">
+        <div className="px-4 py-10 sm:px-6 lg:px-0 lg:py-5 ">
           <div className="group flex flex-col bg-white shadow-md rounded-xl hover:shadow-md transition dark:bg-color-6 col-span-2 ">
             <div className="p-4 md:p-5">
               <MainTitle size="text-xl" main="Pemasukan" />
-              
 
               <div className="flex flex-col mt-5">
                 <div className="-m-1.5 overflow-x-auto">
@@ -59,12 +58,12 @@ const Dashboard = () => {
                                 scope="col"
                                 className="px-6 py-3 text-center text-sm font-boldtext-color-5 uppercase"
                               >
-                                Nominal</th>
+                                Nominal
+                              </th>
                               <th
                                 scope="col"
                                 className="px-6 py-3 text-center text-sm font-boldtext-color-5 uppercase"
-                              >
-                              </th>
+                              ></th>
                             </tr>
                           </thead>
                           <tbody className="divide-y">
@@ -81,14 +80,13 @@ const Dashboard = () => {
                               <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
                                 Rp.30.000
                               </td>
-                              
                             </tr>
                             <tr>
                               <td className="px-6 text-center py-4 whitespace-nowrap text-sm font-medium text-color-5">
                                 2.
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5">
-                               28-11-2023
+                                28-11-2023
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
                                 Powerbank Robot
@@ -102,7 +100,7 @@ const Dashboard = () => {
                                 3.
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5">
-                               29-11-2023
+                                29-11-2023
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
                                 Samsung Buds pro
@@ -116,7 +114,7 @@ const Dashboard = () => {
                                 4.
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5">
-                               30-11-2023
+                                30-11-2023
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
                                 Kabel Charger USB-A to USB-C
@@ -130,7 +128,7 @@ const Dashboard = () => {
                                 5.
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5">
-                               01-12-2023
+                                01-12-2023
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
                                 Voucher Telkomsel 7GB 30hari
@@ -241,8 +239,6 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-
-        
       </div>
     </>
   );
