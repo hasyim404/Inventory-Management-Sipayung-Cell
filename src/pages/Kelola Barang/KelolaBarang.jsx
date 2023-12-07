@@ -13,11 +13,21 @@ import {
 import ModalImage from "react-modal-image";
 
 // Data
-import items from "../../utils/constants/barang";
 import MainTitle from "../../components/MainTitle";
 import Subnav from "../../components/Subnav";
 
 const KelolaBarang = () => {
+  const [barang, setBarang] = useState([]);
+
+  const getBarang = async () => {
+    const response = await axios.get("http://localhost:1023/api/v1/barang");
+    setBarang(response.data.data);
+  };
+
+  useEffect(() => {
+    getBarang();
+  }, []);
+
   const theads = [
     {
       judul: "No",
@@ -44,17 +54,6 @@ const KelolaBarang = () => {
       judul: "Action",
     },
   ];
-
-  const [barang, setBarang] = useState([]);
-
-  useEffect(() => {
-    getBarang();
-  }, []);
-
-  const getBarang = async () => {
-    const response = await axios.get("http://localhost:1023/barang");
-    console.log(response.data);
-  };
 
   return (
     <>
@@ -196,19 +195,19 @@ const KelolaBarang = () => {
                               </tr>
                             </thead>
                             <tbody className="divide-y">
-                              {items.map((item, index) => (
+                              {barang.map((item, index) => (
                                 <tr key={item.id} className="text-center ">
                                   <td className="py-4 whitespace-nowrap text-sm font-medium text-color-5">
                                     {index + 1}.
                                   </td>
                                   <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5">
-                                    {item.nama}
+                                    {item.n_barang}
                                   </td>
                                   <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                    {item.stok.jml} -/{item.stok.tipe}
+                                    {item.jml_stok} -/{item.tipe_stok}
                                   </td>
                                   <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                    {item.kategori}
+                                    {item.kategori_id}
                                   </td>
                                   <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
                                     Rp. {item.h_beli}
@@ -216,11 +215,20 @@ const KelolaBarang = () => {
                                   <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
                                     Rp. {item.h_jual}
                                   </td>
+                                  {console.log(item.img)}
                                   <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
                                     <ModalImage
                                       className="w-20 border border-color-2 shadow-sm rounded-sm"
-                                      small={`./src/assets/${item.gambar}`}
-                                      medium={`./src/assets/${item.gambar}`}
+                                      small={`./src/assets/${
+                                        item.img !== ""
+                                          ? item.img
+                                          : "no-preview.png"
+                                      }`}
+                                      medium={`./src/assets/${
+                                        item.img !== ""
+                                          ? item.img
+                                          : "no-preview.png"
+                                      }`}
                                       hideDownload
                                     />
                                   </td>

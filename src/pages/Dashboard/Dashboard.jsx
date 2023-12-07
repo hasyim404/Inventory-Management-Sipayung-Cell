@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar/Navbar";
+import axios from "axios";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -15,6 +16,25 @@ import Subnav from "../../components/Subnav";
 import MainTitle from "../../components/MainTitle";
 
 const Dashboard = () => {
+  const [barang, setBarang] = useState([]);
+
+  const getBarang = async () => {
+    const response = await axios.get("http://localhost:1023/api/v1/barang");
+    setBarang(response.data.data);
+  };
+
+  useEffect(() => {
+    getBarang();
+  }, []);
+
+  // Total Barang
+  const countBarang = barang.length;
+
+  // Perlu Restock
+  const restockBarang = barang.filter((item) => item.jml_stok <= 10).length;
+
+  // Pemasukan Bulan ini
+
   return (
     <>
       <Navbar />
@@ -40,7 +60,7 @@ const Dashboard = () => {
                       Total barang
                     </h3>
                     <p className="text-5xl font-semibold text-color-5">
-                      120{" "}
+                      {countBarang}{" "}
                       <span className="text-sm font-normal text-gray-500">
                         Barang
                       </span>
@@ -65,7 +85,7 @@ const Dashboard = () => {
                       Perlu Restock
                     </h3>
                     <p className="text-5xl font-semibold text-color-5">
-                      10{" "}
+                      {restockBarang}{" "}
                       <span className="text-sm font-normal text-gray-500">
                         Barang
                       </span>
