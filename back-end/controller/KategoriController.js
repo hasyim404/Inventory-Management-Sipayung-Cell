@@ -2,16 +2,18 @@ const query = require("../database");
 
 const getKategori = async (req, res) => {
   try {
-    const data = await query("SELECT id, n_kategori, catatan FROM kategori");
+    const data = await query(
+      "SELECT id, n_kategori, catatan FROM kategori ORDER BY n_kategori ASC"
+    );
     return res.status(200).json({
       success: true,
-      message: "Seluruh Data Kategori",
+      message: "Menampilkan seluruh Data Kategori",
       data: data,
     });
   } catch (error) {
-    return res.status(500).json({
+    return res.status(400).json({
       success: false,
-      message: "Data tidak ditemukan / Gagal",
+      message: "Data Kategori tidak ditemukan / Gagal",
     });
   }
 };
@@ -25,11 +27,11 @@ const findKategoriById = async (req, res) => {
     if (data.length > 0) {
       return res.status(200).json({
         success: true,
-        message: "Data Kategori ditemukan",
+        message: "Data Kategori berhasil ditemukan",
         data: data,
       });
     } else
-      res.status(404).json({
+      res.status(400).json({
         success: false,
         message: "Data Kategori tidak ditemukan! / Gagal",
       });
@@ -87,7 +89,7 @@ const updateKategori = async (req, res) => {
   if (n_kategori === undefined || n_kategori === "")
     return res.status(400).json({
       success: false,
-      message: "Kategori wajib di isi!",
+      message: "Nama Kategori wajib di isi!",
     });
 
   try {
@@ -139,7 +141,7 @@ const deleteKategori = async (req, res) => {
         message: "Data Kategori berhasil dihapus!",
       });
     } else
-      res.status(404).json({
+      res.status(400).json({
         success: false,
         message: "Data Kategori tidak ditemukan! / Gagal",
       });
