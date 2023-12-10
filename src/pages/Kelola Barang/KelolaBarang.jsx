@@ -215,7 +215,6 @@ const KelolaBarang = () => {
                                   <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
                                     Rp. {item.h_jual}
                                   </td>
-                                  {console.log(item.img)}
                                   <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
                                     <ModalImage
                                       className="w-20 border border-color-2 shadow-sm rounded-sm"

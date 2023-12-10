@@ -1,12 +1,79 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import Swal from "sweetalert2";
+
 import Navbar from "../../components/Navbar/Navbar";
 import MainTitle from "../../components/MainTitle";
 import Subnav from "../../components/Subnav";
 
 const Kategori = () => {
+  const [kategori, setKategori] = useState([]);
+  const [n_kategori, setN_kategori] = useState("");
+  const [catatan, setCatatan] = useState("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    getKategori();
+  }, []);
+
+  // useEffect(() => {
+  //   getKategoriById();
+  // }, []);
+
+  // Get all data
+  const getKategori = async () => {
+    const response = await axios.get("http://localhost:1023/api/v1/kategori");
+    setKategori(response.data.data);
+  };
+
+  // Add data
+  const saveData = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post("http://localhost:1023/api/v1/kategori", {
+        n_kategori,
+        catatan,
+      });
+
+      Swal.fire({
+        title: "Tambah Data Berhasil!",
+        text: "Berhasil menambahkan data baru!",
+        icon: "success",
+      });
+      getKategori();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // const getKategoriById = async () => {
+  //   const response = await axios.get(
+  //     `http://localhost:1023/api/v1/kategori/${id}`
+  //   );
+  //   setN_kategori(response.data.n_kategori);
+  //   setCatatan(response.data.catatan);
+  // };
+
+  // Delete
+  const deleteKategori = async (id) => {
+    try {
+      await axios.delete(`http://localhost:1023/api/v1/kategori/${id}`);
+      Swal.fire({
+        title: "Berhasil!",
+        text: "Hapus data Berhasil dilakukan!",
+        icon: "success",
+      });
+      getKategori();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <Navbar active="active" display="block" />
@@ -100,211 +167,48 @@ const Kategori = () => {
                                   scope="col"
                                   className="px-6 py-3 text-center text-sm font-boldtext-color-5 uppercase"
                                 >
+                                  Catatan
+                                </th>
+                                <th
+                                  scope="col"
+                                  className="px-6 py-3 text-center text-sm font-boldtext-color-5 uppercase"
+                                >
                                   Action
                                 </th>
                               </tr>
                             </thead>
                             <tbody className="divide-y">
-                              <tr>
-                                <td className="px-6 text-center py-4 whitespace-nowrap text-sm font-medium text-color-5">
-                                  1.
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5">
-                                  Kabel Data
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  <div className="text-center">
-                                    <button
-                                      type="button"
-                                      className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-yellow-500 text-white hover:bg-yellow-600 disabled:opacity-50 disabled:pointer-events-none "
-                                      data-hs-overlay="#hs-danger-alert"
-                                    >
-                                      <FontAwesomeIcon icon={faPenToSquare} />
-                                    </button>
-                                    <button
-                                      type="buton"
-                                      className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none "
-                                    >
-                                      <FontAwesomeIcon icon={faTrashCan} />
-                                    </button>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td className="px-6 text-center py-4 whitespace-nowrap text-sm font-medium text-color-5">
-                                  2.
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5">
-                                  Aksesoris
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  <div className="text-center">
-                                    <button
-                                      type="button"
-                                      className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-yellow-500 text-white hover:bg-yellow-600 disabled:opacity-50 disabled:pointer-events-none "
-                                      data-hs-overlay="#hs-danger-alert"
-                                    >
-                                      <FontAwesomeIcon icon={faPenToSquare} />
-                                    </button>
-                                    <button
-                                      type="buton"
-                                      className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none "
-                                    >
-                                      <FontAwesomeIcon icon={faTrashCan} />
-                                    </button>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td className="px-6 text-center py-4 whitespace-nowrap text-sm font-medium text-color-5">
-                                  3.
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5">
-                                  Casing HP
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  <div className="text-center">
-                                    <button
-                                      type="button"
-                                      className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-yellow-500 text-white hover:bg-yellow-600 disabled:opacity-50 disabled:pointer-events-none "
-                                      data-hs-overlay="#hs-danger-alert"
-                                    >
-                                      <FontAwesomeIcon icon={faPenToSquare} />
-                                    </button>
-                                    <button
-                                      type="buton"
-                                      className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none "
-                                    >
-                                      <FontAwesomeIcon icon={faTrashCan} />
-                                    </button>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td className="px-6 text-center py-4 whitespace-nowrap text-sm font-medium text-color-5">
-                                  4.
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5">
-                                  Charger
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  <div className="text-center">
-                                    <button
-                                      type="button"
-                                      className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-yellow-500 text-white hover:bg-yellow-600 disabled:opacity-50 disabled:pointer-events-none "
-                                      data-hs-overlay="#hs-danger-alert"
-                                    >
-                                      <FontAwesomeIcon icon={faPenToSquare} />
-                                    </button>
-                                    <button
-                                      type="buton"
-                                      className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none "
-                                    >
-                                      <FontAwesomeIcon icon={faTrashCan} />
-                                    </button>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td className="px-6 text-center py-4 whitespace-nowrap text-sm font-medium text-color-5">
-                                  5.
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5">
-                                  Kartu Perdana
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  <div className="text-center">
-                                    <button
-                                      type="button"
-                                      className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-yellow-500 text-white hover:bg-yellow-600 disabled:opacity-50 disabled:pointer-events-none "
-                                      data-hs-overlay="#hs-danger-alert"
-                                    >
-                                      <FontAwesomeIcon icon={faPenToSquare} />
-                                    </button>
-                                    <button
-                                      type="buton"
-                                      className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none "
-                                    >
-                                      <FontAwesomeIcon icon={faTrashCan} />
-                                    </button>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td className="px-6 text-center py-4 whitespace-nowrap text-sm font-medium text-color-5">
-                                  6.
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5">
-                                  Tempered Glass
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  <div className="text-center">
-                                    <button
-                                      type="button"
-                                      className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-yellow-500 text-white hover:bg-yellow-600 disabled:opacity-50 disabled:pointer-events-none "
-                                      data-hs-overlay="#hs-danger-alert"
-                                    >
-                                      <FontAwesomeIcon icon={faPenToSquare} />
-                                    </button>
-                                    <button
-                                      type="buton"
-                                      className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none "
-                                    >
-                                      <FontAwesomeIcon icon={faTrashCan} />
-                                    </button>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td className="px-6 text-center py-4 whitespace-nowrap text-sm font-medium text-color-5">
-                                  7.
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5">
-                                  Pulsa
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  <div className="text-center">
-                                    <button
-                                      type="button"
-                                      className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-yellow-500 text-white hover:bg-yellow-600 disabled:opacity-50 disabled:pointer-events-none "
-                                      data-hs-overlay="#hs-danger-alert"
-                                    >
-                                      <FontAwesomeIcon icon={faPenToSquare} />
-                                    </button>
-                                    <button
-                                      type="buton"
-                                      className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none "
-                                    >
-                                      <FontAwesomeIcon icon={faTrashCan} />
-                                    </button>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td className="px-6 text-center py-4 whitespace-nowrap text-sm font-medium text-color-5">
-                                  7.
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5">
-                                  Lainnya
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  <div className="text-center">
-                                    <button
-                                      type="button"
-                                      className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-yellow-500 text-white hover:bg-yellow-600 disabled:opacity-50 disabled:pointer-events-none "
-                                      data-hs-overlay="#hs-danger-alert"
-                                    >
-                                      <FontAwesomeIcon icon={faPenToSquare} />
-                                    </button>
-                                    <button
-                                      type="buton"
-                                      className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none "
-                                    >
-                                      <FontAwesomeIcon icon={faTrashCan} />
-                                    </button>
-                                  </div>
-                                </td>
-                              </tr>
+                              {kategori.map((item, index) => (
+                                <tr key={item.id}>
+                                  <td className="px-6 text-center py-4 whitespace-nowrap text-sm font-medium text-color-5">
+                                    {index + 1}.
+                                  </td>
+                                  <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5">
+                                    {item.n_kategori}
+                                  </td>
+                                  <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5 text-center">
+                                    {item.catatan !== "" ? item.catatan : "-"}
+                                  </td>
+
+                                  <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
+                                    <div className="text-center ">
+                                      <button
+                                        type="button"
+                                        className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-yellow-500 text-white hover:bg-yellow-600 disabled:opacity-50 disabled:pointer-events-none "
+                                        data-hs-overlay="#hs-danger-alert"
+                                      >
+                                        <FontAwesomeIcon icon={faPenToSquare} />
+                                      </button>
+                                      <button
+                                        onClick={() => deleteKategori(item.id)}
+                                        className="deleteBtn py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none "
+                                      >
+                                        <FontAwesomeIcon icon={faTrashCan} />
+                                      </button>
+                                    </div>
+                                  </td>
+                                </tr>
+                              ))}
                             </tbody>
                           </table>
 
@@ -371,6 +275,27 @@ const Kategori = () => {
                                             </div>
                                           </div>
                                         </div>
+                                        <div className="mt-5 grid grid-cols-10 gap-3">
+                                          <div className="col-span-3 flex">
+                                            <label
+                                              htmlFor="hs-leading-icon"
+                                              className="mt-2 block text-md font-medium mb-2 dark:text-color-5"
+                                            >
+                                              Catatan
+                                            </label>
+                                            <p className="mt-2 ml-20">:</p>
+                                          </div>
+                                          <div className="col-span-7">
+                                            <div className="relative">
+                                              <input
+                                                type="text"
+                                                name="hs-leading-icon"
+                                                className="py-3 px-4 block w-full border-color-1 shadow-sm rounded-lg text-sm focus:z-10 focus:border-color-1 focus:ring-color-1 disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:border-color-1 dark:text-gray-400 dark:focus:ring-color-1"
+                                                placeholder="-"
+                                              />
+                                            </div>
+                                          </div>
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
@@ -424,7 +349,7 @@ const Kategori = () => {
                                   </button>
                                 </div>
 
-                                <form action="#">
+                                <form onSubmit={saveData}>
                                   <div className="p-4 sm:p-10 overflow-y-auto">
                                     <div className="flex gap-x-4 md:gap-x-7">
                                       <div className="grow">
@@ -450,8 +375,38 @@ const Kategori = () => {
                                               <input
                                                 type="text"
                                                 name="hs-leading-icon"
+                                                value={n_kategori}
+                                                onChange={(e) =>
+                                                  setN_kategori(e.target.value)
+                                                }
                                                 className="py-3 px-4 block w-full border-color-1 shadow-sm rounded-lg text-sm focus:z-10 focus:border-color-1 focus:ring-color-1 disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:border-color-1 dark:text-gray-400 dark:focus:ring-color-1"
-                                                placeholder="Masukkan kategori"
+                                                placeholder="..."
+                                              />
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div className="mt-5 grid grid-cols-10 gap-3">
+                                          <div className="col-span-3 flex">
+                                            <label
+                                              htmlFor="hs-leading-icon"
+                                              className="mt-2 block text-md font-medium mb-2 dark:text-color-5"
+                                            >
+                                              Catatan
+                                            </label>
+
+                                            <p className="mt-2 ml-20">:</p>
+                                          </div>
+                                          <div className="col-span-7">
+                                            <div className="relative">
+                                              <input
+                                                type="text"
+                                                name="hs-leading-icon"
+                                                value={catatan}
+                                                onChange={(e) =>
+                                                  setCatatan(e.target.value)
+                                                }
+                                                className="py-3 px-4 block w-full border-color-1 shadow-sm rounded-lg text-sm focus:z-10 focus:border-color-1 focus:ring-color-1 disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:border-color-1 dark:text-gray-400 dark:focus:ring-color-1"
+                                                placeholder="Tambah Catatan"
                                               />
                                             </div>
                                           </div>
@@ -468,7 +423,10 @@ const Kategori = () => {
                                     >
                                       Kembali
                                     </button>
-                                    <button className="py-2 px-8 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-color-1 text-white hover:bg-6hover disabled:opacity-50 disabled:pointer-events-none ">
+                                    <button
+                                      type="submit"
+                                      className="py-2 px-8 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-color-1 text-white hover:bg-6hover disabled:opacity-50 disabled:pointer-events-none "
+                                    >
                                       Tambah Kategori
                                     </button>
                                   </div>
