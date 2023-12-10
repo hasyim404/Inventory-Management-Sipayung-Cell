@@ -6,6 +6,7 @@ const barang = require("./BarangRoute");
 const kategori = require("./KategoriRoute");
 const merk = require("./MerkRoute");
 const ukuran = require("./UkuranRoute");
+const auth = require("./auth/AuthRoute");
 
 const apiUrl = "/api/v1";
 
@@ -14,5 +15,6 @@ app.use(apiUrl, barang);
 app.use(apiUrl, kategori);
 app.use(apiUrl, merk);
 app.use(apiUrl, ukuran);
+app.use(apiUrl, auth);
 
 module.exports = app;

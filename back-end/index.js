@@ -12,9 +12,9 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(routes);
 
-// app.use("/testing", (req, res) => {
-//   return res.send("first server");
-// });
+app.use("/testing", (req, res) => {
+  return res.send("Server Running~");
+});
 
 server.listen(PORT, () =>
   console.log(`Server already running at http://localhost:${PORT}`)

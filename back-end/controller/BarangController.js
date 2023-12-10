@@ -3,11 +3,43 @@ const query = require("../database");
 const getBarang = async (req, res) => {
   try {
     const data = await query(
-      "select id, n_barang, jml_stok, tipe_stok, h_beli, h_jual, merk_id, img, kategori_id, ukuran_id from barang"
+      "SELECT id, n_barang, jml_stok, tipe_stok, h_beli, h_jual, merk_id, img, kategori_id, ukuran_id, updated_at FROM barang ORDER BY updated_at"
     );
-    return res.status(200).json({ data });
+    return res.status(200).json({
+      success: true,
+      message: "Menampilkan seluruh Data Barang",
+      data: data,
+    });
   } catch (error) {
-    return res.status(400).json({ message: error });
+    return res.status(400).json({
+      success: false,
+      message: "Data Barang tidak ditemukan / Gagal",
+    });
+  }
+};
+
+const findBarangById = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const data = await query(`SELECT * FROM barang WHERE id = ?`, [id]);
+
+    if (data.length > 0) {
+      return res.status(200).json({
+        success: true,
+        message: "Data Barang berhasil ditemukan",
+        data: data,
+      });
+    } else
+      res.status(400).json({
+        success: false,
+        message: "Data Barang tidak ditemukan! / Gagal",
+      });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Error",
+    });
   }
 };
 
@@ -24,8 +56,41 @@ const createBarang = async (req, res) => {
     ukuran_id,
   } = req.body;
 
+  if (
+    n_barang === undefined ||
+    n_barang === "" ||
+    jml_stok === undefined ||
+    jml_stok === "" ||
+    tipe_stok === undefined ||
+    tipe_stok === "" ||
+    h_beli === undefined ||
+    h_beli === "" ||
+    h_jual === undefined ||
+    h_jual === "" ||
+    merk_id === undefined ||
+    merk_id === "" ||
+    kategori_id === undefined ||
+    kategori_id === "" ||
+    ukuran_id === undefined ||
+    ukuran_id === ""
+  )
+    return res.status(400).json({
+      success: false,
+      message: "Data Wajib di isi!",
+    });
+
   try {
-    // id itu alias dari resultId
+    const isDuplicate = await query(
+      `SELECT id FROM barang WHERE n_barang = ?`,
+      [n_barang]
+    );
+
+    if (isDuplicate.length > 0)
+      return res.status(400).json({
+        success: false,
+        message: "Barang sudah ada / Terduplikasi",
+      });
+
     const { resultId: id } = await query(
       "insert into barang(n_barang, jml_stok, tipe_stok, h_beli, h_jual, merk_id, img, kategori_id, ukuran_id) values(?,?,?,?,?,?,?,?,?)",
       [
@@ -40,13 +105,131 @@ const createBarang = async (req, res) => {
         ukuran_id,
       ]
     );
-    res.status(200).json({ id, ...req.body });
+
+    return res.status(200).json({
+      success: true,
+      message: "Barang berhasil ditambahkan!",
+      data: { id, ...req.body },
+    });
   } catch (error) {
-    return res.status(400).json({ message: error });
+    return res.status(400).json({
+      success: false,
+      message: "Data Barang Gagal ditambahkan",
+    });
+  }
+};
+
+const updateBarang = async (req, res) => {
+  const { id } = req.params;
+  const {
+    n_barang,
+    jml_stok,
+    tipe_stok,
+    h_beli,
+    h_jual,
+    merk_id,
+    img,
+    kategori_id,
+    ukuran_id,
+  } = req.body;
+
+  if (
+    n_barang === undefined ||
+    n_barang === "" ||
+    jml_stok === undefined ||
+    jml_stok === "" ||
+    tipe_stok === undefined ||
+    tipe_stok === "" ||
+    h_beli === undefined ||
+    h_beli === "" ||
+    h_jual === undefined ||
+    h_jual === "" ||
+    merk_id === undefined ||
+    merk_id === "" ||
+    kategori_id === undefined ||
+    kategori_id === ""
+  )
+    return res.status(400).json({
+      success: false,
+      message: "Data Wajib di isi!",
+    });
+
+  try {
+    const isDuplicate = await query(
+      `SELECT id FROM barang WHERE n_barang = ?`,
+      [n_barang]
+    );
+
+    if (isDuplicate.length > 1)
+      return res.status(400).json({
+        success: false,
+        message: "Barang sudah ada / Terduplikasi",
+      });
+
+    const data = await query(
+      "UPDATE barang SET n_barang = ?, jml_stok = ?, tipe_stok = ?, h_beli = ?, h_jual = ?, merk_id = ?, img = ?, kategori_id = ?, ukuran_id = ? WHERE id = ?",
+      [
+        n_barang,
+        jml_stok,
+        tipe_stok,
+        h_beli,
+        h_jual,
+        merk_id,
+        img,
+        kategori_id,
+        ukuran_id,
+        id,
+      ]
+    );
+
+    if (data.affectedRows > 0) {
+      return res.status(200).json({
+        success: true,
+        message: "Data Barang berhasil diupdate!",
+        data: { id, ...req.body },
+      });
+    } else {
+      return res.status(400).json({
+        success: false,
+        message: "Data Barang tidak ditemukan / Gagal",
+      });
+    }
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Error",
+    });
+  }
+};
+
+const deleteBarang = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const data = await query("DELETE FROM barang WHERE id = ?", [id]);
+
+    if (data.affectedRows > 0) {
+      return res.status(200).json({
+        success: true,
+        message: "Data Barang berhasil dihapus!",
+      });
+    } else
+      res.status(400).json({
+        success: false,
+        message: "Data Barang tidak ditemukan! / Gagal",
+      });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Error",
+    });
   }
 };
 
 module.exports = {
   getBarang,
+  findBarangById,
   createBarang,
+  updateBarang,
+  deleteBarang,
 };
