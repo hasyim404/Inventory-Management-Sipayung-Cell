@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faTrashCan } from "@fortawesome/free-solid-svg-icons";
@@ -11,19 +10,25 @@ import Navbar from "../../components/Navbar/Navbar";
 import MainTitle from "../../components/MainTitle";
 import Subnav from "../../components/Subnav";
 
+import { useUser } from "../../context/UserContext";
+
 const Kategori = () => {
+  const { checkRoleAndNavigate } = useUser();
+  const navigate = useNavigate();
+
   const [kategori, setKategori] = useState([]);
   const [n_kategori, setN_kategori] = useState("");
   const [catatan, setCatatan] = useState("");
-  const navigate = useNavigate();
 
   useEffect(() => {
-    getKategori();
-  }, []);
+    const allowed = checkRoleAndNavigate(["pemilik", "karyawan"], navigate);
 
-  // useEffect(() => {
-  //   getKategoriById();
-  // }, []);
+    if (!allowed) {
+      //
+    }
+
+    getKategori();
+  }, [navigate]);
 
   // Get all data
   const getKategori = async () => {
@@ -32,7 +37,7 @@ const Kategori = () => {
   };
 
   // Add data
-  const saveData = async (e) => {
+  const addKategori = async (e) => {
     e.preventDefault();
     try {
       await axios.post("http://localhost:1023/api/v1/kategori", {
@@ -41,13 +46,18 @@ const Kategori = () => {
       });
 
       Swal.fire({
-        title: "Tambah Data Berhasil!",
-        text: "Berhasil menambahkan data baru!",
+        title: "Tambah Data Kategori Berhasil!",
+        text: "Berhasil menambahkan data kategori baru!",
         icon: "success",
       });
       getKategori();
     } catch (error) {
       console.log(error);
+      Swal.fire({
+        title: "Gagal tambah data!",
+        text: "Gagal menambahkan data kategori",
+        icon: "error",
+      });
     }
   };
 
@@ -71,6 +81,11 @@ const Kategori = () => {
       getKategori();
     } catch (error) {
       console.log(error);
+      Swal.fire({
+        title: "Hapus data gagal!",
+        text: "Gagal menghapus data kategori",
+        icon: "error",
+      });
     }
   };
 
@@ -192,13 +207,16 @@ const Kategori = () => {
 
                                   <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
                                     <div className="text-center ">
-                                      <button
-                                        type="button"
-                                        className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-yellow-500 text-white hover:bg-yellow-600 disabled:opacity-50 disabled:pointer-events-none "
-                                        data-hs-overlay="#hs-danger-alert"
-                                      >
-                                        <FontAwesomeIcon icon={faPenToSquare} />
-                                      </button>
+                                      <Link to={"/kelola-merk-produk/edit"}>
+                                        <button
+                                          className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-yellow-500 text-white hover:bg-yellow-600 disabled:opacity-50 disabled:pointer-events-none "
+                                          data-hs-overlay="#hs-danger-alert"
+                                        >
+                                          <FontAwesomeIcon
+                                            icon={faPenToSquare}
+                                          />
+                                        </button>
+                                      </Link>
                                       <button
                                         onClick={() => deleteKategori(item.id)}
                                         className="deleteBtn py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none "
@@ -211,111 +229,6 @@ const Kategori = () => {
                               ))}
                             </tbody>
                           </table>
-
-                          {/* MODALS FORM EDIT */}
-                          <div
-                            id="hs-danger-alert"
-                            className="hs-overlay hidden w-full h-full fixed top-0 start-0 z-[70] overflow-x-hidden overflow-y-auto"
-                          >
-                            <div className="hs-overlay-open:mt-10  hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all md:max-w-xl pt-20 md:w-full m-3 md:mx-auto">
-                              <div className="relative flex flex-col shadow-md rounded-xl overflow-hidden dark:bg-color-3 ">
-                                <div className="absolute top-2 m-3 end-2">
-                                  <button
-                                    type="button"
-                                    className="flex justify-center items-center w-7 h-7 text-md font-semibold rounded-lg border border-transparent text-color-5 disabled:opacity-50 disabled:pointer-events-none dark:text-color-5 dark:border-transparent  dark:focus:outline-none "
-                                    data-hs-overlay="#hs-danger-alert"
-                                  >
-                                    <span className="sr-only">Close</span>
-                                    <svg
-                                      className="flex-shrink-0 w-4 h-4"
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      width="24"
-                                      height="24"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      strokeWidth="2"
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                    >
-                                      <path d="M18 6 6 18" />
-                                      <path d="m6 6 12 12" />
-                                    </svg>
-                                  </button>
-                                </div>
-
-                                <form action="#">
-                                  <div className="p-4 sm:p-10 overflow-y-auto">
-                                    <div className="flex gap-x-4 md:gap-x-7">
-                                      <div className="grow">
-                                        <h3 className="mb-2 text-3xl font-bold text-gray-800 dark:text-gray-700">
-                                          Edit Kategori
-                                        </h3>
-                                        <div className="mt-10 grid grid-cols-10 gap-3">
-                                          <div className="col-span-3 flex">
-                                            <label
-                                              htmlFor="hs-leading-icon"
-                                              className="mt-2 block text-md font-medium mb-2 dark:text-color-5"
-                                            >
-                                              Nama Kategori{" "}
-                                              <span className="italic text-color-warning">
-                                                *
-                                              </span>
-                                            </label>
-                                            <p className="mt-2 ml-4">:</p>
-                                          </div>
-                                          <div className="col-span-7">
-                                            <div className="relative">
-                                              <input
-                                                type="text"
-                                                name="hs-leading-icon"
-                                                className="py-3 px-4 block w-full border-color-1 shadow-sm rounded-lg text-sm focus:z-10 focus:border-color-1 focus:ring-color-1 disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:border-color-1 dark:text-gray-400 dark:focus:ring-color-1"
-                                                placeholder="Kabel Data"
-                                              />
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <div className="mt-5 grid grid-cols-10 gap-3">
-                                          <div className="col-span-3 flex">
-                                            <label
-                                              htmlFor="hs-leading-icon"
-                                              className="mt-2 block text-md font-medium mb-2 dark:text-color-5"
-                                            >
-                                              Catatan
-                                            </label>
-                                            <p className="mt-2 ml-20">:</p>
-                                          </div>
-                                          <div className="col-span-7">
-                                            <div className="relative">
-                                              <input
-                                                type="text"
-                                                name="hs-leading-icon"
-                                                className="py-3 px-4 block w-full border-color-1 shadow-sm rounded-lg text-sm focus:z-10 focus:border-color-1 focus:ring-color-1 disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:border-color-1 dark:text-gray-400 dark:focus:ring-color-1"
-                                                placeholder="-"
-                                              />
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-
-                                  <div className="flex justify-end items-center gap-x-2 py-3 px-4 bg-gray-50 border-t  dark:border-gray-300">
-                                    <button
-                                      type="button"
-                                      className="py-2 px-5 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-color-5  shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-zinc-200 dark:border-color-5dark:text-color-5 dark:hover:bg-zinc-300 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-color-5"
-                                      data-hs-overlay="#hs-danger-alert"
-                                    >
-                                      Kembali
-                                    </button>
-                                    <button className="py-2 px-8 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-yellow-500 text-white hover:bg-yellow-600 disabled:opacity-50 disabled:pointer-events-none ">
-                                      Edit Kategori
-                                    </button>
-                                  </div>
-                                </form>
-                              </div>
-                            </div>
-                          </div>
 
                           {/* MODALS FORM Tambah */}
                           <div
@@ -349,7 +262,7 @@ const Kategori = () => {
                                   </button>
                                 </div>
 
-                                <form onSubmit={saveData}>
+                                <form onSubmit={addKategori}>
                                   <div className="p-4 sm:p-10 overflow-y-auto">
                                     <div className="flex gap-x-4 md:gap-x-7">
                                       <div className="grow">

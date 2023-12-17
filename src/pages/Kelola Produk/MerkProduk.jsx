@@ -1,12 +1,90 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import Swal from "sweetalert2";
+import ModalImage from "react-modal-image";
+
 import Navbar from "../../components/Navbar/Navbar";
 import MainTitle from "../../components/MainTitle";
 import Subnav from "../../components/Subnav";
 
+import { useUser } from "../../context/UserContext";
+
 const MerkProduk = () => {
+  const { checkRoleAndNavigate } = useUser();
+  const navigate = useNavigate();
+
+  const [merk, setMerk] = useState([]);
+
+  const [n_merk, setNMerk] = useState("");
+  const [logo, setLogo] = useState("");
+  const [catatan, setCatatan] = useState("");
+
+  useEffect(() => {
+    const allowed = checkRoleAndNavigate(["pemilik", "karyawan"], navigate);
+
+    if (!allowed) {
+      //
+    }
+
+    getMerk();
+  }, [navigate]);
+
+  // Get data
+  const getMerk = async () => {
+    const response = await axios.get("http://localhost:1023/api/v1/merk");
+    setMerk(response.data.data);
+  };
+
+  // Add data
+  const addMerk = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post("http://localhost:1023/api/v1/merk", {
+        n_merk,
+        logo,
+        catatan,
+      });
+
+      Swal.fire({
+        title: "Tambah Data Merk Berhasil!",
+        text: "Berhasil menambahkan data baru!",
+        icon: "success",
+      });
+      getMerk();
+    } catch (error) {
+      console.log(error);
+      Swal.fire({
+        title: "Gagal tambah data!",
+        text: "Gagal menambahkan data merk",
+        icon: "error",
+      });
+    }
+  };
+
+  // Delete data
+  const deleteMerk = async (id) => {
+    try {
+      await axios.delete(`http://localhost:1023/api/v1/merk/${id}`);
+      Swal.fire({
+        title: "Berhasil!",
+        text: "Hapus data Berhasil dilakukan!",
+        icon: "success",
+      });
+      getMerk();
+    } catch (error) {
+      console.log(error);
+      Swal.fire({
+        title: "Hapus data gagal!",
+        text: "Gagal menghapus data merk",
+        icon: "error",
+      });
+    }
+  };
+
   return (
     <>
       <Navbar active="active" display="block" />
@@ -106,209 +184,63 @@ const MerkProduk = () => {
                                   scope="col"
                                   className="px-6 py-3 text-center text-sm font-boldtext-color-5 uppercase"
                                 >
+                                  Catatan
+                                </th>
+                                <th
+                                  scope="col"
+                                  className="px-6 py-3 text-center text-sm font-boldtext-color-5 uppercase"
+                                >
                                   Action
                                 </th>
                               </tr>
                             </thead>
                             <tbody className="divide-y">
-                              <tr>
-                                <td className="px-6 text-center py-4 whitespace-nowrap text-sm font-medium text-color-5">
-                                  1.
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5">
-                                  ANKER
-                                </td>
-                                <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
-                                  <img
-                                    className="w-16 cursor-pointer"
-                                    src="../src/assets/kabel.jfif"
-                                    alt=""
-                                    data-hs-overlay="#hs-sign-out-alert-small-window"
-                                  />
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  <div className="text-center">
-                                    <button
-                                      type="button"
-                                      className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-yellow-500 text-white hover:bg-yellow-600 disabled:opacity-50 disabled:pointer-events-none "
-                                      data-hs-overlay="#hs-danger-alert"
-                                    >
-                                      <FontAwesomeIcon icon={faPenToSquare} />
-                                    </button>
-                                    <button
-                                      type="buton"
-                                      className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none "
-                                    >
-                                      <FontAwesomeIcon icon={faTrashCan} />
-                                    </button>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td className="px-6 text-center py-4 whitespace-nowrap text-sm font-medium text-color-5">
-                                  2.
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5">
-                                  Xiaomi
-                                </td>
-                                <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
-                                  <img
-                                    className="w-16 cursor-pointer"
-                                    src="../src/assets/no-preview.png"
-                                    alt=""
-                                    data-hs-overlay="#hs-sign-out-alert-small-window"
-                                  />
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  <div className="text-center">
-                                    <button
-                                      type="button"
-                                      className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-yellow-500 text-white hover:bg-yellow-600 disabled:opacity-50 disabled:pointer-events-none "
-                                      data-hs-overlay="#hs-danger-alert"
-                                    >
-                                      <FontAwesomeIcon icon={faPenToSquare} />
-                                    </button>
-                                    <button
-                                      type="buton"
-                                      className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none "
-                                    >
-                                      <FontAwesomeIcon icon={faTrashCan} />
-                                    </button>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td className="px-6 text-center py-4 whitespace-nowrap text-sm font-medium text-color-5">
-                                  3.
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5">
-                                  Robot
-                                </td>
-                                <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
-                                  <img
-                                    className="w-16 cursor-pointer"
-                                    src="../src/assets/no-preview.png"
-                                    alt=""
-                                    data-hs-overlay="#hs-sign-out-alert-small-window"
-                                  />
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  <div className="text-center">
-                                    <button
-                                      type="button"
-                                      className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-yellow-500 text-white hover:bg-yellow-600 disabled:opacity-50 disabled:pointer-events-none "
-                                      data-hs-overlay="#hs-danger-alert"
-                                    >
-                                      <FontAwesomeIcon icon={faPenToSquare} />
-                                    </button>
-                                    <button
-                                      type="buton"
-                                      className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none "
-                                    >
-                                      <FontAwesomeIcon icon={faTrashCan} />
-                                    </button>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td className="px-6 text-center py-4 whitespace-nowrap text-sm font-medium text-color-5">
-                                  4.
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5">
-                                  Simpati
-                                </td>
-                                <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
-                                  <img
-                                    className="w-16 cursor-pointer"
-                                    src="../src/assets/no-preview.png"
-                                    alt=""
-                                    data-hs-overlay="#hs-sign-out-alert-small-window"
-                                  />
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  <div className="text-center">
-                                    <button
-                                      type="button"
-                                      className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-yellow-500 text-white hover:bg-yellow-600 disabled:opacity-50 disabled:pointer-events-none "
-                                      data-hs-overlay="#hs-danger-alert"
-                                    >
-                                      <FontAwesomeIcon icon={faPenToSquare} />
-                                    </button>
-                                    <button
-                                      type="buton"
-                                      className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none "
-                                    >
-                                      <FontAwesomeIcon icon={faTrashCan} />
-                                    </button>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td className="px-6 text-center py-4 whitespace-nowrap text-sm font-medium text-color-5">
-                                  5.
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5">
-                                  Indosat
-                                </td>
-                                <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
-                                  <img
-                                    className="w-16 cursor-pointer"
-                                    src="../src/assets/no-preview.png"
-                                    alt=""
-                                    data-hs-overlay="#hs-sign-out-alert-small-window"
-                                  />
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  <div className="text-center">
-                                    <button
-                                      type="button"
-                                      className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-yellow-500 text-white hover:bg-yellow-600 disabled:opacity-50 disabled:pointer-events-none "
-                                      data-hs-overlay="#hs-danger-alert"
-                                    >
-                                      <FontAwesomeIcon icon={faPenToSquare} />
-                                    </button>
-                                    <button
-                                      type="buton"
-                                      className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none "
-                                    >
-                                      <FontAwesomeIcon icon={faTrashCan} />
-                                    </button>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td className="px-6 text-center py-4 whitespace-nowrap text-sm font-medium text-color-5">
-                                  6.
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5">
-                                  Lainnya
-                                </td>
-                                <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
-                                  <img
-                                    className="w-16 cursor-pointer"
-                                    src="../src/assets/no-preview.png"
-                                    alt=""
-                                    data-hs-overlay="#hs-sign-out-alert-small-window"
-                                  />
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  <div className="text-center">
-                                    <button
-                                      type="button"
-                                      className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-yellow-500 text-white hover:bg-yellow-600 disabled:opacity-50 disabled:pointer-events-none "
-                                      data-hs-overlay="#hs-danger-alert"
-                                    >
-                                      <FontAwesomeIcon icon={faPenToSquare} />
-                                    </button>
-                                    <button
-                                      type="buton"
-                                      className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none "
-                                    >
-                                      <FontAwesomeIcon icon={faTrashCan} />
-                                    </button>
-                                  </div>
-                                </td>
-                              </tr>
+                              {merk.map((item, index) => (
+                                <tr key={item.id}>
+                                  <td className="px-6 text-center py-4 whitespace-nowrap text-sm font-medium text-color-5">
+                                    {index + 1}.
+                                  </td>
+                                  <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5">
+                                    {item.n_merk}
+                                  </td>
+                                  <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
+                                    <ModalImage
+                                      className="w-20 border border-color-2 shadow-sm rounded-sm"
+                                      small={`./src/assets/${
+                                        item.logo !== ""
+                                          ? item.logo
+                                          : "no-preview.png"
+                                      }`}
+                                      medium={`./src/assets/${
+                                        item.logo !== ""
+                                          ? item.logo
+                                          : "no-preview.png"
+                                      }`}
+                                      hideDownload
+                                    />
+                                  </td>
+                                  <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5">
+                                    {item.catatan}
+                                  </td>
+                                  <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
+                                    <div className="text-center">
+                                      <button
+                                        type="button"
+                                        className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-yellow-500 text-white hover:bg-yellow-600 disabled:opacity-50 disabled:pointer-events-none "
+                                        data-hs-overlay="#hs-danger-alert"
+                                      >
+                                        <FontAwesomeIcon icon={faPenToSquare} />
+                                      </button>
+                                      <button
+                                        onClick={() => deleteMerk(item.id)}
+                                        className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none "
+                                      >
+                                        <FontAwesomeIcon icon={faTrashCan} />
+                                      </button>
+                                    </div>
+                                  </td>
+                                </tr>
+                              ))}
                               {/* Modals Img */}
                               <tr>
                                 <td>
@@ -362,114 +294,6 @@ const MerkProduk = () => {
                             </tbody>
                           </table>
 
-                          {/* MODALS FORM EDIT */}
-                          <div
-                            id="hs-danger-alert"
-                            className="hs-overlay hidden w-full h-full fixed top-0 start-0 z-[70] overflow-x-hidden overflow-y-auto"
-                          >
-                            <div className="hs-overlay-open:mt-10  hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all md:max-w-xl pt-20 md:w-full m-3 md:mx-auto">
-                              <div className="relative flex flex-col shadow-md rounded-xl overflow-hidden dark:bg-color-3 ">
-                                <div className="absolute top-2 m-3 end-2">
-                                  <button
-                                    type="button"
-                                    className="flex justify-center items-center w-7 h-7 text-md font-semibold rounded-lg border border-transparent text-color-5 disabled:opacity-50 disabled:pointer-events-none dark:text-color-5 dark:border-transparent  dark:focus:outline-none "
-                                    data-hs-overlay="#hs-danger-alert"
-                                  >
-                                    <span className="sr-only">Close</span>
-                                    <svg
-                                      className="flex-shrink-0 w-4 h-4"
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      width="24"
-                                      height="24"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      strokeWidth="2"
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                    >
-                                      <path d="M18 6 6 18" />
-                                      <path d="m6 6 12 12" />
-                                    </svg>
-                                  </button>
-                                </div>
-
-                                <form action="#">
-                                  <div className="p-4 sm:p-10 overflow-y-auto">
-                                    <div className="flex gap-x-4 md:gap-x-7">
-                                      <div className="grow">
-                                        <h3 className="mb-2 text-3xl font-bold text-gray-800 dark:text-gray-700">
-                                          Edit Merk
-                                        </h3>
-                                        <div className="mt-10 grid grid-cols-10 gap-3">
-                                          <div className="col-span-3 flex">
-                                            <label
-                                              htmlFor="hs-leading-icon"
-                                              className="mt-2 block text-md font-medium mb-2 dark:text-color-5"
-                                            >
-                                              Nama Merk{" "}
-                                              <span className="italic text-color-warning">
-                                                *
-                                              </span>
-                                            </label>
-                                            <p className="mt-2 ml-5">:</p>
-                                          </div>
-                                          <div className="col-span-7">
-                                            <div className="relative">
-                                              <input
-                                                type="text"
-                                                name="hs-leading-icon"
-                                                className="py-3 px-4 block w-full border-color-1 shadow-sm rounded-lg text-sm focus:z-10 focus:border-color-1 focus:ring-color-1 disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:border-color-1 dark:text-gray-400 dark:focus:ring-color-1"
-                                                placeholder="ANKER"
-                                              />
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <div className="mt-5 grid grid-cols-10 gap-3">
-                                          <div className="col-span-3 flex">
-                                            <label
-                                              htmlFor="hs-leading-icon"
-                                              className="mt-2 mr-3 block text-md font-medium mb-2 dark:text-color-5"
-                                            >
-                                              Upload Logo
-                                            </label>
-                                            <p className="mt-2 m-3">:</p>
-                                          </div>
-                                          <div className="col-span-7">
-                                            <div className="relative dark:bg-color-6 rounded-md p-1">
-                                              <label className="block">
-                                                <span className="sr-only">
-                                                  Pilih Gambar
-                                                </span>
-                                                <input
-                                                  type="file"
-                                                  className="block w-full text-sm text-gray-500 file:me-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700 file:disabled:opacity-50 file:disabled:pointer-events-none dark:file:bg-blue-500 dark:hover:file:bg-blue-400"
-                                                />
-                                              </label>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-
-                                  <div className="flex justify-end items-center gap-x-2 py-3 px-4 bg-gray-50 border-t  dark:border-gray-300">
-                                    <button
-                                      type="button"
-                                      className="py-2 px-5 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-color-5  shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-zinc-200 dark:border-color-5dark:text-color-5 dark:hover:bg-zinc-300 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-color-5"
-                                      data-hs-overlay="#hs-danger-alert"
-                                    >
-                                      Kembali
-                                    </button>
-                                    <button className="py-2 px-8 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-yellow-500 text-white hover:bg-yellow-600 disabled:opacity-50 disabled:pointer-events-none ">
-                                      Edit Barang
-                                    </button>
-                                  </div>
-                                </form>
-                              </div>
-                            </div>
-                          </div>
-
                           {/* MODALS FORM Tambah */}
                           <div
                             id="hs-tambah-alert"
@@ -502,7 +326,7 @@ const MerkProduk = () => {
                                   </button>
                                 </div>
 
-                                <form action="#">
+                                <form onSubmit={addMerk}>
                                   <div className="p-4 sm:p-10 overflow-y-auto">
                                     <div className="flex gap-x-4 md:gap-x-7">
                                       <div className="grow">
@@ -527,8 +351,37 @@ const MerkProduk = () => {
                                               <input
                                                 type="text"
                                                 name="hs-leading-icon"
+                                                value={n_merk}
+                                                onChange={(e) =>
+                                                  setNMerk(e.target.value)
+                                                }
                                                 className="py-3 px-4 block w-full border-color-1 shadow-sm rounded-lg text-sm focus:z-10 focus:border-color-1 focus:ring-color-1 disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:border-color-1 dark:text-gray-400 dark:focus:ring-color-1"
                                                 placeholder="Masukkan nama merk"
+                                              />
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div className="mt-5 grid grid-cols-10 gap-3">
+                                          <div className="col-span-3 flex">
+                                            <label
+                                              htmlFor="hs-leading-icon"
+                                              className="mt-2 block text-md font-medium mb-2 dark:text-color-5"
+                                            >
+                                              Catatan{" "}
+                                            </label>
+                                            <p className="mt-2 ml-14">:</p>
+                                          </div>
+                                          <div className="col-span-7">
+                                            <div className="relative">
+                                              <input
+                                                type="text"
+                                                name="hs-leading-icon"
+                                                value={catatan}
+                                                onChange={(e) =>
+                                                  setCatatan(e.target.value)
+                                                }
+                                                className="py-3 px-4 block w-full border-color-1 shadow-sm rounded-lg text-sm focus:z-10 focus:border-color-1 focus:ring-color-1 disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:border-color-1 dark:text-gray-400 dark:focus:ring-color-1"
+                                                placeholder="Masukkan catatan"
                                               />
                                             </div>
                                           </div>
@@ -544,16 +397,20 @@ const MerkProduk = () => {
                                             <p className="mt-2 m-3">:</p>
                                           </div>
                                           <div className="col-span-7">
-                                            <div className="relative dark:bg-color-6 rounded-md p-1">
-                                              <label className="block">
-                                                <span className="sr-only">
-                                                  Pilih Gambar
-                                                </span>
+                                            <div className="relative  rounded-md bg-color-2 ">
+                                              <div className="flex items-center">
+                                                <ModalImage
+                                                  className="w-24 p-1 rounded-s-md border border-color-2 disabled:opacity-50 disabled:pointer-events-none dark:bg-color-2 dark:text-gray-400 dark:focus:ring-color-2"
+                                                  small={`./src/assets/no-preview.png`}
+                                                  medium={`./src/assets/no-preview.png`}
+                                                  hideDownload
+                                                />
+
                                                 <input
                                                   type="file"
-                                                  className="block w-full text-sm text-gray-500 file:me-4 file:py-2  file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700 file:disabled:opacity-50 file:disabled:pointer-events-none dark:file:bg-blue-500 dark:hover:file:bg-blue-400"
+                                                  className="block bg-color-6 mr-2 w-full text-sm text-gray-500 file:me-4 file:py-1.5 file:px-2.5 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-color-1 file:text-white hover:file:bg-6hover file:disabled:opacity-50 file:cursor-pointe border-color-3 focus:z-10 focus:border-color-2 dark:focus:ring-color-2"
                                                 />
-                                              </label>
+                                              </div>
                                             </div>
                                           </div>
                                         </div>
