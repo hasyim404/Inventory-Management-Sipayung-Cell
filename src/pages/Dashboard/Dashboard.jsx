@@ -39,7 +39,7 @@ const Dashboard = () => {
   const stokRendah = barang.filter((item) => item.jml_stok <= 10);
   return (
     <>
-      <Navbar />
+      <Navbar active3="active" />
       <div className="w-full pt-10 px-4 sm:px-6 md:px-8 lg:ps-72">
         <MainTitle size="text-3xl" main="Dashboard" />
         <Subnav color=" text-color-5" subnav="Dashboard" />
@@ -255,9 +255,9 @@ const Dashboard = () => {
               href="#"
             >
               <div className="p-4 md:p-5">
-                <MainTitle size="text-xl" main="Produk Terlaris" />
+                <MainTitle size="text-xl" main="Produk Terbanyak" />
                 <Subnav
-                  subnav="Produk yang sering terjual"
+                  subnav="Produk dengan stok paling banyak"
                   color="text-color-4"
                 />
               </div>
@@ -267,7 +267,7 @@ const Dashboard = () => {
                     labels: ["Case", "Kabel", "Powerbank", "Buds", "Voucher"],
                     datasets: [
                       {
-                        label: "Terjual",
+                        label: "jumlah stok",
                         data: [56, 54, 29, 35, 80],
                         backgroundColor: [
                           "rgba(255, 99, 132, 0.9)",
@@ -288,6 +288,50 @@ const Dashboard = () => {
                     ],
                   }}
                 />
+              </div>
+              <div className="p-4 md:p-5 font-normal text-sm capitalize ">
+                <p className="font-bold">Jumlah:</p>
+                <div className="flex flex-wrap -mx-4">
+                  <div className="flex items-center ml-5 my-2">
+                    <div
+                      className="p-3"
+                      style={{ background: "rgba(255, 99, 132, 0.9)" }}
+                    ></div>
+                    <p className="ml-2">Case: 10</p>
+                  </div>
+
+                  <div className="flex items-center ml-5 my-2">
+                    <div
+                      className="p-3"
+                      style={{ background: "rgba(54, 162, 235, 0.9)" }}
+                    ></div>
+                    <p className="ml-2">Kabel: 10</p>
+                  </div>
+
+                  <div className="flex items-center ml-5 my-2">
+                    <div
+                      className="p-3"
+                      style={{ background: "rgba(255, 206, 86, 0.9)" }}
+                    ></div>
+                    <p className="ml-2">Powerbank: 10</p>
+                  </div>
+
+                  <div className="flex items-center ml-5 my-2">
+                    <div
+                      className="p-3"
+                      style={{ background: "rgba(75, 192, 192, 0.9)" }}
+                    ></div>
+                    <p className="ml-2">Buds: 10</p>
+                  </div>
+
+                  <div className="flex items-center ml-5 my-2">
+                    <div
+                      className="p-3"
+                      style={{ background: "rgba(153, 102, 255, 0.9)" }}
+                    ></div>
+                    <p className="ml-2">Voucher: 10</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

@@ -4,43 +4,61 @@ import {
   faDesktop,
   faBoxesStacked,
   faBoxesPacking,
-  faFileLines,
   faAngleUp,
+  faUsers,
   faAngleDown,
-  faRightFromBracket,
+  faFileInvoiceDollar,
 } from "@fortawesome/free-solid-svg-icons";
+import Logout from "../Logout/Logout";
+import { useUser } from "../../context/UserContext";
 
 const Navbar = (props) => {
+  const { getUserData } = useUser();
+  const data = getUserData();
+
   const menus = [
-    {
-      path: "/dashboard",
-      name: "Dashboard",
-      icon: faDesktop,
-    },
     {
       path: "/kelola-barang",
       name: "Kelola Barang",
       icon: faBoxesStacked,
     },
+  ];
+
+  const kelolaProduk = [
     {
-      path: "/laporan-keuangan",
-      name: "Laporan Keuangan",
-      icon: faFileLines,
+      name: "Kelola Produk",
+      icon: faBoxesPacking,
+      data: [
+        {
+          path: "/kelola-merk",
+          name: "Merk Produk",
+        },
+        {
+          path: "/kelola-kategori",
+          name: "Kategori",
+        },
+        {
+          path: "/kelola-ukuran",
+          name: "Ukuran",
+        },
+      ],
     },
   ];
 
-  const subsNav = [
+  const laporanKeuangan = [
     {
-      path: "/kelola-merk-produk",
-      name: "Merk Produk",
-    },
-    {
-      path: "/kelola-kategori",
-      name: "Kategori",
-    },
-    {
-      path: "/kelola-ukuran",
-      name: "Ukuran",
+      name: "Laporan Keuangan",
+      icon: faFileInvoiceDollar,
+      data: [
+        {
+          path: "/laporan-pemasukan",
+          name: "Pemasukan",
+        },
+        {
+          path: "/laporan-pengeluaran",
+          name: "Pengeluaran",
+        },
+      ],
     },
   ];
 
@@ -98,7 +116,9 @@ const Navbar = (props) => {
                       src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=htmlFormat&fit=facearea&facepad=2&w=320&h=320&q=80"
                       alt="Image Description"
                     />
-                    <p>Administrator</p>
+                    <p>
+                      {data.f_name} {data.l_name}
+                    </p>
                   </button>
 
                   <div
@@ -107,24 +127,14 @@ const Navbar = (props) => {
                   >
                     <div className="py-3 px-5 -m-2 border bg-color-6 rounded-t-lg">
                       <p className="text-sm  dark:text-gray-500">
-                        Masuk sebagai
+                        Masuk sebagai {data.role}
                       </p>
                       <p className="text-sm font-medium dark:text-gray-600">
-                        admin@sipayungcell.com
+                        {data.email}
                       </p>
                     </div>
                     <div className="mt-4 py-2 first:pt-0 last:pb-0">
-                      <NavLink
-                        className="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-color-6 hover:bg-red-500 bg-red-600 dark:hover:text-white-300"
-                        to="/login"
-                      >
-                        <FontAwesomeIcon
-                          icon={faRightFromBracket}
-                          className="flex-shrink-0 w-4 h-4"
-                        />
-                        Log Out
-                      </NavLink>
-                      <a></a>
+                      <Logout />
                     </div>
                   </div>
                 </div>
@@ -210,95 +220,166 @@ const Navbar = (props) => {
             className="hs-accordion-group p-6 mt-5 w-full flex flex-col flex-wrap"
             data-hs-accordion-always-open
           >
-            <ul className="space-y-5">
-              {menus.map((menu) => (
+            <ul className="space-y-3">
+              {/* Dashboard */}
+              <NavLink
+                to={"/dashboard"}
+                className={`flex items-center gap-x-3.5 py-5 px-2.5 text-sm rounded-lg font-semibold 
+                      ${
+                        props.active3
+                          ? "bg-color-1 dark:text-white"
+                          : "hover:bg-color-1 bg-color-3 dark:hover:text-white"
+                      }`}
+              >
+                <li>
+                  <FontAwesomeIcon icon={faDesktop} className="pr-2" />{" "}
+                  Dashboard
+                </li>
+              </NavLink>
+
+              <div className="pl-1 pt-2 font-semibold text-sm">
+                <p>{data.role === "admin" ? "Kelola Users" : "Kelola Data"}</p>
+              </div>
+
+              {/* Kelola User */}
+              {data.role === "admin" && (
                 <NavLink
-                  key={menu.name}
-                  to={menu.path}
-                  className={({ isActive }) => {
-                    return (
-                      "flex items-center gap-x-3.5 py-5 px-2.5 text-sm rounded-lg font-semibold " +
-                      (!isActive
-                        ? "hover:bg-color-1 dark:hover:text-white"
-                        : "bg-color-1 dark:text-white")
-                    );
-                  }}
+                  to={"/kelola-users"}
+                  className={`flex items-center gap-x-3.5 py-5 px-2.5 text-sm rounded-lg font-semibold 
+                      ${
+                        props.active4
+                          ? "bg-color-1 dark:text-white"
+                          : "hover:bg-color-1 dark:hover:text-white"
+                      }`}
                 >
                   <li>
-                    <FontAwesomeIcon icon={menu.icon} className="pr-2" />{" "}
-                    {menu.name}
+                    <FontAwesomeIcon icon={faUsers} className="pr-2" /> Kelola
+                    Users
                   </li>
                 </NavLink>
-              ))}
-              <li
-                className={`hs-accordion ${props.active}`}
-                id="account-accordion"
-              >
-                <button
-                  type="button"
-                  className={`hs-accordion-toggle w-full text-start flex items-center gap-x-3.5 py-5 px-2.5 text-sm text-color-5 rounded-lg hover:bg-color-1 hs-accordion-active:bg-color-1  dark:hover:bg-color-1 dark:text-color-5 dark:hover:text-color-6 dark:hs-accordion-active:text-color-6 hs-accordion-active:font-bold`}
-                >
-                  <FontAwesomeIcon icon={faBoxesPacking} />
-                  Kelola Produk
-                  <FontAwesomeIcon
-                    icon={faAngleUp}
-                    className="hs-accordion-active:block ms-auto hidden w-4 h-4"
-                  />
-                  <FontAwesomeIcon
-                    icon={faAngleDown}
-                    className="hs-accordion-active:hidden ms-auto block w-4 h-4"
-                  />
-                </button>
+              )}
 
-                <div
-                  id="account-accordion-child"
-                  className="hs-accordion-content w-full overflow-hidden bg-color-3 py-1 shadow-md rounded-b-xl transition-[height] duration-300 hidden"
-                  style={{ display: `${props.display}` }}
-                >
-                  <ul className="pt-2 ps-2">
-                    {subsNav.map((sub) => (
-                      <NavLink
-                        key={sub.name}
-                        to={sub.path}
-                        className={({ isActive }) => {
-                          return (
-                            "flex items-center gap-x-3.5 py-2 my-1 px-2.5 text-sm rounded-lg font-semibold " +
-                            (!isActive
-                              ? "dark:hover:bg-color-1 dark:hover:text-color-6 "
-                              : "dark:bg-color-1 dark:text-color-6 ")
-                          );
-                        }}
-                      >
-                        <li>{sub.name}</li>
-                      </NavLink>
-                    ))}
-                    {/* <li>
-                    <NavLink
-                      className="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-lg dark:bg-color-1 dark:text-color-6"
-                      to="/kelola-produk/merk-produk"
+              {/* Kelola Barang */}
+              {(data.role === "pemilik" || data.role === "karyawan") &&
+                menus.map((menu) => (
+                  <NavLink
+                    key={menu.name}
+                    to={menu.path}
+                    className={({ isActive }) => {
+                      return (
+                        "flex items-center gap-x-3.5 py-5 px-2.5 text-sm rounded-lg font-semibold " +
+                        (!isActive
+                          ? "hover:bg-color-1 bg-color-3 dark:hover:text-white"
+                          : "bg-color-1 dark:text-white")
+                      );
+                    }}
+                  >
+                    <li>
+                      <FontAwesomeIcon icon={menu.icon} className="pr-2" />{" "}
+                      {menu.name}
+                    </li>
+                  </NavLink>
+                ))}
+
+              {/* Kelol Produk */}
+              {(data.role === "pemilik" || data.role === "karyawan") &&
+                kelolaProduk.map((produk, index) => (
+                  <li
+                    className={`hs-accordion ${props.active}`}
+                    id="account-accordion"
+                    key={index}
+                  >
+                    <button
+                      type="button"
+                      className={`hs-accordion-toggle w-full text-start flex font-semibold items-center gap-x-3.5 py-5 px-2.5 text-sm text-color-5 rounded-lg hover:bg-color-1 hs-accordion-active:bg-color-1 bg-color-3  dark:hover:bg-color-1 dark:text-color-5 dark:hover:text-color-6 dark:hs-accordion-active:text-color-6 hs-accordion-active:font-semibold`}
                     >
-                      Merk Produk
-                    </NavLink>
+                      <FontAwesomeIcon icon={produk.icon} />
+                      {produk.name}
+                      <FontAwesomeIcon
+                        icon={faAngleUp}
+                        className="hs-accordion-active:block ms-auto hidden w-4 h-4"
+                      />
+                      <FontAwesomeIcon
+                        icon={faAngleDown}
+                        className="hs-accordion-active:hidden ms-auto block w-4 h-4"
+                      />
+                    </button>
+
+                    <div
+                      id="account-accordion-child"
+                      className="hs-accordion-content w-full overflow-hidden bg-color-3 py-1 shadow-md rounded-b-xl transition-[height] duration-300 hidden"
+                      style={{ display: `${props.display}` }}
+                    >
+                      <ul className="pt-2 ps-2">
+                        {produk.data.map((sub, subIndex) => (
+                          <NavLink
+                            key={subIndex}
+                            to={sub.path}
+                            className={({ isActive }) => {
+                              return (
+                                "flex items-center gap-x-3.5 py-2 my-1 px-2.5 text-sm rounded-lg font-semibold " +
+                                (!isActive
+                                  ? "dark:hover:bg-color-1  dark:hover:text-color-6 "
+                                  : "dark:bg-color-1 dark:text-color-6 ")
+                              );
+                            }}
+                          >
+                            <li>{sub.name}</li>
+                          </NavLink>
+                        ))}
+                      </ul>
+                    </div>
                   </li>
-                  <li>
-                    <NavLink
-                      className="flex items-center gap-x-3.5 py-2 my-1 px-2.5 text-sm text-color-5 rounded-lg hover:bg-color-1 dark:text-color-5 dark:hover:text-color-6 "
-                      to="/kelola-produk/kategori"
+                ))}
+              {data.role === "pemilik" &&
+                laporanKeuangan.map((keuangan, index) => (
+                  <li
+                    className={`hs-accordion ${props.active2}`}
+                    id="account-accordion"
+                    key={index}
+                  >
+                    <button
+                      type="button"
+                      className={`hs-accordion-toggle w-full font-semibold text-start flex items-center gap-x-3.5 py-5 px-2.5 text-sm text-color-5 rounded-lg hover:bg-color-1 hs-accordion-active:bg-color-1 bg-color-3  dark:hover:bg-color-1 dark:text-color-5 dark:hover:text-color-6 dark:hs-accordion-active:text-color-6 hs-accordion-active:font-semibold`}
                     >
-                      Kategori
-                    </NavLink>
+                      <FontAwesomeIcon icon={keuangan.icon} />
+                      {keuangan.name}
+                      <FontAwesomeIcon
+                        icon={faAngleUp}
+                        className="hs-accordion-active:block ms-auto hidden w-4 h-4"
+                      />
+                      <FontAwesomeIcon
+                        icon={faAngleDown}
+                        className="hs-accordion-active:hidden ms-auto block w-4 h-4"
+                      />
+                    </button>
+
+                    <div
+                      id="account-accordion-child"
+                      className="hs-accordion-content w-full overflow-hidden bg-color-3 py-1 shadow-md rounded-b-xl transition-[height] duration-300 hidden"
+                      style={{ display: `${props.display2}` }}
+                    >
+                      <ul className="pt-2 ps-2">
+                        {keuangan.data.map((sub, subIndex) => (
+                          <NavLink
+                            key={subIndex}
+                            to={sub.path}
+                            className={({ isActive }) => {
+                              return (
+                                "flex items-center gap-x-3.5 py-2 my-1 px-2.5 text-sm rounded-lg font-semibold " +
+                                (!isActive
+                                  ? "dark:hover:bg-color-1 dark:hover:text-color-6 "
+                                  : "dark:bg-color-1 dark:text-color-6 ")
+                              );
+                            }}
+                          >
+                            <li>{sub.name}</li>
+                          </NavLink>
+                        ))}
+                      </ul>
+                    </div>
                   </li>
-                  <li>
-                    <NavLink
-                      className="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-color-5 rounded-lg hover:bg-color-1 dark:text-color-5 dark:hover:text-color-6 "
-                      to="/kelola-produk/ukuran"
-                    >
-                      Ukuran
-                    </NavLink>
-                  </li> */}
-                  </ul>
-                </div>
-              </li>
+                ))}
             </ul>
           </nav>
         </div>

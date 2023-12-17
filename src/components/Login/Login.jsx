@@ -1,9 +1,64 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock, faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import Swal from "sweetalert2";
+
+const authService = {
+  login: async (email, password) => {
+    try {
+      const response = await axios.post("http://localhost:1023/api/v1/login", {
+        email,
+        password,
+      });
+
+      return { token: response.data.token, data: response.data.data };
+    } catch (error) {
+      throw error;
+    }
+  },
+};
 
 const Login = () => {
+  const navigate = useNavigate();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = async () => {
+    try {
+      if (!email || !password) {
+        Swal.fire({
+          title: "Login Gagal!",
+          html: "Email dan Password tidak<br>boleh Kosong!",
+          icon: "error",
+        });
+        return;
+      }
+
+      const response = await authService.login(email, password);
+      const { token, data } = response;
+
+      localStorage.setItem("token", token);
+      localStorage.setItem("data", JSON.stringify(data));
+
+      Swal.fire({
+        title: "Login Berhasil!",
+        html: `Selamat datang ${data.f_name} ${data.l_name}`,
+        icon: "success",
+      });
+      navigate("/dashboard");
+    } catch (error) {
+      Swal.fire({
+        title: "Login Gagal!",
+        text: `Email atau Password salah`,
+        icon: "error",
+      });
+    }
+  };
+
   return (
     <>
       <div className="lg:px-0 lg:py-1 h-full bg-color-1 w-auto">
@@ -22,7 +77,7 @@ const Login = () => {
                       <div className="flex-grow border-t border-color-1 border-2"></div>
                     </div>
 
-                    <form action="/dashboard">
+                    <form>
                       <div className="lg:mx-auto lg:me-0">
                         <div className="text-center">
                           <div className="text-center">
@@ -43,13 +98,15 @@ const Login = () => {
                                   </div>
 
                                   <input
-                                    type="email"
                                     id="hs-hero-signup-form-floating-input-new-password"
                                     className="peer ps-2 p-4 block w-full border-color-3 rounded-r-lg text-sm placeholder:text-transparent focus:border-color-2 focus:ring-color-2 disabled:opacity-50 disabled:pointer-events-none dark:bg-color-3 dark:border-color-2 dark:text-gray-400 dark:focus:ring-color-2 focus:pt-6 focus:pb-2 [&:not(:placeholder-shown)]:pt-6 [&:not(:placeholder-shown)]:pb-2 autofill:pt-6 autofill:pb-2"
                                     placeholder="admin@gmail.com"
+                                    type="email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
                                   />
                                   <label
-                                    for="hs-hero-signup-form-floating-input-new-password"
+                                    htmlFor="hs-hero-signup-form-floating-input-new-password"
                                     className="ps-16 absolute top-0 start-0 p-4 h-full text-sm truncate pointer-events-none transition ease-in-out duration-100 border border-transparent dark:color-4 peer-disabled:opacity-50 peer-disabled:pointer-events-none peer-focus:text-xs peer-focus:-translate-y-1.5 peer-focus:text-gray-500 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:-translate-y-1.5 peer-[:not(:placeholder-shown)]:text-gray-500"
                                   >
                                     Email
@@ -71,15 +128,16 @@ const Login = () => {
                                   </div>
 
                                   <input
-                                    type="password"
-                                    id="hs-hero-signup-form-floating-input-new-password"
                                     className="peer ps-2 p-4 block w-full border-color-3 rounded-r-lg text-sm placeholder:text-transparent focus:border-color-2 focus:ring-color-2 disabled:opacity-50 disabled:pointer-events-none dark:bg-color-3 dark:border-color-2 dark:text-gray-400 dark:focus:ring-color-2 focus:pt-6 focus:pb-2 [&:not(:placeholder-shown)]:pt-6 [&:not(:placeholder-shown)]:pb-2 autofill:pt-6 autofill:pb-2"
                                     placeholder="********"
+                                    type="password"
+                                    value={password}
+                                    onChange={(e) =>
+                                      setPassword(e.target.value)
+                                    }
+                                    autoComplete="on"
                                   />
-                                  <label
-                                    for="hs-hero-signup-form-floating-input-new-password"
-                                    className="ps-16 absolute top-0 start-0 p-4 h-full text-sm truncate pointer-events-none transition ease-in-out duration-100 border border-transparent dark:color-4 peer-disabled:opacity-50 peer-disabled:pointer-events-none peer-focus:text-xs peer-focus:-translate-y-1.5 peer-focus:text-gray-500 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:-translate-y-1.5 peer-[:not(:placeholder-shown)]:text-gray-500"
-                                  >
+                                  <label className="ps-16 absolute top-0 start-0 p-4 h-full text-sm truncate pointer-events-none transition ease-in-out duration-100 border border-transparent dark:color-4 peer-disabled:opacity-50 peer-disabled:pointer-events-none peer-focus:text-xs peer-focus:-translate-y-1.5 peer-focus:text-gray-500 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:-translate-y-1.5 peer-[:not(:placeholder-shown)]:text-gray-500">
                                     Password
                                   </label>
                                 </div>
@@ -89,7 +147,8 @@ const Login = () => {
 
                           <div className="mt-8">
                             <button
-                              type="submit"
+                              type="button"
+                              onClick={handleLogin}
                               className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-md font-semibold rounded-lg border border-transparent bg-color-1 text-color-6 hover:bg-6hover disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
                             >
                               Login

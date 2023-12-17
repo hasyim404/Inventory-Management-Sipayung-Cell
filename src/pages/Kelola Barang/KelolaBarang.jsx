@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
-import Navbar from "../../components/Navbar/Navbar";
+import { Link, useNavigate } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -10,23 +9,148 @@ import {
   faFileExcel,
   faFilePdf,
 } from "@fortawesome/free-solid-svg-icons";
+import Swal from "sweetalert2";
 import ModalImage from "react-modal-image";
 
-// Data
 import MainTitle from "../../components/MainTitle";
+import Navbar from "../../components/Navbar/Navbar";
 import Subnav from "../../components/Subnav";
 
+import { useUser } from "../../context/UserContext";
+
 const KelolaBarang = () => {
+  const { checkRoleAndNavigate } = useUser();
+  const navigate = useNavigate();
+
   const [barang, setBarang] = useState([]);
 
+  const [n_barang, setNBarang] = useState("");
+  const [jml_stok, setJmlStok] = useState("");
+  const [h_beli, setHBeli] = useState("");
+  const [h_jual, setHJual] = useState("");
+  const [img, setImg] = useState("");
+
+  // Handle Select
+  // Tipe Stok
+  const optionsStok = [
+    // { value: "-", text: "--Tipe--" },
+    { value: "pcs", text: "-/pcs" },
+    { value: "paket", text: "-/paket" },
+    { value: "set", text: "-/set" },
+    { value: "lusin", text: "-/lusin" },
+  ];
+  const [tipe_stok, setTipeStok] = useState(optionsStok[0].value);
+  const handleTipeStok = (event) => {
+    console.log(event.target.value);
+    setTipeStok(event.target.value);
+  };
+  // Merk
+  const [merk_id, setMerkId] = useState([]);
+  const [merkSelected, setMerkSelected] = useState({ id: "" });
+  const handleMerk = (event) => {
+    console.log(event.target.value);
+    setMerkSelected({ id: event.target.value });
+  };
+  // Kategori
+  const [kategori_id, setKategoriId] = useState([]);
+  const [kategoriSelected, setKategoriSelected] = useState({ id: "" });
+  const handleKategori = (event) => {
+    console.log(event.target.value);
+    setKategoriSelected({ id: event.target.value });
+  };
+  // Ukuran
+  const [ukuran_id, setUkuranId] = useState([]);
+  const [ukuranSelected, setUkuranSelected] = useState({ id: "" });
+  const handleUkuran = (event) => {
+    console.log(event.target.value);
+    setUkuranSelected({ id: event.target.value });
+  };
+
+  useEffect(() => {
+    const allowed = checkRoleAndNavigate(["pemilik", "karyawan"], navigate);
+
+    if (!allowed) {
+      //
+    }
+    getBarang();
+    getMerk();
+    getKategori();
+    getUkuran();
+  }, [navigate]);
+
+  // Get Data
+  // Get data barang
   const getBarang = async () => {
     const response = await axios.get("http://localhost:1023/api/v1/barang");
     setBarang(response.data.data);
   };
+  // Get data merk
+  const getMerk = async () => {
+    const response = await axios.get("http://localhost:1023/api/v1/merk");
+    setMerkId(response.data.data);
+  };
+  // Get data kategori
+  const getKategori = async () => {
+    const response = await axios.get("http://localhost:1023/api/v1/kategori");
+    setKategoriId(response.data.data);
+  };
+  // Get data ukuran
+  const getUkuran = async () => {
+    const response = await axios.get("http://localhost:1023/api/v1/ukuran");
+    setUkuranId(response.data.data);
+  };
 
-  useEffect(() => {
-    getBarang();
-  }, []);
+  // Add data barang
+  const addBarang = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post("http://localhost:1023/api/v1/barang", {
+        // console.log({
+        n_barang,
+        jml_stok,
+        tipe_stok,
+        h_beli,
+        h_jual,
+        merk_id: merkSelected.id,
+        img,
+        kategori_id: kategoriSelected.id,
+        ukuran_id: ukuranSelected.id,
+      });
+
+      Swal.fire({
+        title: "Tambah Data Berhasil!",
+        text: "Berhasil menambahkan data baru!",
+        icon: "success",
+      });
+      getBarang();
+    } catch (error) {
+      console.log(error);
+      Swal.fire({
+        title: "Gagal tambah data!",
+        text: "Gagal menambahkan data barang",
+        icon: "error",
+      });
+    }
+  };
+
+  // Delete data barang
+  const deleteBarang = async (id, e) => {
+    try {
+      await axios.delete(`http://localhost:1023/api/v1/barang/${id}`);
+      await Swal.fire({
+        title: "Hapus data barang berhasil!",
+        text: "Hapus data barang Berhasil dilakukan!",
+        icon: "success",
+      });
+      window.location.reload();
+    } catch (error) {
+      Swal.fire({
+        title: "Hapus data gagal!",
+        text: "Gagal menghapus data barang",
+        icon: "error",
+      });
+    }
+  };
 
   const theads = [
     {
@@ -57,7 +181,7 @@ const KelolaBarang = () => {
 
   return (
     <>
-      <Navbar />
+      <Navbar active1="active" />
       <div className="w-full pt-10 px-4 sm:px-6 md:px-8 lg:ps-72">
         <MainTitle size="text-3xl" main="Kelola Barang" />
         <p className="mb-2 text-md font-normal text-color-4">
@@ -196,7 +320,7 @@ const KelolaBarang = () => {
                             </thead>
                             <tbody className="divide-y">
                               {barang.map((item, index) => (
-                                <tr key={item.id} className="text-center ">
+                                <tr key={index} className="text-center ">
                                   <td className="py-4 whitespace-nowrap text-sm font-medium text-color-5">
                                     {index + 1}.
                                   </td>
@@ -207,7 +331,7 @@ const KelolaBarang = () => {
                                     {item.jml_stok} -/{item.tipe_stok}
                                   </td>
                                   <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                    {item.kategori_id}
+                                    {item.n_kategori}
                                   </td>
                                   <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
                                     Rp. {item.h_beli}
@@ -242,6 +366,9 @@ const KelolaBarang = () => {
                                       </button>
                                       <button
                                         type="buton"
+                                        onClick={() =>
+                                          deleteBarang(item.id_barang)
+                                        }
                                         className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none "
                                       >
                                         <FontAwesomeIcon icon={faTrashCan} />
@@ -584,7 +711,7 @@ const KelolaBarang = () => {
                                   </button>
                                 </div>
 
-                                <form action="#">
+                                <form onSubmit={addBarang}>
                                   <div className="p-4 sm:p-10 overflow-y-auto">
                                     <div className="flex gap-x-4 md:gap-x-7">
                                       <div className="grow">
@@ -606,6 +733,10 @@ const KelolaBarang = () => {
                                               <input
                                                 type="text"
                                                 name="hs-leading-icon"
+                                                value={n_barang}
+                                                onChange={(e) =>
+                                                  setNBarang(e.target.value)
+                                                }
                                                 className="py-3 px-4 block w-full border-color-3 shadow-sm rounded-lg text-sm focus:z-10 focus:border-color-2  disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:text-gray-400 dark:focus:ring-color-2"
                                                 placeholder="Masukkan nama barang"
                                               />
@@ -631,6 +762,10 @@ const KelolaBarang = () => {
                                                 <input
                                                   type="text"
                                                   name="hs-input-with-add-on-url"
+                                                  value={h_beli}
+                                                  onChange={(e) =>
+                                                    setHBeli(e.target.value)
+                                                  }
                                                   className="py-3 px-4 pe-11  block w-full border-color-3 shadow-sm rounded-e-md text-sm focus:z-10 focus:border-color-2  disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:text-gray-400 dark:focus:ring-color-2"
                                                   placeholder="Masukkan harga beli"
                                                 />
@@ -653,6 +788,10 @@ const KelolaBarang = () => {
                                               <input
                                                 type="text"
                                                 name="hs-leading-icon"
+                                                value={jml_stok}
+                                                onChange={(e) =>
+                                                  setJmlStok(e.target.value)
+                                                }
                                                 className="py-3 px-4 block w-full border-color-3 shadow-sm rounded-lg text-sm focus:z-10 focus:border-color-2  disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:text-gray-400 dark:focus:ring-color-2"
                                                 placeholder="Masukkan jumlah stok"
                                               />
@@ -666,11 +805,22 @@ const KelolaBarang = () => {
                                                 <select
                                                   id="hs-inline-leading-select-currency"
                                                   name="hs-inline-leading-select-currency"
+                                                  value={tipe_stok}
+                                                  onChange={handleTipeStok}
                                                   className="py-3 border-color-3 shadow-sm rounded-lg text-sm focus:z-10 focus:border-color-2 disabled:opacity-50 disabled:pointer-events-none dark:bg-color-2 dark:text-color-4 font-semibold dark:focus:ring-color-2"
                                                 >
-                                                  <option>-/pcs</option>
-                                                  <option>-/paket</option>
-                                                  <option>-/set</option>
+                                                  <option value="">
+                                                    --Tipe--
+                                                  </option>
+
+                                                  {optionsStok.map((option) => (
+                                                    <option
+                                                      key={option.value}
+                                                      value={option.value}
+                                                    >
+                                                      {option.text}
+                                                    </option>
+                                                  ))}
                                                 </select>
                                               </div>
                                             </div>
@@ -695,6 +845,10 @@ const KelolaBarang = () => {
                                                 <input
                                                   type="text"
                                                   name="hs-input-with-add-on-url"
+                                                  value={h_jual}
+                                                  onChange={(e) =>
+                                                    setHJual(e.target.value)
+                                                  }
                                                   className="py-3 px-4 pe-11  block w-full border-color-3 shadow-sm rounded-e-md text-sm focus:z-10 focus:border-color-2  disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:text-gray-400 dark:focus:ring-color-2"
                                                   placeholder="Masukkan harga jual"
                                                 />
@@ -716,25 +870,25 @@ const KelolaBarang = () => {
                                             <div className="relative">
                                               <select
                                                 id="hs-select-label"
-                                                defaultValue={"DEFAULT"}
+                                                value={merkSelected}
+                                                onChange={handleMerk}
                                                 className="py-3 px-4 pe-9 block w-full  border-color-3 shadow-sm rounded-lg text-sm focus:z-10 focus:border-color-2  disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:text-gray-400 dark:focus:ring-color-2"
                                               >
-                                                <option
-                                                  value="DEFAULT"
-                                                  selected
-                                                >
+                                                <option value="">
                                                   Pilih merk
                                                 </option>
-                                                <option value="">ANKER</option>
-                                                <option value="">Xiaomi</option>
-                                                <option value="">Robot</option>
-                                                <option value="">
-                                                  Simpati
-                                                </option>
-                                                <option value="">
-                                                  Indosat
-                                                </option>
-                                                <option value="">Xl</option>
+
+                                                {merk_id.map(
+                                                  (data) => (
+                                                    <option
+                                                      key={data.id}
+                                                      value={data.id}
+                                                    >
+                                                      {data.n_merk}
+                                                    </option>
+                                                  )
+                                                  // console.log(data.n_merk)
+                                                )}
                                               </select>
                                             </div>
                                           </div>
@@ -756,6 +910,10 @@ const KelolaBarang = () => {
 
                                                 <input
                                                   type="file"
+                                                  value={img}
+                                                  onChange={(e) =>
+                                                    setImg(e.target.value)
+                                                  }
                                                   className="block bg-color-6 mr-2 w-full text-sm text-gray-500 file:me-4 file:py-1.5 file:px-2.5 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-color-1 file:text-white hover:file:bg-6hover file:disabled:opacity-50 file:cursor-pointe border-color-3 focus:z-10 focus:border-color-2 dark:focus:ring-color-2"
                                                 />
                                               </div>
@@ -776,37 +934,24 @@ const KelolaBarang = () => {
                                             <div className="relative">
                                               <select
                                                 id="hs-select-label"
-                                                defaultValue={"DEFAULT"}
+                                                value={kategoriSelected}
+                                                onChange={handleKategori}
                                                 className="py-3 px-4 pe-9 block w-full rounded-lg border-color-3 shadow-sm text-sm focus:z-10 focus:border-color-2  disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:text-gray-400 dark:focus:ring-color-2"
                                               >
-                                                <option
-                                                  value="DEFAULT"
-                                                  selected
-                                                >
+                                                <option value="">
                                                   Pilih Kategori
                                                 </option>
-                                                <option value="">
-                                                  Kabel Data
-                                                </option>
-                                                <option value="">
-                                                  Aksesoris
-                                                </option>
-                                                <option value="">
-                                                  Casing HP
-                                                </option>
-                                                <option value="">
-                                                  Charger
-                                                </option>
-                                                <option value="">
-                                                  Kartu Perdana
-                                                </option>
-                                                <option value="">
-                                                  Tempered Glass
-                                                </option>
-                                                <option value="">Pulsa</option>
-                                                <option value="">
-                                                  Lainnya
-                                                </option>
+                                                {kategori_id.map(
+                                                  (data) => (
+                                                    <option
+                                                      key={data.id}
+                                                      value={data.id}
+                                                    >
+                                                      {data.n_kategori}
+                                                    </option>
+                                                  )
+                                                  // console.log(data.n_merk)
+                                                )}
                                               </select>
                                             </div>
                                           </div>
@@ -822,16 +967,24 @@ const KelolaBarang = () => {
                                             <div className="relative">
                                               <select
                                                 id="hs-select-label"
-                                                defaultValue={"DEFAULT"}
+                                                value={ukuranSelected}
+                                                onChange={handleUkuran}
                                                 className="py-3 px-4 pe-9 block w-full rounded-lg border-color-3 shadow-sm text-sm focus:z-10 focus:border-color-2  disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:text-gray-400 dark:focus:ring-color-2"
                                               >
-                                                <option
-                                                  value="DEFAULT"
-                                                  selected
-                                                >
+                                                <option value="">
                                                   Pilih Ukuran
                                                 </option>
-                                                <option value="">-</option>
+                                                {ukuran_id.map(
+                                                  (data) => (
+                                                    <option
+                                                      key={data.id}
+                                                      value={data.id}
+                                                    >
+                                                      {data.n_ukuran}
+                                                    </option>
+                                                  )
+                                                  // console.log(data.n_merk)
+                                                )}
                                               </select>
                                             </div>
                                           </div>
@@ -848,7 +1001,10 @@ const KelolaBarang = () => {
                                     >
                                       Kembali
                                     </button>
-                                    <button className="py-2 px-8 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-color-1 text-white hover:bg-6hover disabled:opacity-50 disabled:pointer-events-none ">
+                                    <button
+                                      type="submit"
+                                      className="py-2 px-8 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-color-1 text-white hover:bg-6hover disabled:opacity-50 disabled:pointer-events-none "
+                                    >
                                       Tambah Barang
                                     </button>
                                   </div>
