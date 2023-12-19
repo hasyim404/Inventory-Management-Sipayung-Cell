@@ -18,6 +18,12 @@ const KelolaUsers = () => {
   const { checkRoleAndNavigate } = useUser();
   const navigate = useNavigate();
 
+  const radioRole = [
+    { value: "admin", text: "Admin" },
+    { value: "karyawan", text: "Karyawan" },
+    { value: "pemilik", text: "Pemilik" },
+  ];
+
   const [user, setUser] = useState([]);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -33,19 +39,23 @@ const KelolaUsers = () => {
   const [password, setPassword] = useState("");
   const [confPassword, setConfPassword] = useState("");
   const [gender, setGender] = useState("");
-  const [role, setRole] = useState("");
+  const [role, setRole] = useState(radioRole[0].value);
   const [phone_number, setPhoneNumber] = useState("");
   const [query, setQuery] = useState("");
 
-  const radioRole = [
-    { value: "admin", text: "Admin" },
-    { value: "karyawan", text: "Karyawan" },
-    { value: "pemilik", text: "Pemilik" },
-  ];
-  const handleradioRole = (event) => {
-    console.log(event.target.value);
-    setRole(event.target.value);
+  const handleradioRole = (e) => {
+    console.log(e.target.value);
+    setRole(e.target.value);
   };
+
+  const handleGenderChange = (e) => {
+    setGender(e.target.value);
+  };
+
+  // const handleSubmitRole = (e) => {
+  //   e.preventDefault();
+  //   console.log(role);
+  // };
 
   useEffect(() => {
     const allowed = checkRoleAndNavigate("admin", navigate);
@@ -75,12 +85,13 @@ const KelolaUsers = () => {
   const addUsers = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:1023/api/v1/users", {
+      await axios.post("http://localhost:1023/api/v1/register", {
         // console.log({
         f_name,
         l_name,
         email,
         password,
+        confPassword,
         gender,
         role,
         phone_number,
@@ -93,7 +104,7 @@ const KelolaUsers = () => {
       });
       getUsers();
     } catch (error) {
-      console.log(error);
+      console.error(error);
       Swal.fire({
         title: "Gagal menambah user!",
         text: "User baru gagal ditambahkan",
@@ -313,6 +324,10 @@ const KelolaUsers = () => {
                                             <div className="relative">
                                               <input
                                                 type="text"
+                                                value={f_name}
+                                                onChange={(e) =>
+                                                  setFName(e.target.value)
+                                                }
                                                 name="hs-leading-icon"
                                                 className="py-3 px-4 block w-full border-color-3 shadow-sm rounded-lg text-sm focus:z-10 focus:border-color-2  disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:text-gray-400 dark:focus:ring-color-2"
                                                 placeholder="Masukkan nama depan"
@@ -332,6 +347,10 @@ const KelolaUsers = () => {
                                             <div className="relative">
                                               <input
                                                 type="text"
+                                                value={l_name}
+                                                onChange={(e) =>
+                                                  setLName(e.target.value)
+                                                }
                                                 name="hs-leading-icon"
                                                 className="py-3 px-4 block w-full border-color-3 shadow-sm rounded-lg text-sm focus:z-10 focus:border-color-2  disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:text-gray-400 dark:focus:ring-color-2"
                                                 placeholder="Masukkan nama belakang"
@@ -352,7 +371,11 @@ const KelolaUsers = () => {
                                             </label>
                                             <div className="relative">
                                               <input
-                                                type="text"
+                                                type="email"
+                                                value={email}
+                                                onChange={(e) =>
+                                                  setEmail(e.target.value)
+                                                }
                                                 name="hs-leading-icon"
                                                 className="py-3 px-4 block w-full border-color-3 shadow-sm rounded-lg text-sm focus:z-10 focus:border-color-2  disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:text-gray-400 dark:focus:ring-color-2"
                                                 placeholder="Masukkan email"
@@ -376,12 +399,10 @@ const KelolaUsers = () => {
                                                     <input
                                                       type="radio"
                                                       className="form-radio"
-                                                      value="male"
-                                                      checked={
-                                                        gender === "male"
-                                                      }
-                                                      onChange={() =>
-                                                        setGender("male")
+                                                      value="L"
+                                                      checked={gender === "L"}
+                                                      onChange={
+                                                        handleGenderChange
                                                       }
                                                     />
                                                     <span className="ml-2">
@@ -392,12 +413,10 @@ const KelolaUsers = () => {
                                                     <input
                                                       type="radio"
                                                       className="form-radio"
-                                                      value="female"
-                                                      checked={
-                                                        gender === "female"
-                                                      }
-                                                      onChange={() =>
-                                                        setGender("female")
+                                                      value="P"
+                                                      checked={gender === "P"}
+                                                      onChange={
+                                                        handleGenderChange
                                                       }
                                                     />
                                                     <span className="ml-2">
@@ -423,6 +442,10 @@ const KelolaUsers = () => {
                                             <div className="relative">
                                               <input
                                                 type="text"
+                                                value={phone_number}
+                                                onChange={(e) =>
+                                                  setPhoneNumber(e.target.value)
+                                                }
                                                 name="hs-leading-icon"
                                                 className="py-3 px-4 block w-full border-color-3 shadow-sm rounded-lg text-sm focus:z-10 focus:border-color-2  disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:text-gray-400 dark:focus:ring-color-2"
                                                 placeholder="Masukkan No. Hp"
@@ -443,6 +466,8 @@ const KelolaUsers = () => {
                                               <select
                                                 id="hs-select-label"
                                                 className="py-3 px-4 pe-9 block w-full rounded-lg border-color-3 shadow-sm text-sm focus:z-10 focus:border-color-2  disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:text-gray-400 dark:focus:ring-color-2"
+                                                value={role}
+                                                onChange={handleradioRole}
                                               >
                                                 <option
                                                   value=""
@@ -477,10 +502,15 @@ const KelolaUsers = () => {
                                             </label>
                                             <div className="relative">
                                               <input
-                                                type="text"
+                                                type="password"
+                                                value={password}
+                                                onChange={(e) =>
+                                                  setPassword(e.target.value)
+                                                }
                                                 name="hs-leading-icon"
                                                 className="py-3 px-4 block w-full border-color-3 shadow-sm rounded-lg text-sm focus:z-10 focus:border-color-2  disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:text-gray-400 dark:focus:ring-color-2"
                                                 placeholder="Masukkan password"
+                                                autoComplete="on"
                                               />
                                             </div>
                                           </div>
@@ -498,10 +528,17 @@ const KelolaUsers = () => {
                                             </label>
                                             <div className="relative">
                                               <input
-                                                type="text"
+                                                type="password"
+                                                value={confPassword}
+                                                onChange={(e) =>
+                                                  setConfPassword(
+                                                    e.target.value
+                                                  )
+                                                }
                                                 name="hs-leading-icon"
                                                 className="py-3 px-4 block w-full border-color-3 shadow-sm rounded-lg text-sm focus:z-10 focus:border-color-2  disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:text-gray-400 dark:focus:ring-color-2"
                                                 placeholder="Masukkan Konfirmasi Password"
+                                                autoComplete="on"
                                               />
                                             </div>
                                           </div>
