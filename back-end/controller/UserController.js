@@ -28,6 +28,31 @@ const getUsers = async (req, res) => {
   }
 };
 
+const findUserById = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const data = await query(`SELECT * FROM users WHERE id = ?`, [id]);
+
+    if (data.length > 0) {
+      return res.status(200).json({
+        success: true,
+        message: "Data User berhasil ditemukan",
+        data: data,
+      });
+    } else
+      res.status(400).json({
+        success: false,
+        message: "Data User tidak ditemukan! / Gagal",
+      });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Error",
+    });
+  }
+};
+
 const deleteUsers = async (req, res) => {
   const { id } = req.params;
 
@@ -54,5 +79,6 @@ const deleteUsers = async (req, res) => {
 
 module.exports = {
   getUsers,
+  findUserById,
   deleteUsers,
 };

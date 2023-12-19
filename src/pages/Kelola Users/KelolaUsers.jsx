@@ -114,16 +114,36 @@ const KelolaUsers = () => {
   };
 
   // Delete User
-  const deleteUser = async (id, e) => {
+  const deleteUser = async (id) => {
     try {
-      await axios.delete(`http://localhost:1023/api/v1/users/${id}`);
-      await Swal.fire({
-        title: "Hapus data user berhasil!",
-        text: "Hapus data user Berhasil dilakukan!",
-        icon: "success",
+      const response = await axios.get(
+        `http://localhost:1023/api/v1/users/${id}`
+      );
+
+      const findUser = response.data.data[0];
+
+      const result = await Swal.fire({
+        title: "Apakah Anda yakin?",
+        html: `Anda akan menghapus<br/> ${findUser.f_name} ${findUser.l_name}<br/><br/> role: ${findUser.role} <br/>email: ${findUser.email}`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ya, Hapus",
       });
-      window.location.reload();
+      if (result.isConfirmed) {
+        await axios.delete(`http://localhost:1023/api/v1/users/${id}`);
+
+        // Tampilkan pesan keberhasilan
+        await Swal.fire({
+          title: "Hapus data user berhasil!",
+          icon: "success",
+        });
+
+        window.location.reload();
+      }
     } catch (error) {
+      console.error(error);
       Swal.fire({
         title: "Hapus data gagal!",
         text: "Gagal menghapus data user",
