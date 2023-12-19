@@ -17,6 +17,92 @@ import Navbar from "../../components/Navbar/Navbar";
 import Subnav from "../../components/Subnav";
 
 const EditKelolaBarang = () => {
+  // Edit data barang
+  const EditForm = ({
+    editItem,
+    setEditItem,
+    merkSelected,
+    setMerkSelected,
+    kategoriSelected,
+    setKategoriSelected,
+    ukuranSelected,
+    setUkuranSelected,
+    n_barang,
+    setNBarang,
+    jml_stok,
+    setJmlStok,
+    tipe_stok,
+    setTipeStok,
+    h_beli,
+    setHBeli,
+    h_jual,
+    setHJual,
+    img,
+    setImg,
+    getBarang,
+  }) => {
+    const saveEditedBarang = async () => {
+      try {
+        await axios.put(`http://localhost:1023/api/v1/barang/${editItem.id}`, {
+          n_barang,
+          jml_stok,
+          tipe_stok,
+          h_beli,
+          h_jual,
+          merk_id: merkSelected.id,
+          img,
+          kategori_id: kategoriSelected.id,
+          ukuran_id: ukuranSelected.id,
+        });
+
+        // Lakukan operasi lain setelah berhasil menyimpan perubahan
+        // ...
+
+        // Sembunyikan formulir edit dan dapatkan ulang data barang
+        setEditItem(null);
+        getBarang();
+      } catch (error) {
+        console.error("Error saving edited data:", error);
+      }
+    };
+
+    const cancelEdit = () => {
+      // Sembunyikan formulir edit
+      setEditItem(null);
+    };
+
+    useEffect(() => {
+      // Set nilai awal untuk input dan textarea saat editItem berubah
+      if (editItem) {
+        setMerkSelected({ id: editItem.merk_id, nama: editItem.nama_merk });
+        setKategoriSelected({
+          id: editItem.kategori_id,
+          nama: editItem.nama_kategori,
+        });
+        setUkuranSelected({
+          id: editItem.ukuran_id,
+          nama: editItem.nama_ukuran,
+        });
+        setNBarang(editItem.n_barang);
+        setJmlStok(editItem.jml_stok);
+        setTipeStok(editItem.tipe_stok);
+        setHBeli(editItem.h_beli);
+        setHJual(editItem.h_jual);
+        setImg(editItem.img);
+      }
+    }, [
+      editItem,
+      setMerkSelected,
+      setKategoriSelected,
+      setUkuranSelected,
+      setNBarang,
+      setJmlStok,
+      setTipeStok,
+      setHBeli,
+      setHJual,
+      setImg,
+    ]);
+  };
   return (
     <>
       <Navbar active1="active" />

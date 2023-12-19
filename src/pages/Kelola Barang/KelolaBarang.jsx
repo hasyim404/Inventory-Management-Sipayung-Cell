@@ -37,43 +37,27 @@ const KelolaBarang = () => {
   const [jml_stok, setJmlStok] = useState("");
   const [h_beli, setHBeli] = useState("");
   const [h_jual, setHJual] = useState("");
+  const [merk_id, setMerkId] = useState("");
+  const [merkIdOptions, setMerkIdOptions] = useState([]);
   const [img, setImg] = useState("");
+  const [kategori_id, setKategoriId] = useState("");
+  const [kategoriIdOptions, setKategoriIdOptions] = useState([]);
+  const [ukuran_id, setUkuranId] = useState("");
+  const [ukuranIdOptions, setUkuranIdOptions] = useState([]);
   const [query, setQuery] = useState("");
 
   // Handle Select
   // Tipe Stok
   const optionsStok = [
-    // { value: "-", text: "--Tipe--" },
     { value: "pcs", text: "-/pcs" },
     { value: "paket", text: "-/paket" },
     { value: "set", text: "-/set" },
     { value: "lusin", text: "-/lusin" },
+    { value: "-", text: "-/-" },
   ];
   const [tipe_stok, setTipeStok] = useState(optionsStok[0].value);
-  const handleTipeStok = (event) => {
-    console.log(event.target.value);
-    setTipeStok(event.target.value);
-  };
-  // Merk
-  const [merk_id, setMerkId] = useState([]);
-  const [merkSelected, setMerkSelected] = useState({ id: "" });
-  const handleMerk = (event) => {
-    console.log(event.target.value);
-    setMerkSelected({ id: event.target.value });
-  };
-  // Kategori
-  const [kategori_id, setKategoriId] = useState([]);
-  const [kategoriSelected, setKategoriSelected] = useState({ id: "" });
-  const handleKategori = (event) => {
-    console.log(event.target.value);
-    setKategoriSelected({ id: event.target.value });
-  };
-  // Ukuran
-  const [ukuran_id, setUkuranId] = useState([]);
-  const [ukuranSelected, setUkuranSelected] = useState({ id: "" });
-  const handleUkuran = (event) => {
-    console.log(event.target.value);
-    setUkuranSelected({ id: event.target.value });
+  const handleTipeStok = (e) => {
+    setTipeStok(e.target.value);
   };
 
   useEffect(() => {
@@ -106,17 +90,17 @@ const KelolaBarang = () => {
   // Get data merk
   const getMerk = async () => {
     const response = await axios.get("http://localhost:1023/api/v1/merk");
-    setMerkId(response.data.data);
+    setMerkIdOptions(response.data.data);
   };
   // Get data kategori
   const getKategori = async () => {
     const response = await axios.get("http://localhost:1023/api/v1/kategori");
-    setKategoriId(response.data.data);
+    setKategoriIdOptions(response.data.data);
   };
   // Get data ukuran
   const getUkuran = async () => {
     const response = await axios.get("http://localhost:1023/api/v1/ukuran");
-    setUkuranId(response.data.data);
+    setUkuranIdOptions(response.data.data);
   };
 
   // Add data barang
@@ -130,10 +114,10 @@ const KelolaBarang = () => {
         tipe_stok,
         h_beli,
         h_jual,
-        merk_id: merkSelected.id,
+        merk_id,
         img,
-        kategori_id: kategoriSelected.id,
-        ukuran_id: ukuranSelected.id,
+        kategori_id,
+        ukuran_id,
       });
 
       Swal.fire({
@@ -150,93 +134,6 @@ const KelolaBarang = () => {
         icon: "error",
       });
     }
-  };
-
-  // Edit data barang
-  const EditForm = ({
-    editItem,
-    setEditItem,
-    merkSelected,
-    setMerkSelected,
-    kategoriSelected,
-    setKategoriSelected,
-    ukuranSelected,
-    setUkuranSelected,
-    n_barang,
-    setNBarang,
-    jml_stok,
-    setJmlStok,
-    tipe_stok,
-    setTipeStok,
-    h_beli,
-    setHBeli,
-    h_jual,
-    setHJual,
-    img,
-    setImg,
-    getBarang,
-  }) => {
-    const saveEditedBarang = async () => {
-      try {
-        await axios.put(`http://localhost:1023/api/v1/barang/${editItem.id}`, {
-          n_barang,
-          jml_stok,
-          tipe_stok,
-          h_beli,
-          h_jual,
-          merk_id: merkSelected.id,
-          img,
-          kategori_id: kategoriSelected.id,
-          ukuran_id: ukuranSelected.id,
-        });
-
-        // Lakukan operasi lain setelah berhasil menyimpan perubahan
-        // ...
-
-        // Sembunyikan formulir edit dan dapatkan ulang data barang
-        setEditItem(null);
-        getBarang();
-      } catch (error) {
-        console.error("Error saving edited data:", error);
-      }
-    };
-
-    const cancelEdit = () => {
-      // Sembunyikan formulir edit
-      setEditItem(null);
-    };
-
-    useEffect(() => {
-      // Set nilai awal untuk input dan textarea saat editItem berubah
-      if (editItem) {
-        setMerkSelected({ id: editItem.merk_id, nama: editItem.nama_merk });
-        setKategoriSelected({
-          id: editItem.kategori_id,
-          nama: editItem.nama_kategori,
-        });
-        setUkuranSelected({
-          id: editItem.ukuran_id,
-          nama: editItem.nama_ukuran,
-        });
-        setNBarang(editItem.n_barang);
-        setJmlStok(editItem.jml_stok);
-        setTipeStok(editItem.tipe_stok);
-        setHBeli(editItem.h_beli);
-        setHJual(editItem.h_jual);
-        setImg(editItem.img);
-      }
-    }, [
-      editItem,
-      setMerkSelected,
-      setKategoriSelected,
-      setUkuranSelected,
-      setNBarang,
-      setJmlStok,
-      setTipeStok,
-      setHBeli,
-      setHJual,
-      setImg,
-    ]);
   };
 
   // Delete data barang
@@ -666,25 +563,24 @@ const KelolaBarang = () => {
                                             <div className="relative">
                                               <select
                                                 id="hs-select-label"
-                                                value={merkSelected}
-                                                onChange={handleMerk}
+                                                value={merk_id}
+                                                onChange={(e) =>
+                                                  setMerkId(e.target.value)
+                                                }
                                                 className="py-3 px-4 pe-9 block w-full  border-color-3 shadow-sm rounded-lg text-sm focus:z-10 focus:border-color-2  disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:text-gray-400 dark:focus:ring-color-2"
                                               >
                                                 <option value="">
                                                   Pilih merk
                                                 </option>
 
-                                                {merk_id.map(
-                                                  (data) => (
-                                                    <option
-                                                      key={data.id}
-                                                      value={data.id}
-                                                    >
-                                                      {data.n_merk}
-                                                    </option>
-                                                  )
-                                                  // console.log(data.n_merk)
-                                                )}
+                                                {merkIdOptions.map((data) => (
+                                                  <option
+                                                    key={data.id}
+                                                    value={data.id}
+                                                  >
+                                                    {data.n_merk}
+                                                  </option>
+                                                ))}
                                               </select>
                                             </div>
                                           </div>
@@ -730,14 +626,16 @@ const KelolaBarang = () => {
                                             <div className="relative">
                                               <select
                                                 id="hs-select-label"
-                                                value={kategoriSelected}
-                                                onChange={handleKategori}
+                                                value={kategori_id}
+                                                onChange={(e) =>
+                                                  setKategoriId(e.target.value)
+                                                }
                                                 className="py-3 px-4 pe-9 block w-full rounded-lg border-color-3 shadow-sm text-sm focus:z-10 focus:border-color-2  disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:text-gray-400 dark:focus:ring-color-2"
                                               >
                                                 <option value="">
                                                   Pilih Kategori
                                                 </option>
-                                                {kategori_id.map(
+                                                {kategoriIdOptions.map(
                                                   (data) => (
                                                     <option
                                                       key={data.id}
@@ -763,24 +661,23 @@ const KelolaBarang = () => {
                                             <div className="relative">
                                               <select
                                                 id="hs-select-label"
-                                                value={ukuranSelected}
-                                                onChange={handleUkuran}
+                                                value={ukuran_id}
+                                                onChange={(e) =>
+                                                  setUkuranId(e.target.value)
+                                                }
                                                 className="py-3 px-4 pe-9 block w-full rounded-lg border-color-3 shadow-sm text-sm focus:z-10 focus:border-color-2  disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:text-gray-400 dark:focus:ring-color-2"
                                               >
                                                 <option value="">
                                                   Pilih Ukuran
                                                 </option>
-                                                {ukuran_id.map(
-                                                  (data) => (
-                                                    <option
-                                                      key={data.id}
-                                                      value={data.id}
-                                                    >
-                                                      {data.n_ukuran}
-                                                    </option>
-                                                  )
-                                                  // console.log(data.n_merk)
-                                                )}
+                                                {ukuranIdOptions.map((data) => (
+                                                  <option
+                                                    key={data.id}
+                                                    value={data.id}
+                                                  >
+                                                    {data.n_ukuran}
+                                                  </option>
+                                                ))}
                                               </select>
                                             </div>
                                           </div>
