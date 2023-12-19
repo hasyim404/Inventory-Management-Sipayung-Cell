@@ -14,29 +14,45 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 import ModalImage from "react-modal-image";
 import Subnav from "../../components/Subnav";
 import MainTitle from "../../components/MainTitle";
+import Pagination from "../../components/Pagination/Pagination";
 
 const Dashboard = () => {
   const [barang, setBarang] = useState([]);
+  const [terendah, setTerendah] = useState([]);
 
   const getBarang = async () => {
     const response = await axios.get("http://localhost:1023/api/v1/barang");
     setBarang(response.data.data);
+    setTerendah(response.data.terendah);
   };
 
   useEffect(() => {
     getBarang();
   }, []);
 
-  // Total Barang
-  const countBarang = barang.length;
+  const [currentPage, setCurrentPage] = useState(1);
+  const recordsPerPage = 4;
+  const lastIndex = currentPage * recordsPerPage;
+  const firstIndex = lastIndex - recordsPerPage;
+  const records = terendah.slice(firstIndex, lastIndex);
+  const npage = Math.ceil(barang.length / recordsPerPage);
 
-  // Perlu Restock
-  const restockBarang = barang.filter((item) => item.jml_stok <= 10).length;
+  // Diagram
+  const backgroundColor = [
+    "rgba(255, 99, 132, 0.9)",
+    "rgba(54, 162, 235, 0.9)",
+    "rgba(255, 206, 86, 0.9)",
+    "rgba(75, 192, 192, 0.9)",
+    "rgba(153, 102, 255, 0.9)",
+  ];
+  const borderColor = [
+    "rgba(255, 99, 132, 1)",
+    "rgba(54, 162, 235, 1)",
+    "rgba(255, 206, 86, 1)",
+    "rgba(75, 192, 192, 1)",
+    "rgba(153, 102, 255, 1)",
+  ];
 
-  // Pemasukan Bulan ini
-
-  // Stok Terendah
-  const stokRendah = barang.filter((item) => item.jml_stok <= 10);
   return (
     <>
       <Navbar active3="active" />
@@ -62,7 +78,7 @@ const Dashboard = () => {
                       Total barang
                     </h3>
                     <p className="text-5xl font-semibold text-color-5">
-                      {countBarang}{" "}
+                      {barang.length}{" "}
                       <span className="text-sm font-normal text-gray-500">
                         Barang
                       </span>
@@ -87,7 +103,7 @@ const Dashboard = () => {
                       Perlu Restock
                     </h3>
                     <p className="text-5xl font-semibold text-color-5">
-                      {restockBarang}{" "}
+                      {barang.filter((item) => item.jml_stok <= 10).length}{" "}
                       <span className="text-sm font-normal text-gray-500">
                         Barang
                       </span>
@@ -167,16 +183,19 @@ const Dashboard = () => {
                               </tr>
                             </thead>
                             <tbody className="divide-y">
-                              {stokRendah.map((item, index) => (
-                                <tr key={item.id} className="text-center ">
+                              {records.map((item, index) => (
+                                <tr key={index} className="text-center ">
                                   <td className="py-4 whitespace-nowrap text-sm font-medium text-color-5">
-                                    {index + 1}.
+                                    {index +
+                                      1 +
+                                      (currentPage - 1) * recordsPerPage}
+                                    .
                                   </td>
                                   <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5 text-start">
                                     {item.n_barang}
                                   </td>
                                   <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                    {item.jml_stok}
+                                    {item.jml_stok} -/{item.tipe_stok}
                                   </td>
                                   <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
                                     <ModalImage
@@ -199,49 +218,16 @@ const Dashboard = () => {
                             </tbody>
                           </table>
                         </div>
-                        <div className=" py-1 px-8">
-                          <nav className="flex items-center justify-start space-x-1">
-                            <button
-                              type="button"
-                              className="p-2.5 inline-flex items-center gap-x-2 text-sm rounded-full text-color-5 hover:text-color-6 disabled:opacity-50 disabled:pointer-events-none dark:text-color-5 dark:hover:bg-color-1 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-                            >
-                              <span aria-hidden="true">«</span>
-                              <span className="sr-only">Previous</span>
-                            </button>
-                            <button
-                              type="button"
-                              className="min-w-[40px] flex justify-center items-center text-color-5 bg-color-1 py-2.5 text-sm rounded-full disabled:opacity-50 disabled:pointer-events-none text-color-6 dark:hover:bg-color-1"
-                              aria-current="page"
-                            >
-                              1
-                            </button>
-                            <button
-                              type="button"
-                              className="min-w-[40px] flex justify-center items-center text-color-5 hover:bg-color-1 py-2.5 text-sm rounded-full disabled:opacity-50 disabled:pointer-events-none hover:text-color-6 dark:hover:bg-color-1"
-                            >
-                              2
-                            </button>
-                            <button
-                              type="button"
-                              className="min-w-[40px] flex justify-center items-center text-color-5 hover:bg-color-1 py-2.5 text-sm rounded-full disabled:opacity-50 disabled:pointer-events-none hover:text-color-6 dark:hover:bg-color-1"
-                            >
-                              3
-                            </button>
-                            <button
-                              type="button"
-                              className="p-2.5 inline-flex items-center gap-x-2 text-sm rounded-full text-color-5 hover:text-color-6 disabled:opacity-50 disabled:pointer-events-none dark:text-color-5 dark:hover:bg-color-1 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-                            >
-                              <span className="sr-only">Next</span>
-                              <span aria-hidden="true">»</span>
-                            </button>
-
-                            {/* <div className="">
-                            <p className="text-end">
-                              Lorem ipsum dolor sit amet.
-                            </p>
-                          </div> */}
-                          </nav>
-                        </div>
+                        <Pagination
+                          currentPage={currentPage}
+                          setCurrentPage={setCurrentPage}
+                          npage={npage}
+                          data={
+                            barang.filter((item) => item.jml_stok <= 10).length
+                          }
+                          show={records.length}
+                          setName={"Barang"}
+                        />
                       </div>
                     </div>
                   </div>
@@ -264,25 +250,19 @@ const Dashboard = () => {
               <div className="flex justify-center items-center">
                 <Pie
                   data={{
-                    labels: ["Case", "Kabel", "Powerbank", "Buds", "Voucher"],
+                    labels: barang
+                      .filter((item) => item.jml_stok)
+                      .splice(0, 4)
+                      .map((item) => item.n_barang),
                     datasets: [
                       {
-                        label: "jumlah stok",
-                        data: [56, 54, 29, 35, 80],
-                        backgroundColor: [
-                          "rgba(255, 99, 132, 0.9)",
-                          "rgba(54, 162, 235, 0.9)",
-                          "rgba(255, 206, 86, 0.9)",
-                          "rgba(75, 192, 192, 0.9)",
-                          "rgba(153, 102, 255, 0.9)",
-                        ],
-                        borderColor: [
-                          "rgba(255, 99, 132, 1)",
-                          "rgba(54, 162, 235, 1)",
-                          "rgba(255, 206, 86, 1)",
-                          "rgba(75, 192, 192, 1)",
-                          "rgba(153, 102, 255, 1)",
-                        ],
+                        label: "stok",
+                        data: barang
+                          .filter((item) => item.jml_stok)
+                          .splice(0, 4)
+                          .map((item) => item.jml_stok),
+                        backgroundColor: backgroundColor,
+                        borderColor: borderColor,
                         borderWidth: 1,
                       },
                     ],
@@ -292,15 +272,25 @@ const Dashboard = () => {
               <div className="p-4 md:p-5 font-normal text-sm capitalize ">
                 <p className="font-bold">Jumlah:</p>
                 <div className="flex flex-wrap -mx-4">
-                  <div className="flex items-center ml-5 my-2">
-                    <div
-                      className="p-3"
-                      style={{ background: "rgba(255, 99, 132, 0.9)" }}
-                    ></div>
-                    <p className="ml-2">Case: 10</p>
-                  </div>
+                  {barang
+                    .filter((item) => item.jml_stok)
+                    .splice(0, 4)
+                    .map((item, index) => (
+                      <div className="flex items-center ml-5 my-2" key={index}>
+                        <div
+                          className="p-3"
+                          style={{
+                            background:
+                              backgroundColor[index % backgroundColor.length],
+                          }}
+                        ></div>
+                        <p className="ml-2">
+                          {item.n_barang}: {item.jml_stok}
+                        </p>
+                      </div>
+                    ))}
 
-                  <div className="flex items-center ml-5 my-2">
+                  {/* <div className="flex items-center ml-5 my-2">
                     <div
                       className="p-3"
                       style={{ background: "rgba(54, 162, 235, 0.9)" }}
@@ -330,7 +320,7 @@ const Dashboard = () => {
                       style={{ background: "rgba(153, 102, 255, 0.9)" }}
                     ></div>
                     <p className="ml-2">Voucher: 10</p>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>

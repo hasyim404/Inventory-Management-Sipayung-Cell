@@ -2,11 +2,21 @@ const query = require("../database");
 
 const getMerk = async (req, res) => {
   try {
-    const data = await query("SELECT * FROM merk ORDER BY n_merk ASC");
+    const data = await query("SELECT * FROM merk ORDER BY id DESC");
+
+    const { q } = req.query;
+    const keys = ["n_merk"];
+    const search = (data) => {
+      return data.filter((item) =>
+        keys.some((key) => item[key].toLowerCase().includes(q))
+      );
+    };
+
     return res.status(200).json({
       success: true,
       message: "Menampilkan seluruh Data Merk",
       data: data,
+      qq: search(data),
     });
   } catch (error) {
     return res.status(400).json({

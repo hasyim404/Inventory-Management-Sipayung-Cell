@@ -10,10 +10,28 @@ const getBarang = async (req, res) => {
        INNER JOIN ukuran ON ukuran.id = barang.ukuran_id
        ORDER BY updated_at DESC`
     );
+
+    const terendah = await query(
+      `
+      SELECT id, n_barang, jml_stok, tipe_stok, img FROM barang WHERE jml_stok <= 10 ORDER BY jml_stok DESC
+      `
+    );
+
+    const { q } = req.query;
+    const keys = ["n_barang", "n_kategori"];
+    const search = (data) => {
+      return data.filter((item) =>
+        keys.some((key) => item[key].toLowerCase().includes(q))
+      );
+    };
+    // console.log(q);
+
     return res.status(200).json({
       success: true,
       message: "Menampilkan seluruh Data Barang",
       data: data,
+      terendah: terendah,
+      qq: search(data),
     });
   } catch (error) {
     return res.status(400).json({

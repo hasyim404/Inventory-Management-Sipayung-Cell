@@ -1,5 +1,5 @@
 const query = require("../../database");
-const { randomUUID, sign } = require("crypto");
+const { randomUUID } = require("crypto");
 const bcryptjs = require("bcryptjs");
 const {
   jwt,

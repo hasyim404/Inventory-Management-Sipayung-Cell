@@ -17,6 +17,7 @@ import Blank from "./pages/Blank";
 
 import LoginPage from "./pages/Login/LoginPage";
 import { UserProvider } from "./context/UserContext";
+import EditKelolaBarang from "./pages/Kelola Barang/EditKelolaBarang";
 
 const App = () => {
   return (
@@ -25,19 +26,21 @@ const App = () => {
         <Routes>
           <Route path="login" element={<LoginPage />} />
           <Route path="/" element={<Dashboard />} />
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="kelola-barang" element={<KelolaBarang />} />
-          <Route path="kelola-merk" element={<MerkProduk />} />
-          <Route path="kelola-merk-edit" element={<EditMerk />} />
-          <Route path="kelola-kategori" element={<Kategori />} />
-          <Route path="kelola-kategori-edit" element={<EditKategori />} />
-          <Route path="kelola-ukuran" element={<Ukuran />} />
-          <Route path="kelola-ukuran-edit" element={<EditUkuran />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/kelola-barang" element={<KelolaBarang />} />
+          <Route path="/kelola-barang-edit" element={<EditKelolaBarang />} />
 
-          <Route path="laporan-pemasukan" element={<LaporanPemasukan />} />
-          <Route path="laporan-pengeluaran" element={<LaporanPengeluaran />} />
+          <Route path="/kelola-merk" element={<MerkProduk />} />
+          <Route path="/kelola-merk-edit" element={<EditMerk />} />
+          <Route path="/kelola-kategori" element={<Kategori />} />
+          <Route path="/kelola-kategori-edit" element={<EditKategori />} />
+          <Route path="/kelola-ukuran" element={<Ukuran />} />
+          <Route path="/kelola-ukuran-edit" element={<EditUkuran />} />
 
-          <Route path="kelola-users" element={<KelolaUsers />} />
+          <Route path="/laporan-pemasukan" element={<LaporanPemasukan />} />
+          <Route path="/laporan-pengeluaran" element={<LaporanPengeluaran />} />
+
+          <Route path="/kelola-users" element={<KelolaUsers />} />
           <Route path="*" element={<Blank />} />
         </Routes>
       </BrowserRouter>

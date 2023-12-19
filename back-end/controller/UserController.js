@@ -5,10 +5,20 @@ const getUsers = async (req, res) => {
     const data = await query(
       "SELECT id, f_name, l_name, email, gender, role, phone_number FROM users ORDER BY id DESC"
     );
+
+    const { q } = req.query;
+    const keys = ["f_name", "l_name", "email", "role"];
+    const search = (data) => {
+      return data.filter((item) =>
+        keys.some((key) => item[key].toLowerCase().includes(q))
+      );
+    };
+
     return res.status(200).json({
       success: true,
       message: "Menampilkan seluruh Data Users",
       data: data,
+      qq: search(data),
     });
   } catch (error) {
     return res.status(400).json({
