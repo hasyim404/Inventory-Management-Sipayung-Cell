@@ -26,7 +26,7 @@ const register = async (req, res) => {
     confPassword,
     gender,
     role,
-    phoneNumber,
+    phone_number,
   } = req.body;
 
   if (
@@ -44,8 +44,8 @@ const register = async (req, res) => {
     gender === "" ||
     role === undefined ||
     role === "" ||
-    phoneNumber === undefined ||
-    isNaN(+phoneNumber)
+    phone_number === undefined ||
+    isNaN(+phone_number)
   )
     return res.status(400).json("Data tidak Valid!");
 
@@ -60,7 +60,7 @@ const register = async (req, res) => {
       `
           INSERT INTO users(uuid, f_name, l_name, email, password, gender, role, phone_number) VALUES(?,?,?,?,?,?,?,?)
         `,
-      [randomUUID(), f_name, l_name, email, hash, gender, role, phoneNumber]
+      [randomUUID(), f_name, l_name, email, hash, gender, role, phone_number]
     );
 
     const token = signToken(resultId); // Gunakan resultId langsung
@@ -72,7 +72,7 @@ const register = async (req, res) => {
       data: { id: resultId, ...req.body },
     });
   } catch (error) {
-    // console.error("Database Error:", error.message);
+    console.error("Database Error:", error);
 
     return res.status(500).json({
       success: false,

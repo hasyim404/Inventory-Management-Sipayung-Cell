@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock, faEnvelope } from "@fortawesome/free-solid-svg-icons";
@@ -48,8 +48,10 @@ const Login = () => {
         title: "Login Berhasil!",
         html: `Selamat datang ${data.f_name} ${data.l_name}`,
         icon: "success",
+      }).then(() => {
+        navigate("/dashboard");
+        window.location.reload();
       });
-      navigate("/dashboard");
     } catch (error) {
       if (error.response) {
         Swal.fire({

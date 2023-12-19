@@ -28,11 +28,10 @@ const Logout = () => {
         Swal.fire({
           title: "Logout Berhasil!",
           icon: "success",
+        }).then(() => {
+          navigate("/login");
+          window.location.reload();
         });
-
-        // Redirect ke halaman login
-        navigate("/login");
-        setAuthenticated(false);
       }
     });
   };
