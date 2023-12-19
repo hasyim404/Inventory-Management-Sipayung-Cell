@@ -10,6 +10,7 @@ import ModalImage from "react-modal-image";
 import Navbar from "../../components/Navbar/Navbar";
 import MainTitle from "../../components/MainTitle";
 import Subnav from "../../components/Subnav";
+import noPreview from "../../assets/no-preview.png";
 
 import { useUser } from "../../context/UserContext";
 import Pagination from "../../components/Pagination/Pagination";
@@ -221,16 +222,8 @@ const MerkProduk = () => {
                                   <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
                                     <ModalImage
                                       className="w-20 border border-color-2 shadow-sm rounded-sm"
-                                      small={`./src/assets/${
-                                        item.logo !== ""
-                                          ? item.logo
-                                          : "no-preview.png"
-                                      }`}
-                                      medium={`./src/assets/${
-                                        item.logo !== ""
-                                          ? item.logo
-                                          : "no-preview.png"
-                                      }`}
+                                      small={`${noPreview}`}
+                                      medium={`${noPreview}`}
                                       hideDownload
                                     />
                                   </td>
@@ -239,13 +232,19 @@ const MerkProduk = () => {
                                   </td>
                                   <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
                                     <div className="text-center">
-                                      <button
-                                        type="button"
-                                        className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-yellow-500 text-white hover:bg-yellow-600 disabled:opacity-50 disabled:pointer-events-none "
-                                        data-hs-overlay="#hs-danger-alert"
+                                      <Link
+                                        to={`/kelola-produk/merk/edit/${item.id}`}
                                       >
-                                        <FontAwesomeIcon icon={faPenToSquare} />
-                                      </button>
+                                        <button
+                                          type="button"
+                                          className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-yellow-500 text-white hover:bg-yellow-600 disabled:opacity-50 disabled:pointer-events-none "
+                                          data-hs-overlay="#hs-danger-alert"
+                                        >
+                                          <FontAwesomeIcon
+                                            icon={faPenToSquare}
+                                          />
+                                        </button>
+                                      </Link>
                                       <button
                                         onClick={() => deleteMerk(item.id)}
                                         className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none "
@@ -295,7 +294,7 @@ const MerkProduk = () => {
                                         <div className="p-4 sm:p-10 text-center overflow-y-auto">
                                           <div className="mt-6 grid gap-y-2">
                                             <img
-                                              src="../src/assets/no-preview.png"
+                                              src={noPreview}
                                               alt=""
                                               className="rounded-lg"
                                             />
@@ -416,8 +415,8 @@ const MerkProduk = () => {
                                               <div className="flex items-center">
                                                 <ModalImage
                                                   className="w-24 p-1 rounded-s-md border border-color-2 disabled:opacity-50 disabled:pointer-events-none dark:bg-color-2 dark:text-gray-400 dark:focus:ring-color-2"
-                                                  small={`./src/assets/no-preview.png`}
-                                                  medium={`./src/assets/no-preview.png`}
+                                                  small={`${noPreview}`}
+                                                  medium={`${noPreview}`}
                                                   hideDownload
                                                 />
 

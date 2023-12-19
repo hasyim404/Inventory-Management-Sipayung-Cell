@@ -215,7 +215,9 @@ const Kategori = () => {
 
                                   <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
                                     <div className="text-center ">
-                                      <Link to={"/kelola-merk-produk/edit"}>
+                                      <Link
+                                        to={`/kelola-produk/kategori/edit/${item.id}`}
+                                      >
                                         <button
                                           className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-yellow-500 text-white hover:bg-yellow-600 disabled:opacity-50 disabled:pointer-events-none "
                                           data-hs-overlay="#hs-danger-alert"

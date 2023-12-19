@@ -2,7 +2,7 @@ const query = require("../database");
 
 const getMerk = async (req, res) => {
   try {
-    const data = await query("SELECT * FROM merk ORDER BY id DESC");
+    const data = await query("SELECT * FROM merk ORDER BY updated_at DESC");
 
     const { q } = req.query;
     const keys = ["n_merk"];

@@ -3,12 +3,12 @@ const query = require("../database");
 const getBarang = async (req, res) => {
   try {
     const data = await query(
-      `SELECT barang.id AS id_barang, n_barang, jml_stok, tipe_stok, h_beli, h_jual, n_merk, img, n_kategori, n_ukuran, updated_at
+      `SELECT barang.id AS id_barang, n_barang, jml_stok, tipe_stok, h_beli, h_jual, n_merk, img, n_kategori, n_ukuran, barang.updated_at AS waktu
        FROM barang 
        INNER JOIN kategori ON kategori.id = barang.kategori_id
        INNER JOIN merk ON merk.id = barang.merk_id
        INNER JOIN ukuran ON ukuran.id = barang.ukuran_id
-       ORDER BY updated_at DESC`
+       ORDER BY waktu DESC`
     );
 
     const terendah = await query(
