@@ -3,12 +3,23 @@ const query = require("../database");
 const getKategori = async (req, res) => {
   try {
     const data = await query(
-      "SELECT id, n_kategori, catatan FROM kategori ORDER BY n_kategori ASC"
+      "SELECT id, n_kategori, catatan FROM kategori ORDER BY id DESC"
     );
+
+    const { q } = req.query;
+    const keys = ["n_kategori"];
+    const search = (data) => {
+      return data.filter((item) =>
+        keys.some((key) => item[key].toLowerCase().includes(q))
+      );
+    };
+    // console.log(q);
+
     return res.status(200).json({
       success: true,
       message: "Menampilkan seluruh Data Kategori",
       data: data,
+      qq: search(data),
     });
   } catch (error) {
     return res.status(400).json({

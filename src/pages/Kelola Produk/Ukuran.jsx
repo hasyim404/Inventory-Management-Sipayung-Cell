@@ -11,13 +11,22 @@ import MainTitle from "../../components/MainTitle";
 import Subnav from "../../components/Subnav";
 
 import { useUser } from "../../context/UserContext";
+import Pagination from "../../components/Pagination/Pagination";
 
 const Ukuran = () => {
   const { checkRoleAndNavigate } = useUser();
   const navigate = useNavigate();
 
   const [ukuran, setUkuran] = useState([]);
-  const [nUkuran, setNUkuran] = useState("");
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const recordsPerPage = 5;
+  const lastIndex = currentPage * recordsPerPage;
+  const firstIndex = lastIndex - recordsPerPage;
+  const records = ukuran.slice(firstIndex, lastIndex);
+  const npage = Math.ceil(ukuran.length / recordsPerPage);
+
+  const [n_ukuran, setNUkuran] = useState("");
   const [catatan, setCatatan] = useState("");
 
   useEffect(() => {
@@ -34,6 +43,70 @@ const Ukuran = () => {
   const getUkuran = async () => {
     const response = await axios.get("http://localhost:1023/api/v1/ukuran");
     setUkuran(response.data.data);
+  };
+
+  // Add data
+  const addUkuran = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post("http://localhost:1023/api/v1/ukuran", {
+        n_ukuran,
+        catatan,
+      });
+
+      Swal.fire({
+        title: "Tambah Data Ukuran Berhasil!",
+        text: "Berhasil menambahkan data baru!",
+        icon: "success",
+      });
+      getUkuran();
+    } catch (error) {
+      console.log(error);
+      Swal.fire({
+        title: "Gagal tambah data!",
+        text: "Gagal menambahkan data ukuran",
+        icon: "error",
+      });
+    }
+  };
+
+  // Delete data
+  const deleteUkuran = async (id) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:1023/api/v1/ukuran/${id}`
+      );
+
+      const namaUkuran = response.data.data[0].n_ukuran;
+
+      const result = await Swal.fire({
+        title: "Apakah Anda yakin?",
+        html: `Anda akan menghapus<br/>${namaUkuran}`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ya, Hapus",
+      });
+      if (result.isConfirmed) {
+        await axios.delete(`http://localhost:1023/api/v1/ukuran/${id}`);
+
+        // Tampilkan pesan keberhasilan
+        await Swal.fire({
+          title: "Hapus data ukuran berhasil!",
+          icon: "success",
+        });
+
+        window.location.reload();
+      }
+    } catch (error) {
+      console.log(error);
+      Swal.fire({
+        title: "Hapus data gagal!",
+        text: "Gagal menghapus data merk",
+        icon: "error",
+      });
+    }
   };
 
   return (
@@ -115,13 +188,13 @@ const Ukuran = () => {
                               </tr>
                             </thead>
                             <tbody className="divide-y">
-                              {ukuran.map((item, index) => (
+                              {records.map((item, index) => (
                                 <tr key={item.id}>
                                   <td className="px-6 text-center py-4 whitespace-nowrap text-sm font-medium text-color-5">
                                     {index + 1}.
                                   </td>
                                   <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5">
-                                    {item.nUkuran}
+                                    {item.n_ukuran}
                                   </td>
                                   <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5 text-center">
                                     {item.catatan !== "" ? item.catatan : "-"}
@@ -140,7 +213,7 @@ const Ukuran = () => {
                                         </button>
                                       </Link>
                                       <button
-                                        onClick={() => deleteKategori(item.id)}
+                                        onClick={() => deleteUkuran(item.id)}
                                         className="deleteBtn py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none "
                                       >
                                         <FontAwesomeIcon icon={faTrashCan} />
@@ -184,7 +257,7 @@ const Ukuran = () => {
                                   </button>
                                 </div>
 
-                                <form>
+                                <form onSubmit={addUkuran}>
                                   <div className="p-4 sm:p-10 overflow-y-auto">
                                     <div className="flex gap-x-4 md:gap-x-7">
                                       <div className="grow">
@@ -210,7 +283,7 @@ const Ukuran = () => {
                                               <input
                                                 type="text"
                                                 name="hs-leading-icon"
-                                                value={nUkuran}
+                                                value={n_ukuran}
                                                 onChange={(e) =>
                                                   setNUkuran(e.target.value)
                                                 }
@@ -270,43 +343,14 @@ const Ukuran = () => {
                             </div>
                           </div>
                         </div>
-                        <div className=" py-1 px-8">
-                          <nav className="flex items-center justify-start space-x-1">
-                            <button
-                              type="button"
-                              className="p-2.5 inline-flex items-center gap-x-2 text-sm rounded-full text-color-5 hover:text-color-6 disabled:opacity-50 disabled:pointer-events-none dark:text-color-5 dark:hover:bg-color-1 "
-                            >
-                              <span aria-hidden="true">«</span>
-                              <span className="sr-only">Previous</span>
-                            </button>
-                            <button
-                              type="button"
-                              className="min-w-[40px] flex justify-center items-center text-color-5 bg-color-1 py-2.5 text-sm rounded-full disabled:opacity-50 disabled:pointer-events-none text-color-6 dark:hover:bg-color-1"
-                              aria-current="page"
-                            >
-                              1
-                            </button>
-                            <button
-                              type="button"
-                              className="min-w-[40px] flex justify-center items-center text-color-5 hover:bg-color-1 py-2.5 text-sm rounded-full disabled:opacity-50 disabled:pointer-events-none hover:text-color-6 dark:hover:bg-color-1"
-                            >
-                              2
-                            </button>
-                            <button
-                              type="button"
-                              className="min-w-[40px] flex justify-center items-center text-color-5 hover:bg-color-1 py-2.5 text-sm rounded-full disabled:opacity-50 disabled:pointer-events-none hover:text-color-6 dark:hover:bg-color-1"
-                            >
-                              3
-                            </button>
-                            <button
-                              type="button"
-                              className="p-2.5 inline-flex items-center gap-x-2 text-sm rounded-full text-color-5 hover:text-color-6 disabled:opacity-50 disabled:pointer-events-none dark:text-color-5 dark:hover:bg-color-1 "
-                            >
-                              <span className="sr-only">Next</span>
-                              <span aria-hidden="true">»</span>
-                            </button>
-                          </nav>
-                        </div>
+                        <Pagination
+                          currentPage={currentPage}
+                          setCurrentPage={setCurrentPage}
+                          npage={npage}
+                          data={ukuran.length}
+                          show={records.length}
+                          setName={"Ukuran"}
+                        />
                       </div>
                     </div>
                   </div>

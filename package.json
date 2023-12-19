@@ -22,6 +22,7 @@
     "preline": "^2.0.0",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
+    "react-csv": "^2.2.2",
     "react-dom": "^18.2.0",
     "react-modal-image": "^2.6.0",
     "react-router-dom": "^6.21.0",

@@ -11,14 +11,25 @@ import MainTitle from "../../components/MainTitle";
 import Subnav from "../../components/Subnav";
 
 import { useUser } from "../../context/UserContext";
+import SearchBar from "../../components/SearchBar/SearchBar";
+import Pagination from "../../components/Pagination/Pagination";
 
 const Kategori = () => {
   const { checkRoleAndNavigate } = useUser();
   const navigate = useNavigate();
 
   const [kategori, setKategori] = useState([]);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const recordsPerPage = 5;
+  const lastIndex = currentPage * recordsPerPage;
+  const firstIndex = lastIndex - recordsPerPage;
+  const records = kategori.slice(firstIndex, lastIndex);
+  const npage = Math.ceil(kategori.length / recordsPerPage);
+
   const [n_kategori, setN_kategori] = useState("");
   const [catatan, setCatatan] = useState("");
+  const [query, setQuery] = useState("");
 
   useEffect(() => {
     const allowed = checkRoleAndNavigate(["pemilik", "karyawan"], navigate);
@@ -28,7 +39,15 @@ const Kategori = () => {
     }
 
     getKategori();
-  }, [navigate]);
+    cariKategori();
+  }, [navigate, query]);
+
+  const cariKategori = async () => {
+    const response = await axios.get(
+      `http://localhost:1023/api/v1/kategori?q=${query}`
+    );
+    setKategori(response.data.qq);
+  };
 
   // Get all data
   const getKategori = async () => {
@@ -61,24 +80,35 @@ const Kategori = () => {
     }
   };
 
-  // const getKategoriById = async () => {
-  //   const response = await axios.get(
-  //     `http://localhost:1023/api/v1/kategori/${id}`
-  //   );
-  //   setN_kategori(response.data.n_kategori);
-  //   setCatatan(response.data.catatan);
-  // };
-
   // Delete
   const deleteKategori = async (id) => {
     try {
-      await axios.delete(`http://localhost:1023/api/v1/kategori/${id}`);
-      Swal.fire({
-        title: "Berhasil!",
-        text: "Hapus data Berhasil dilakukan!",
-        icon: "success",
+      const response = await axios.get(
+        `http://localhost:1023/api/v1/kategori/${id}`
+      );
+
+      const namaKategori = response.data.data[0].n_kategori;
+
+      const result = await Swal.fire({
+        title: "Apakah Anda yakin?",
+        html: `Anda akan menghapus<br/>${namaKategori}`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ya, Hapus",
       });
-      getKategori();
+      if (result.isConfirmed) {
+        await axios.delete(`http://localhost:1023/api/v1/kategori/${id}`);
+
+        // Tampilkan pesan keberhasilan
+        await Swal.fire({
+          title: "Hapus data kategori berhasil!",
+          icon: "success",
+        });
+
+        window.location.reload();
+      }
     } catch (error) {
       console.log(error);
       Swal.fire({
@@ -118,32 +148,7 @@ const Kategori = () => {
                   </div>
                   <div className="col-span-7 flex justify-end">
                     <div className="py-2 px-3">
-                      <div className="relative max-w-xs">
-                        <label className="sr-only">Search</label>
-                        <input
-                          type="text"
-                          name="hs-table-with-pagination-search"
-                          className="py-2 px-3 ps-9 block w-full border border-color-1 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-color-1 disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:text-gray-400 dark:focus:ring-color-1"
-                          placeholder="Cari Kategori..."
-                        />
-                        <div className="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-3">
-                          <svg
-                            className="h-4 w-4 text-gray-400"
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          >
-                            <circle cx="11" cy="11" r="8" />
-                            <path d="m21 21-4.3-4.3" />
-                          </svg>
-                        </div>
-                      </div>
+                      <SearchBar setQuery={setQuery} setName={"Kategori"} />
                     </div>
 
                     <div className="py-1 2">
@@ -193,10 +198,13 @@ const Kategori = () => {
                               </tr>
                             </thead>
                             <tbody className="divide-y">
-                              {kategori.map((item, index) => (
-                                <tr key={item.id}>
+                              {records.map((item, index) => (
+                                <tr key={index}>
                                   <td className="px-6 text-center py-4 whitespace-nowrap text-sm font-medium text-color-5">
-                                    {index + 1}.
+                                    {index +
+                                      1 +
+                                      (currentPage - 1) * recordsPerPage}
+                                    .
                                   </td>
                                   <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5">
                                     {item.n_kategori}
@@ -348,43 +356,14 @@ const Kategori = () => {
                             </div>
                           </div>
                         </div>
-                        <div className=" py-1 px-8">
-                          <nav className="flex items-center justify-start space-x-1">
-                            <button
-                              type="button"
-                              className="p-2.5 inline-flex items-center gap-x-2 text-sm rounded-full text-color-5 hover:text-color-6 disabled:opacity-50 disabled:pointer-events-none dark:text-color-5 dark:hover:bg-color-1 "
-                            >
-                              <span aria-hidden="true">«</span>
-                              <span className="sr-only">Previous</span>
-                            </button>
-                            <button
-                              type="button"
-                              className="min-w-[40px] flex justify-center items-center text-color-5 bg-color-1 py-2.5 text-sm rounded-full disabled:opacity-50 disabled:pointer-events-none text-color-6 dark:hover:bg-color-1"
-                              aria-current="page"
-                            >
-                              1
-                            </button>
-                            <button
-                              type="button"
-                              className="min-w-[40px] flex justify-center items-center text-color-5 hover:bg-color-1 py-2.5 text-sm rounded-full disabled:opacity-50 disabled:pointer-events-none hover:text-color-6 dark:hover:bg-color-1"
-                            >
-                              2
-                            </button>
-                            <button
-                              type="button"
-                              className="min-w-[40px] flex justify-center items-center text-color-5 hover:bg-color-1 py-2.5 text-sm rounded-full disabled:opacity-50 disabled:pointer-events-none hover:text-color-6 dark:hover:bg-color-1"
-                            >
-                              3
-                            </button>
-                            <button
-                              type="button"
-                              className="p-2.5 inline-flex items-center gap-x-2 text-sm rounded-full text-color-5 hover:text-color-6 disabled:opacity-50 disabled:pointer-events-none dark:text-color-5 dark:hover:bg-color-1 "
-                            >
-                              <span className="sr-only">Next</span>
-                              <span aria-hidden="true">»</span>
-                            </button>
-                          </nav>
-                        </div>
+                        <Pagination
+                          currentPage={currentPage}
+                          setCurrentPage={setCurrentPage}
+                          npage={npage}
+                          data={kategori.length}
+                          show={records.length}
+                          setName={"Kategori"}
+                        />
                       </div>
                     </div>
                   </div>

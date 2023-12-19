@@ -5,6 +5,7 @@ const getUkuran = async (req, res) => {
     const data = await query(
       "SELECT id, n_ukuran, catatan FROM ukuran ORDER BY id DESC"
     );
+
     return res.status(200).json({
       success: true,
       message: "Menampilkan seluruh Data Ukuran",

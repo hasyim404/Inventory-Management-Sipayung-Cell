@@ -11,12 +11,21 @@ import Navbar from "../../components/Navbar/Navbar";
 import Subnav from "../../components/Subnav";
 
 import { useUser } from "../../context/UserContext";
+import Pagination from "../../components/Pagination/Pagination";
+import SearchBar from "../../components/SearchBar/SearchBar";
 
 const KelolaUsers = () => {
   const { checkRoleAndNavigate } = useUser();
   const navigate = useNavigate();
 
   const [user, setUser] = useState([]);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const recordsPerPage = 5;
+  const lastIndex = currentPage * recordsPerPage;
+  const firstIndex = lastIndex - recordsPerPage;
+  const records = user.slice(firstIndex, lastIndex);
+  const npage = Math.ceil(user.length / recordsPerPage);
 
   const [f_name, setFName] = useState("");
   const [l_name, setLName] = useState("");
@@ -26,6 +35,7 @@ const KelolaUsers = () => {
   const [gender, setGender] = useState("");
   const [role, setRole] = useState("");
   const [phone_number, setPhoneNumber] = useState("");
+  const [query, setQuery] = useState("");
 
   const radioRole = [
     { value: "admin", text: "Admin" },
@@ -45,7 +55,15 @@ const KelolaUsers = () => {
     }
 
     getUsers();
-  }, [navigate]);
+    cariUser();
+  }, [navigate, query]);
+
+  const cariUser = async () => {
+    const response = await axios.get(
+      `http://localhost:1023/api/v1/users?q=${query}`
+    );
+    setUser(response.data.qq);
+  };
 
   // Get Data Users
   const getUsers = async () => {
@@ -156,32 +174,7 @@ const KelolaUsers = () => {
                   </div>
                   <div className="col-span-7 flex justify-end">
                     <div className="py-2 px-3">
-                      <div className="relative max-w-xs">
-                        <label className="sr-only">Search</label>
-                        <input
-                          type="text"
-                          name="hs-table-with-pagination-search"
-                          className="py-2 px-3 ps-9 block w-full border border-color-1 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-color-1 disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:text-gray-400 dark:focus:ring-color-1"
-                          placeholder="Cari User..."
-                        />
-                        <div className="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-3">
-                          <svg
-                            className="h-4 w-4 text-gray-400"
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          >
-                            <circle cx="11" cy="11" r="8" />
-                            <path d="m21 21-4.3-4.3" />
-                          </svg>
-                        </div>
-                      </div>
+                      <SearchBar setQuery={setQuery} setName={"User"} />
                     </div>
 
                     <div className="py-1 2">
@@ -216,7 +209,7 @@ const KelolaUsers = () => {
                               </tr>
                             </thead>
                             <tbody className="divide-y">
-                              {user.map((item, index) => (
+                              {records.map((item, index) => (
                                 <tr key={index} className="text-center ">
                                   <td className="py-4 whitespace-nowrap text-sm font-medium text-color-5">
                                     {index + 1}.
@@ -377,7 +370,7 @@ const KelolaUsers = () => {
                                               </span>
                                             </label>
                                             <div className="relative">
-                                              <div class=" gap-2">
+                                              <div className=" gap-2">
                                                 <div className="">
                                                   <label className="inline-flex items-center mr-5 py-3 px-5 rounded-lg text-sm  bg-color-6">
                                                     <input
@@ -537,49 +530,14 @@ const KelolaUsers = () => {
                             </div>
                           </div>
                         </div>
-                        <div className=" py-1 px-8">
-                          <nav className="flex items-center justify-start space-x-1">
-                            <button
-                              type="button"
-                              className="p-2.5 inline-flex items-center gap-x-2 text-sm rounded-full text-color-5 hover:text-color-6 disabled:opacity-50 disabled:pointer-events-none dark:text-color-5 dark:hover:bg-color-1 "
-                            >
-                              <span aria-hidden="true">«</span>
-                              <span className="sr-only">Previous</span>
-                            </button>
-                            <button
-                              type="button"
-                              className="min-w-[40px] flex justify-center items-center text-color-5 bg-color-1 py-2.5 text-sm rounded-full disabled:opacity-50 disabled:pointer-events-none text-color-6 dark:hover:bg-color-1"
-                              aria-current="page"
-                            >
-                              1
-                            </button>
-                            <button
-                              type="button"
-                              className="min-w-[40px] flex justify-center items-center text-color-5 hover:bg-color-1 py-2.5 text-sm rounded-full disabled:opacity-50 disabled:pointer-events-none hover:text-color-6 dark:hover:bg-color-1"
-                            >
-                              2
-                            </button>
-                            <button
-                              type="button"
-                              className="min-w-[40px] flex justify-center items-center text-color-5 hover:bg-color-1 py-2.5 text-sm rounded-full disabled:opacity-50 disabled:pointer-events-none hover:text-color-6 dark:hover:bg-color-1"
-                            >
-                              3
-                            </button>
-                            <button
-                              type="button"
-                              className="p-2.5 inline-flex items-center gap-x-2 text-sm rounded-full text-color-5 hover:text-color-6 disabled:opacity-50 disabled:pointer-events-none dark:text-color-5 dark:hover:bg-color-1 "
-                            >
-                              <span className="sr-only">Next</span>
-                              <span aria-hidden="true">»</span>
-                            </button>
-
-                            {/* <div className="">
-                            <p className="text-end">
-                              Lorem ipsum dolor sit amet.
-                            </p>
-                          </div> */}
-                          </nav>
-                        </div>
+                        <Pagination
+                          currentPage={currentPage}
+                          setCurrentPage={setCurrentPage}
+                          npage={npage}
+                          data={user.length}
+                          show={records.length}
+                          setName={"Users"}
+                        />
                       </div>
                     </div>
                   </div>

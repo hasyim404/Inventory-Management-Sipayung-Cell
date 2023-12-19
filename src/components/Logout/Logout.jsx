@@ -9,13 +9,32 @@ const Logout = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    // localStorage.removeItem("token");
 
     Swal.fire({
-      title: "Logout Berhasil!",
-      icon: "success",
+      title: "Apakah Anda yakin?",
+      text: "Anda akan keluar.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Ya, keluar!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Hapus token dari localStorage
+        localStorage.removeItem("token");
+
+        // Tampilkan pesan keberhasilan
+        Swal.fire({
+          title: "Logout Berhasil!",
+          icon: "success",
+        });
+
+        // Redirect ke halaman login
+        navigate("/login");
+        setAuthenticated(false);
+      }
     });
-    navigate("/login");
   };
 
   return (

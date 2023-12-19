@@ -51,11 +51,25 @@ const Login = () => {
       });
       navigate("/dashboard");
     } catch (error) {
-      Swal.fire({
-        title: "Login Gagal!",
-        text: `Email atau Password salah`,
-        icon: "error",
-      });
+      if (error.response) {
+        Swal.fire({
+          title: "Login Gagal!",
+          text: "Email atau Password salah",
+          icon: "error",
+        });
+      } else if (error.request) {
+        Swal.fire({
+          title: "Login Gagal!",
+          text: "Tidak dapat terhubung ke server",
+          icon: "error",
+        });
+      } else {
+        Swal.fire({
+          title: "Login Gagal!",
+          text: "Terjadi kesalahan",
+          icon: "error",
+        });
+      }
     }
   };
 
