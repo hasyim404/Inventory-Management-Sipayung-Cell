@@ -1,132 +1,154 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faPenToSquare,
-  faTrashCan,
-  faFileExcel,
-  faFilePdf,
-} from "@fortawesome/free-solid-svg-icons";
 import Swal from "sweetalert2";
 import ModalImage from "react-modal-image";
 
 import MainTitle from "../../components/MainTitle";
 import Navbar from "../../components/Navbar/Navbar";
-import Subnav from "../../components/Subnav";
+import { useUser } from "../../context/UserContext";
 
 const EditKelolaBarang = () => {
-  // Edit data barang
-  const EditForm = ({
-    editItem,
-    setEditItem,
-    merkSelected,
-    setMerkSelected,
-    kategoriSelected,
-    setKategoriSelected,
-    ukuranSelected,
-    setUkuranSelected,
-    n_barang,
-    setNBarang,
-    jml_stok,
-    setJmlStok,
-    tipe_stok,
-    setTipeStok,
-    h_beli,
-    setHBeli,
-    h_jual,
-    setHJual,
-    img,
-    setImg,
-    getBarang,
-  }) => {
-    const saveEditedBarang = async () => {
+  const { checkRoleAndNavigate } = useUser();
+  const navigate = useNavigate();
+
+  const { id } = useParams();
+  const [barang, setBarang] = useState({});
+
+  const [n_barang, setNBarang] = useState("");
+  const [jml_stok, setJmlStok] = useState("");
+  const [h_beli, setHBeli] = useState("");
+  const [h_jual, setHJual] = useState("");
+  const [img, setImg] = useState("");
+  const [merk_id, setMerkId] = useState("");
+  const [kategori_id, setKategoriId] = useState("");
+  const [ukuran_id, setUkuranId] = useState("");
+  const [tipe_stok, setTipeStok] = useState("");
+  const optionsStok = [
+    { value: "pcs", text: "-/pcs" },
+    { value: "paket", text: "-/paket" },
+    { value: "set", text: "-/set" },
+    { value: "lusin", text: "-/lusin" },
+    { value: "-", text: "-/-" },
+  ];
+  const [merkIdOptions, setMerkIdOptions] = useState([]);
+  const [kategoriIdOptions, setKategoriIdOptions] = useState([]);
+  const [ukuranIdOptions, setUkuranIdOptions] = useState([]);
+
+  useEffect(() => {
+    // Fetch data for the selected barang based on the ID
+    const allowed = checkRoleAndNavigate(["pemilik", "karyawan"], navigate);
+
+    if (!allowed) {
+      //
+    }
+
+    const fetchBarang = async () => {
       try {
-        await axios.put(`http://localhost:1023/api/v1/barang/${editItem.id}`, {
-          n_barang,
-          jml_stok,
-          tipe_stok,
-          h_beli,
-          h_jual,
-          merk_id: merkSelected.id,
-          img,
-          kategori_id: kategoriSelected.id,
-          ukuran_id: ukuranSelected.id,
-        });
+        const response = await axios.get(
+          `http://localhost:1023/api/v1/barang/${id}`
+        );
+        const barangData = response.data.data[0];
 
-        // Lakukan operasi lain setelah berhasil menyimpan perubahan
-        // ...
-
-        // Sembunyikan formulir edit dan dapatkan ulang data barang
-        setEditItem(null);
-        getBarang();
+        setNBarang(barangData.n_barang);
+        setJmlStok(barangData.jml_stok);
+        setHBeli(barangData.h_beli);
+        setHJual(barangData.h_jual);
+        setMerkId(barangData.merk_id);
+        setImg(barangData.img);
+        setKategoriId(barangData.kategori_id);
+        setUkuranId(barangData.ukuran_id);
+        setTipeStok(barangData.tipe_stok);
       } catch (error) {
-        console.error("Error saving edited data:", error);
+        console.error("Error fetching data:", error);
       }
     };
 
-    const cancelEdit = () => {
-      // Sembunyikan formulir edit
-      setEditItem(null);
+    // Fetch merk, kategori, and ukuran options
+    const fetchOptions = async () => {
+      try {
+        const [merkResponse, kategoriResponse, ukuranResponse] =
+          await Promise.all([
+            axios.get("http://localhost:1023/api/v1/merk"),
+            axios.get("http://localhost:1023/api/v1/kategori"),
+            axios.get("http://localhost:1023/api/v1/ukuran"),
+          ]);
+
+        setMerkIdOptions(merkResponse.data.data);
+        setKategoriIdOptions(kategoriResponse.data.data);
+        setUkuranIdOptions(ukuranResponse.data.data);
+      } catch (error) {
+        console.error("Error fetching options:", error);
+      }
     };
 
-    useEffect(() => {
-      // Set nilai awal untuk input dan textarea saat editItem berubah
-      if (editItem) {
-        setMerkSelected({ id: editItem.merk_id, nama: editItem.nama_merk });
-        setKategoriSelected({
-          id: editItem.kategori_id,
-          nama: editItem.nama_kategori,
-        });
-        setUkuranSelected({
-          id: editItem.ukuran_id,
-          nama: editItem.nama_ukuran,
-        });
-        setNBarang(editItem.n_barang);
-        setJmlStok(editItem.jml_stok);
-        setTipeStok(editItem.tipe_stok);
-        setHBeli(editItem.h_beli);
-        setHJual(editItem.h_jual);
-        setImg(editItem.img);
-      }
-    }, [
-      editItem,
-      setMerkSelected,
-      setKategoriSelected,
-      setUkuranSelected,
-      setNBarang,
-      setJmlStok,
-      setTipeStok,
-      setHBeli,
-      setHJual,
-      setImg,
-    ]);
+    fetchBarang();
+    fetchOptions();
+  }, [navigate, id]);
+
+  const handleTipeStok = (e) => {
+    setTipeStok(e.target.value);
   };
+
+  const editData = async (e) => {
+    e.preventDefault();
+
+    // Perform the update API request
+    try {
+      await axios.put(`http://localhost:1023/api/v1/barang/${id}`, {
+        n_barang,
+        jml_stok,
+        h_beli,
+        h_jual,
+        merk_id,
+        img,
+        kategori_id,
+        ukuran_id,
+        tipe_stok,
+      });
+      Swal.fire({
+        title: "Edit Data barang Berhasil!",
+        text: "Berhasil edit barang ukuran!",
+        icon: "success",
+      });
+      navigate("/kelola-barang");
+    } catch (error) {
+      console.error("Error updating data:", error);
+      Swal.fire({
+        title: "Gagal edit barang!",
+        text: "Gagal edit data barang~",
+        icon: "error",
+      });
+    }
+  };
+
   return (
     <>
       <Navbar active1="active" />
       <div className="w-full pt-10 pb-20 px-4 sm:px-6 md:px-8 lg:ps-72">
-        <MainTitle size="text-3xl" main="Kelola Barang" />
-        <p className="text-md font-normal text-color-4">
-          <Link color="text-color-4" to="/dashboard">
-            Dashboard{" "}
-          </Link>
-          /{" "}
-          <Link color="text-color-4" to="/kelola-barang">
-            Kelola Barang{" "}
-          </Link>
-          /{" "}
-          <span color="text-color-5" className="italic">
-            Edit Barang
-          </span>
-        </p>
+        <div className="px-44 py-5">
+          <MainTitle size="text-3xl" main="Kelola Barang" />
+          <p className="text-md font-normal text-color-4">
+            <Link color="text-color-4" to="/dashboard">
+              Dashboard{" "}
+            </Link>
+            /{" "}
+            <Link color="text-color-4" to="/kelola-barang">
+              Kelola Barang{" "}
+            </Link>
+            /{" "}
+            <span color="text-color-5" className="italic">
+              Edit Barang
+            </span>
+          </p>
+        </div>
 
         {/* Content */}
         <div className="">
-          <form action="#" className="">
-            <div className="sm:p-5 overflow-y-auto ">
-              <div className="flex p-5 gap-x-4 md:gap-x-7 bg-color-6">
+          <form onSubmit={editData}>
+            <div className="px-44 py-5">
+              <div className="flex p-5 gap-x-4 md:gap-x-7 bg-color-6 shadow-lg rounded-xl">
                 <div className="grow">
                   <div className="mt-10 grid grid-cols-10 gap-3">
                     <div className="col-span-5">
@@ -140,9 +162,11 @@ const EditKelolaBarang = () => {
                       <div className="relative">
                         <input
                           type="text"
-                          name="hs-leading-icon"
+                          name="n_barang"
+                          value={n_barang}
+                          onChange={(e) => setNBarang(e.target.value)}
                           className="py-3 px-4 block w-full border-color-3 shadow-sm rounded-lg text-sm focus:z-10 focus:border-color-2  disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:text-gray-400 dark:focus:ring-color-2"
-                          placeholder="Kabel Data ANKER Micro USB"
+                          placeholder="Masukkan nama barang..."
                         />
                       </div>
                     </div>
@@ -163,9 +187,11 @@ const EditKelolaBarang = () => {
                           </div>
                           <input
                             type="text"
-                            name="hs-input-with-add-on-url"
+                            name="h_beli"
+                            value={h_beli}
+                            onChange={(e) => setHBeli(e.target.value)}
                             className="py-3 px-4 pe-11  block w-full border-color-3 shadow-sm rounded-e-md text-sm focus:z-10 focus:border-color-2  disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:text-gray-400 dark:focus:ring-color-2"
-                            placeholder="24600"
+                            placeholder="..."
                           />
                         </div>
                       </div>
@@ -183,7 +209,9 @@ const EditKelolaBarang = () => {
                       <div className="relative">
                         <input
                           type="text"
-                          name="hs-leading-icon"
+                          name="jml_stok"
+                          value={jml_stok}
+                          onChange={(e) => setJmlStok(e.target.value)}
                           className="py-3 px-4 block w-full border-color-3 shadow-sm rounded-lg text-sm focus:z-10 focus:border-color-2  disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:text-gray-400 dark:focus:ring-color-2"
                           placeholder="30"
                         />
@@ -195,13 +223,16 @@ const EditKelolaBarang = () => {
                             satuan barang
                           </label>
                           <select
-                            id="hs-inline-leading-select-currency"
-                            name="hs-inline-leading-select-currency"
+                            name="tipe_stok"
+                            value={tipe_stok}
+                            onChange={handleTipeStok}
                             className="py-3 pl-7 border-color-3 shadow-sm rounded-lg text-sm focus:z-10 focus:border-color-2 disabled:opacity-50 disabled:pointer-events-none dark:bg-color-2 dark:text-color-4 font-semibold dark:focus:ring-color-2"
                           >
-                            <option>-/pcs</option>
-                            <option>-/paket</option>
-                            <option>-/set</option>
+                            {optionsStok.map((tipe) => (
+                              <option key={tipe.value} value={tipe.value}>
+                                {tipe.text}
+                              </option>
+                            ))}
                           </select>
                         </div>
                       </div>
@@ -223,9 +254,11 @@ const EditKelolaBarang = () => {
                           </div>
                           <input
                             type="text"
-                            name="hs-input-with-add-on-url"
+                            name="h_jual"
+                            value={h_jual}
+                            onChange={(e) => setHJual(e.target.value)}
                             className="py-3 px-4 pe-11  block w-full border-color-3 shadow-sm rounded-e-md text-sm focus:z-10 focus:border-color-2  disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:text-gray-400 dark:focus:ring-color-2"
-                            placeholder="30000"
+                            placeholder="..."
                           />
                         </div>
                       </div>
@@ -242,19 +275,17 @@ const EditKelolaBarang = () => {
                       </label>
                       <div className="relative">
                         <select
-                          id="hs-select-label"
-                          defaultValue={"DEFAULT"}
+                          name="merk_id"
+                          value={merk_id}
+                          onChange={(e) => setMerkId(e.target.value)}
                           className="py-3 px-4 pe-9 block w-full  border-color-3 shadow-sm rounded-lg text-sm focus:z-10 focus:border-color-2  disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:text-gray-400 dark:focus:ring-color-2"
                         >
                           <option value="DEFAULT">Pilih merk</option>
-                          <option selected value="">
-                            ANKER
-                          </option>
-                          <option value="">Xiaomi</option>
-                          <option value="">Robot</option>
-                          <option value="">Simpati</option>
-                          <option value="">Indosat</option>
-                          <option value="">Xl</option>
+                          {merkIdOptions.map((merk) => (
+                            <option key={merk.id} value={merk.id}>
+                              {merk.n_merk}
+                            </option>
+                          ))}
                         </select>
                       </div>
                     </div>
@@ -293,20 +324,17 @@ const EditKelolaBarang = () => {
                       </label>
                       <div className="relative">
                         <select
-                          id="hs-select-label"
+                          name="kategori_id"
+                          value={kategori_id}
+                          onChange={(e) => setKategoriId(e.target.value)}
                           className="py-3 px-4 pe-9 block w-full rounded-lg border-color-3 shadow-sm text-sm focus:z-10 focus:border-color-2  disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:text-gray-400 dark:focus:ring-color-2"
                         >
                           <option value="DEFAULT">Pilih Kategori</option>
-                          <option selected value="">
-                            Kabel Data
-                          </option>
-                          <option value="">Aksesoris</option>
-                          <option value="">Casing HP</option>
-                          <option value="">Charger</option>
-                          <option value="">Kartu Perdana</option>
-                          <option value="">Tempered Glass</option>
-                          <option value="">Pulsa</option>
-                          <option value="">Lainnya</option>
+                          {kategoriIdOptions.map((kategori) => (
+                            <option key={kategori.id} value={kategori.id}>
+                              {kategori.n_kategori}
+                            </option>
+                          ))}
                         </select>
                       </div>
                     </div>
@@ -321,14 +349,17 @@ const EditKelolaBarang = () => {
                       </label>
                       <div className="relative">
                         <select
-                          id="hs-select-label"
-                          defaultValue={"DEFAULT"}
+                          name="ukuran_id"
+                          value={ukuran_id}
+                          onChange={(e) => setUkuranId(e.target.value)}
                           className="py-3 px-4 pe-9 block w-full rounded-lg border-color-3 shadow-sm text-sm focus:z-10 focus:border-color-2  disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:text-gray-400 dark:focus:ring-color-2"
                         >
                           <option value="DEFAULT">Pilih Ukuran</option>
-                          <option selected value="">
-                            -
-                          </option>
+                          {ukuranIdOptions.map((ukuran) => (
+                            <option key={ukuran.id} value={ukuran.id}>
+                              {ukuran.n_ukuran}
+                            </option>
+                          ))}
                         </select>
                       </div>
                     </div>
@@ -340,8 +371,8 @@ const EditKelolaBarang = () => {
             <div className="flex justify-end items-center gap-x-2 py-3 px-4 ">
               <button
                 type="button"
+                onClick={() => navigate(-1)}
                 className="py-2 px-5 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-color-5  shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-zinc-200 dark:border-color-5dark:text-color-5 dark:hover:bg-zinc-300 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-color-5"
-                data-hs-overlay="#hs-danger-alert"
               >
                 Kembali
               </button>

@@ -3,7 +3,7 @@ const query = require("../database");
 const getUsers = async (req, res) => {
   try {
     const data = await query(
-      "SELECT id, f_name, l_name, email, gender, role, phone_number FROM users ORDER BY id DESC"
+      "SELECT id, f_name, l_name, email, gender, role, phone_number, updated_at FROM users ORDER BY updated_at DESC"
     );
 
     const { q } = req.query;

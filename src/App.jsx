@@ -48,6 +48,8 @@ const App = () => {
               isAuthenticated() ? <Dashboard /> : <Navigate to="/login" />
             }
           />
+
+          {/* Barang */}
           <Route
             path="/kelola-barang"
             element={
@@ -55,7 +57,7 @@ const App = () => {
             }
           />
           <Route
-            path="/kelola-barang-edit"
+            path="/kelola-barang/edit/:id"
             element={
               isAuthenticated() ? (
                 <EditKelolaBarang />
@@ -65,43 +67,49 @@ const App = () => {
             }
           />
 
+          {/* Merk */}
           <Route
-            path="/kelola-merk"
+            path="/kelola-produk/merk"
             element={
               isAuthenticated() ? <MerkProduk /> : <Navigate to="/login" />
             }
           />
           <Route
-            path="/kelola-merk-edit"
+            path="/kelola-produk/merk/edit/:id"
             element={
               isAuthenticated() ? <EditMerk /> : <Navigate to="/login" />
             }
           />
+
+          {/* Kategori */}
           <Route
-            path="/kelola-kategori"
+            path="/kelola-produk/kategori"
             element={
               isAuthenticated() ? <Kategori /> : <Navigate to="/login" />
             }
           />
           <Route
-            path="/kelola-kategori-edit"
+            path="/kelola-produk/kategori/edit/:id"
             element={
               isAuthenticated() ? <EditKategori /> : <Navigate to="/login" />
             }
           />
+
+          {/* Ukuran */}
           <Route
-            path="/kelola-ukuran"
+            path="/kelola-produk/ukuran"
             element={isAuthenticated() ? <Ukuran /> : <Navigate to="/login" />}
           />
           <Route
-            path="/kelola-ukuran-edit"
+            path="/kelola-produk/ukuran/edit/:id"
             element={
               isAuthenticated() ? <EditUkuran /> : <Navigate to="/login" />
             }
           />
 
+          {/* Laporan keuangan */}
           <Route
-            path="/laporan-pemasukan"
+            path="/laporan-keuangan/pemasukan"
             element={
               isAuthenticated() ? (
                 <LaporanPemasukan />
@@ -111,7 +119,7 @@ const App = () => {
             }
           />
           <Route
-            path="/laporan-pengeluaran"
+            path="/laporan-keuangan/pengeluaran"
             element={
               isAuthenticated() ? (
                 <LaporanPengeluaran />
@@ -121,12 +129,15 @@ const App = () => {
             }
           />
 
+          {/* Kelola users */}
           <Route
             path="/kelola-users"
             element={
               isAuthenticated() ? <KelolaUsers /> : <Navigate to="/login" />
             }
           />
+
+          {/* Blank */}
           <Route
             path="*"
             element={isAuthenticated() ? <Blank /> : <Navigate to="/login" />}

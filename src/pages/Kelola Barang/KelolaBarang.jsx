@@ -349,13 +349,19 @@ const KelolaBarang = () => {
                                   </td>
                                   <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
                                     <div className="text-center">
-                                      <button
-                                        type="button"
-                                        className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-yellow-500 text-white hover:bg-yellow-600 disabled:opacity-50 disabled:pointer-events-none "
-                                        data-hs-overlay="#hs-danger-alert"
+                                      <Link
+                                        to={`/kelola-barang/edit/${item.id_barang}`}
                                       >
-                                        <FontAwesomeIcon icon={faPenToSquare} />
-                                      </button>
+                                        <button
+                                          type="button"
+                                          className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-yellow-500 text-white hover:bg-yellow-600 disabled:opacity-50 disabled:pointer-events-none "
+                                          data-hs-overlay="#hs-danger-alert"
+                                        >
+                                          <FontAwesomeIcon
+                                            icon={faPenToSquare}
+                                          />
+                                        </button>
+                                      </Link>
                                       <button
                                         type="buton"
                                         onClick={() =>

@@ -11,6 +11,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Logout from "../Logout/Logout";
 import { useUser } from "../../context/UserContext";
+import logo from "../../assets/main-logo.svg";
 
 const Navbar = (props) => {
   const { getUserData } = useUser();
@@ -30,15 +31,15 @@ const Navbar = (props) => {
       icon: faBoxesPacking,
       data: [
         {
-          path: "/kelola-merk",
+          path: "/kelola-produk/merk",
           name: "Merk Produk",
         },
         {
-          path: "/kelola-kategori",
+          path: "/kelola-produk/kategori",
           name: "Kategori",
         },
         {
-          path: "/kelola-ukuran",
+          path: "/kelola-produk/ukuran",
           name: "Ukuran",
         },
       ],
@@ -51,11 +52,11 @@ const Navbar = (props) => {
       icon: faFileInvoiceDollar,
       data: [
         {
-          path: "/laporan-pemasukan",
+          path: "/laporan-keuangan/pemasukan",
           name: "Pemasukan",
         },
         {
-          path: "/laporan-pengeluaran",
+          path: "/laporan-keuangan/pengeluaran",
           name: "Pengeluaran",
         },
       ],
@@ -212,7 +213,7 @@ const Navbar = (props) => {
               className="flex text-xl font-semibold dark:text-color-5 fosiz dark:focus:outline-none "
               to={"/dashboard"}
             >
-              <img src="./src/assets/main-logo.svg" width={200} alt="" />
+              <img src={logo} width={200} alt="" />
             </NavLink>
           </div>
 

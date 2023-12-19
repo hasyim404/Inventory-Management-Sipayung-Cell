@@ -3,7 +3,7 @@ const query = require("../database");
 const getKategori = async (req, res) => {
   try {
     const data = await query(
-      "SELECT id, n_kategori, catatan FROM kategori ORDER BY id DESC"
+      "SELECT id, n_kategori, catatan, updated_at FROM kategori ORDER BY updated_at DESC"
     );
 
     const { q } = req.query;

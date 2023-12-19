@@ -3,7 +3,7 @@ const query = require("../database");
 const getUkuran = async (req, res) => {
   try {
     const data = await query(
-      "SELECT id, n_ukuran, catatan FROM ukuran ORDER BY id DESC"
+      "SELECT id, n_ukuran, catatan, updated_at FROM ukuran ORDER BY updated_at DESC"
     );
 
     return res.status(200).json({
