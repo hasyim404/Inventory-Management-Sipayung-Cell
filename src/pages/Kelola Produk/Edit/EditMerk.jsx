@@ -167,15 +167,22 @@ const EditMerk = () => {
                         <div className="flex items-center">
                           <ModalImage
                             className="w-24 p-1 rounded-s-md border border-color-2 disabled:opacity-50 disabled:pointer-events-none dark:bg-color-2 dark:text-gray-400 dark:focus:ring-color-2"
-                            small={`${noPreview}`}
-                            medium={`${noPreview}`}
+                            small={
+                              logo !== ""
+                                ? `/src/assets/${logo}`
+                                : `/src/assets/no-preview.png`
+                            }
+                            medium={
+                              logo !== ""
+                                ? `/src/assets/${logo}`
+                                : `/src/assets/no-preview.png`
+                            }
                             hideDownload
                           />
 
                           <input
                             type="file"
                             name="logo"
-                            value={logo}
                             onChange={handleInputChange}
                             className="block bg-color-6 mr-2 w-full text-sm text-gray-500 file:me-4 file:py-1.5 file:px-2.5 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-color-1 file:text-white hover:file:bg-6hover file:disabled:opacity-50 file:cursor-pointe border-color-3 focus:z-10 focus:border-color-2 dark:focus:ring-color-2"
                           />
@@ -198,7 +205,7 @@ const EditMerk = () => {
                   Kembali
                 </button>
                 <button className="py-2 px-8 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-yellow-500 text-white hover:bg-yellow-600 disabled:opacity-50 disabled:pointer-events-none ">
-                  Edit Barang
+                  Edit Merk
                 </button>
               </div>
             </div>

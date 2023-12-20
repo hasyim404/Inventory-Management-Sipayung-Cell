@@ -11,6 +11,7 @@ import Navbar from "../../components/Navbar/Navbar";
 import MainTitle from "../../components/MainTitle";
 import Subnav from "../../components/Subnav";
 import noPreview from "../../assets/no-preview.png";
+// import urlImg from "../../assets";
 
 import { useUser } from "../../context/UserContext";
 import Pagination from "../../components/Pagination/Pagination";
@@ -222,12 +223,20 @@ const MerkProduk = () => {
                                   <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
                                     <ModalImage
                                       className="w-20 border border-color-2 shadow-sm rounded-sm"
-                                      small={`${noPreview}`}
-                                      medium={`${noPreview}`}
+                                      small={
+                                        item.logo !== ""
+                                          ? `/src/assets/${item.logo}`
+                                          : `/src/assets/no-preview.png`
+                                      }
+                                      medium={
+                                        logo !== ""
+                                          ? `/src/assets/${logo}`
+                                          : `/src/assets/no-preview.png`
+                                      }
                                       hideDownload
                                     />
                                   </td>
-                                  <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5">
+                                  <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5 text-center">
                                     {item.catatan}
                                   </td>
                                   <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
