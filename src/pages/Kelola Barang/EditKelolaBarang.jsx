@@ -8,10 +8,12 @@ import ModalImage from "react-modal-image";
 import MainTitle from "../../components/MainTitle";
 import Navbar from "../../components/Navbar/Navbar";
 import { useUser } from "../../context/UserContext";
+import noPreview from "../../assets/no-preview.png";
 
 const EditKelolaBarang = () => {
-  const { checkRoleAndNavigate } = useUser();
+  const { checkRoleAndNavigate, getUserData } = useUser();
   const navigate = useNavigate();
+  const data = getUserData();
 
   const { id } = useParams();
   const [barang, setBarang] = useState({});
@@ -25,6 +27,7 @@ const EditKelolaBarang = () => {
   const [kategori_id, setKategoriId] = useState("");
   const [ukuran_id, setUkuranId] = useState("");
   const [tipe_stok, setTipeStok] = useState("");
+  const [users_id, setUsersId] = useState([data.id]);
   const optionsStok = [
     { value: "pcs", text: "-/pcs" },
     { value: "paket", text: "-/paket" },
@@ -36,6 +39,11 @@ const EditKelolaBarang = () => {
   const [kategoriIdOptions, setKategoriIdOptions] = useState([]);
   const [ukuranIdOptions, setUkuranIdOptions] = useState([]);
 
+  const getBarang = async () => {
+    const response = await axios.get("http://localhost:1023/api/v1/barang");
+    setBarang(response.data.data[0]);
+  };
+
   useEffect(() => {
     // Fetch data for the selected barang based on the ID
     const allowed = checkRoleAndNavigate(["pemilik", "karyawan"], navigate);
@@ -43,6 +51,8 @@ const EditKelolaBarang = () => {
     if (!allowed) {
       //
     }
+
+    getBarang();
 
     const fetchBarang = async () => {
       try {
@@ -59,6 +69,7 @@ const EditKelolaBarang = () => {
         setImg(barangData.img);
         setKategoriId(barangData.kategori_id);
         setUkuranId(barangData.ukuran_id);
+        setUsersId(barangData.users_id);
         setTipeStok(barangData.tipe_stok);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -105,6 +116,7 @@ const EditKelolaBarang = () => {
         img,
         kategori_id,
         ukuran_id,
+        users_id: data.id,
         tipe_stok,
       });
       Swal.fire({
@@ -264,7 +276,7 @@ const EditKelolaBarang = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="mt-5 grid grid-cols-10 gap-3">
+                  <div className="mt-5 grid grid-cols-10 gap-3 mb-5">
                     <div className="col-span-5">
                       <label
                         htmlFor="hs-leading-icon"
@@ -300,13 +312,14 @@ const EditKelolaBarang = () => {
                         <div className="flex items-center">
                           <ModalImage
                             className="w-24 p-1 rounded-s-md border border-color-2 disabled:opacity-50 disabled:pointer-events-none dark:bg-color-2 dark:text-gray-400 dark:focus:ring-color-2"
-                            small={`./src/assets/voucher.png`}
-                            medium={`./src/assets/voucher.png`}
+                            small={`${noPreview}`}
+                            medium={`${noPreview}`}
                             hideDownload
                           />
 
                           <input
                             type="file"
+                            name="img"
                             className="block bg-color-6 mr-2 w-full text-sm text-gray-500 file:me-4 file:py-1.5 file:px-2.5 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-color-1 file:text-white hover:file:bg-6hover file:disabled:opacity-50 file:cursor-pointe border-color-3 focus:z-10 focus:border-color-2 dark:focus:ring-color-2"
                           />
                         </div>
@@ -336,6 +349,23 @@ const EditKelolaBarang = () => {
                             </option>
                           ))}
                         </select>
+                      </div>
+                    </div>
+                    <div className="col-span-5">
+                      <label
+                        htmlFor="hs-leading-icon"
+                        className="block text-md font-medium mb-2 dark:text-color-5"
+                      >
+                        Penanggung Jawab{" "}
+                        <span className="italic text-color-warning">*</span>
+                      </label>
+                      <div className="relative">
+                        <input
+                          type="text"
+                          disabled
+                          className="py-3 px-4 block w-full border-color-3 shadow-sm rounded-lg text-sm focus:z-10 focus:border-color-2  disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:text-gray-400 dark:focus:ring-color-2"
+                          placeholder={`${barang.f_name} ${barang.l_name}`}
+                        />
                       </div>
                     </div>
                   </div>
@@ -368,17 +398,19 @@ const EditKelolaBarang = () => {
               </div>
             </div>
 
-            <div className="flex justify-end items-center gap-x-2 py-3 px-4 ">
-              <button
-                type="button"
-                onClick={() => navigate(-1)}
-                className="py-2 px-5 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-color-5  shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-zinc-200 dark:border-color-5dark:text-color-5 dark:hover:bg-zinc-300 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-color-5"
-              >
-                Kembali
-              </button>
-              <button className="py-2 px-8 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-yellow-500 text-white hover:bg-yellow-600 disabled:opacity-50 disabled:pointer-events-none ">
-                Edit Barang
-              </button>
+            <div className="px-60 py-5">
+              <div className="flex justify-end items-center gap-x-2 py-3 px-4 ">
+                <button
+                  type="button"
+                  onClick={() => navigate(-1)}
+                  className="py-2 px-5 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-color-5  shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-zinc-200 dark:border-color-5dark:text-color-5 dark:hover:bg-zinc-300 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-color-5"
+                >
+                  Kembali
+                </button>
+                <button className="py-2 px-8 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-yellow-500 text-white hover:bg-yellow-600 disabled:opacity-50 disabled:pointer-events-none ">
+                  Edit Barang
+                </button>
+              </div>
             </div>
           </form>
         </div>

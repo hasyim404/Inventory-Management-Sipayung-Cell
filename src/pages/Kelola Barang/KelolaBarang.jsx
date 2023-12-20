@@ -21,8 +21,9 @@ import Pagination from "../../components/Pagination/Pagination";
 import SearchBar from "../../components/SearchBar/SearchBar";
 
 const KelolaBarang = () => {
-  const { checkRoleAndNavigate } = useUser();
+  const { checkRoleAndNavigate, getUserData } = useUser();
   const navigate = useNavigate();
+  const data = getUserData();
 
   const [barang, setBarang] = useState([]);
 
@@ -44,6 +45,7 @@ const KelolaBarang = () => {
   const [kategoriIdOptions, setKategoriIdOptions] = useState([]);
   const [ukuran_id, setUkuranId] = useState("");
   const [ukuranIdOptions, setUkuranIdOptions] = useState([]);
+  const [users_id, setUsersId] = useState([data.id]);
   const [query, setQuery] = useState("");
 
   // Handle Select
@@ -118,6 +120,7 @@ const KelolaBarang = () => {
         img,
         kategori_id,
         ukuran_id,
+        users_id,
       });
 
       Swal.fire({
@@ -185,7 +188,7 @@ const KelolaBarang = () => {
       judul: "Stok",
     },
     {
-      judul: "Kategori",
+      judul: "Merk",
     },
     {
       judul: "Harga Beli",
@@ -323,7 +326,7 @@ const KelolaBarang = () => {
                                     {item.jml_stok} -/{item.tipe_stok}
                                   </td>
                                   <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                    {item.n_kategori}
+                                    {item.n_merk}
                                   </td>
                                   <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
                                     Rp. {item.h_beli}

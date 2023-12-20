@@ -3,11 +3,12 @@ const query = require("../database");
 const getBarang = async (req, res) => {
   try {
     const data = await query(
-      `SELECT barang.id AS id_barang, n_barang, jml_stok, tipe_stok, h_beli, h_jual, n_merk, img, n_kategori, n_ukuran, barang.updated_at AS waktu
+      `SELECT barang.id AS id_barang, n_barang, jml_stok, tipe_stok, h_beli, h_jual, n_merk, img, n_kategori, n_ukuran, f_name, l_name, barang.updated_at AS waktu
        FROM barang 
        INNER JOIN kategori ON kategori.id = barang.kategori_id
        INNER JOIN merk ON merk.id = barang.merk_id
        INNER JOIN ukuran ON ukuran.id = barang.ukuran_id
+       INNER JOIN users ON users.id = barang.users_id
        ORDER BY waktu DESC`
     );
 
@@ -18,7 +19,7 @@ const getBarang = async (req, res) => {
     );
 
     const { q } = req.query;
-    const keys = ["n_barang", "n_kategori"];
+    const keys = ["n_barang", "n_merk"];
     const search = (data) => {
       return data.filter((item) =>
         keys.some((key) => item[key].toLowerCase().includes(q))
@@ -77,6 +78,7 @@ const createBarang = async (req, res) => {
     img,
     kategori_id,
     ukuran_id,
+    users_id,
   } = req.body;
 
   if (
@@ -95,7 +97,9 @@ const createBarang = async (req, res) => {
     kategori_id === undefined ||
     kategori_id === "" ||
     ukuran_id === undefined ||
-    ukuran_id === ""
+    ukuran_id === "" ||
+    users_id === undefined ||
+    users_id === ""
   )
     return res.status(400).json({
       success: false,
@@ -115,7 +119,7 @@ const createBarang = async (req, res) => {
       });
 
     const { resultId: id } = await query(
-      "insert into barang(n_barang, jml_stok, tipe_stok, h_beli, h_jual, merk_id, img, kategori_id, ukuran_id) values(?,?,?,?,?,?,?,?,?)",
+      "insert into barang(n_barang, jml_stok, tipe_stok, h_beli, h_jual, merk_id, img, kategori_id, ukuran_id, users_id) values(?,?,?,?,?,?,?,?,?,?)",
       [
         n_barang,
         jml_stok,
@@ -126,6 +130,7 @@ const createBarang = async (req, res) => {
         img,
         kategori_id,
         ukuran_id,
+        users_id,
       ]
     );
 
@@ -154,6 +159,7 @@ const updateBarang = async (req, res) => {
     img,
     kategori_id,
     ukuran_id,
+    users_id,
   } = req.body;
 
   if (
@@ -170,7 +176,9 @@ const updateBarang = async (req, res) => {
     merk_id === undefined ||
     merk_id === "" ||
     kategori_id === undefined ||
-    kategori_id === ""
+    kategori_id === "" ||
+    users_id === undefined ||
+    users_id === ""
   )
     return res.status(400).json({
       success: false,
@@ -190,7 +198,7 @@ const updateBarang = async (req, res) => {
       });
 
     const data = await query(
-      "UPDATE barang SET n_barang = ?, jml_stok = ?, tipe_stok = ?, h_beli = ?, h_jual = ?, merk_id = ?, img = ?, kategori_id = ?, ukuran_id = ? WHERE id = ?",
+      "UPDATE barang SET n_barang = ?, jml_stok = ?, tipe_stok = ?, h_beli = ?, h_jual = ?, merk_id = ?, img = ?, kategori_id = ?, ukuran_id = ?, users_id = ? WHERE id = ?",
       [
         n_barang,
         jml_stok,
@@ -201,6 +209,7 @@ const updateBarang = async (req, res) => {
         img,
         kategori_id,
         ukuran_id,
+        users_id,
         id,
       ]
     );
