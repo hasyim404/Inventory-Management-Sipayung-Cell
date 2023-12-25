@@ -1,0 +1,11 @@
+Admin
+email: admin@sipayung.com
+pw: Rekures_Sedap21
+
+Pemilik
+email: sipayung@gmail.com
+pw: sipayung
+
+Karyawan
+email: ismailismail@gmail.com
+pw: ismailismail
