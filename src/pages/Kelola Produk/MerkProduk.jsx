@@ -229,8 +229,8 @@ const MerkProduk = () => {
                                           : `/src/assets/no-preview.png`
                                       }
                                       medium={
-                                        logo !== ""
-                                          ? `/src/assets/${logo}`
+                                        item.logo !== ""
+                                          ? `/src/assets/${item.logo}`
                                           : `/src/assets/no-preview.png`
                                       }
                                       hideDownload

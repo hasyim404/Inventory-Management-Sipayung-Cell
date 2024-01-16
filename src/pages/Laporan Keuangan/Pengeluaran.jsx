@@ -69,12 +69,12 @@ const Pengeluaran = () => {
                   <div className="col-span-7 flex justify-end">
                     <div className="py-1 px-2">
                       <p className="font-semibold underline underline-offset-4">
-                        01 Nov 2023 - 30 Nov 2023
+                        01 Des 2023 - 31 Des 2023
                       </p>
                       <p className="font-semibold">
                         Total pengeluaran:{" "}
                         <span className="font-normal text-color-4">
-                          Rp. 45.000
+                          Rp. 2.037.000
                         </span>
                       </p>
                     </div>
@@ -137,7 +137,7 @@ const Pengeluaran = () => {
                                   scope="col"
                                   className="px-6 py-3 text-center text-sm font-boldtext-color-5 uppercase"
                                 >
-                                  pengeluaran
+                                  Pemasukan
                                 </th>
                                 <th
                                   scope="col"
@@ -153,68 +153,126 @@ const Pengeluaran = () => {
                                   1.
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5">
-                                  Selasa, 12 Desember 2023
+                                  Minggu, 20 Desember 2023
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5 text-center">
-                                  Kabel Data
+                                  Kabel data Micro USB
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5 text-center">
-                                  4
+                                  9
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5 text-center">
-                                  Rp. 45000
+                                  Rp. 125000
                                 </td>
 
                                 <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
                                   <div className="text-center ">
-                                    <Link to={"#"}>
-                                      <button
-                                        className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-yellow-500 text-white hover:bg-yellow-600 disabled:opacity-50 disabled:pointer-events-none "
-                                        data-hs-overlay="#hs-danger-alert"
-                                      >
-                                        <FontAwesomeIcon icon={faPenToSquare} />
-                                      </button>
-                                    </Link>
                                     <button className="deleteBtn py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none ">
                                       <FontAwesomeIcon icon={faTrashCan} />
                                     </button>
                                   </div>
                                 </td>
                               </tr>
-                              {/* {ukuran.map((item, index) => (
-                                <tr key={item.id}>
-                                  <td className="px-6 text-center py-4 whitespace-nowrap text-sm font-medium text-color-5">
-                                    {index + 1}.
-                                  </td>
-                                  <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5">
-                                    {item.nUkuran}
-                                  </td>
-                                  <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5 text-center">
-                                    {item.catatan !== "" ? item.catatan : "-"}
-                                  </td>
+                              <tr>
+                                <td className="px-6 text-center py-4 whitespace-nowrap text-sm font-medium text-color-5">
+                                  2.
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5">
+                                  Minggu, 16 Desember 2023
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5 text-center">
+                                  Kepala Charger 33 Watt
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5 text-center">
+                                  11
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5 text-center">
+                                  Rp. 128000
+                                </td>
 
-                                  <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                    <div className="text-center ">
-                                      <Link to={"/kelola-merk-produk/edit"}>
-                                        <button
-                                          className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-yellow-500 text-white hover:bg-yellow-600 disabled:opacity-50 disabled:pointer-events-none "
-                                          data-hs-overlay="#hs-danger-alert"
-                                        >
-                                          <FontAwesomeIcon
-                                            icon={faPenToSquare}
-                                          />
-                                        </button>
-                                      </Link>
-                                      <button
-                                        onClick={() => deleteKategori(item.id)}
-                                        className="deleteBtn py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none "
-                                      >
-                                        <FontAwesomeIcon icon={faTrashCan} />
-                                      </button>
-                                    </div>
-                                  </td>
-                                </tr>
-                              ))} */}
+                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
+                                  <div className="text-center ">
+                                    <button className="deleteBtn py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none ">
+                                      <FontAwesomeIcon icon={faTrashCan} />
+                                    </button>
+                                  </div>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td className="px-6 text-center py-4 whitespace-nowrap text-sm font-medium text-color-5">
+                                  3.
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5">
+                                  Jumat, 15 Desember 2023
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5 text-center">
+                                  Power Bank 10000 mAh
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5 text-center">
+                                  5
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5 text-center">
+                                  Rp. 260000
+                                </td>
+
+                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
+                                  <div className="text-center ">
+                                    <button className="deleteBtn py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none ">
+                                      <FontAwesomeIcon icon={faTrashCan} />
+                                    </button>
+                                  </div>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td className="px-6 text-center py-4 whitespace-nowrap text-sm font-medium text-color-5">
+                                  4.
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5">
+                                  Jumat, 15 Desember 2023
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5 text-center">
+                                  Anti Gores Redmi Note 11
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5 text-center">
+                                  7
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5 text-center">
+                                  Rp. 75000
+                                </td>
+
+                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
+                                  <div className="text-center ">
+                                    <button className="deleteBtn py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none ">
+                                      <FontAwesomeIcon icon={faTrashCan} />
+                                    </button>
+                                  </div>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td className="px-6 text-center py-4 whitespace-nowrap text-sm font-medium text-color-5">
+                                  5.
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5">
+                                  Kamis, 14 Desember 2023
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5 text-center">
+                                  Kabel USB 120 W
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5 text-center">
+                                  8
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5 text-center">
+                                  Rp. 85000
+                                </td>
+
+                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
+                                  <div className="text-center ">
+                                    <button className="deleteBtn py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none ">
+                                      <FontAwesomeIcon icon={faTrashCan} />
+                                    </button>
+                                  </div>
+                                </td>
+                              </tr>
                             </tbody>
                           </table>
 
@@ -396,7 +454,7 @@ const Pengeluaran = () => {
                                                   type="text"
                                                   name="hs-input-with-add-on-url"
                                                   className="py-3 px-4 pe-11  block w-full border-color-3 shadow-sm rounded-e-md text-sm focus:z-10 focus:border-color-2  disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:text-gray-400 dark:focus:ring-color-2"
-                                                  placeholder="30000"
+                                                  placeholder="..."
                                                 />
                                               </div>
                                             </div>
@@ -414,6 +472,7 @@ const Pengeluaran = () => {
                                             <div className="relative">
                                               <input
                                                 type="text"
+                                                placeholder="..."
                                                 name="hs-leading-icon"
                                                 className="py-3 px-4 block w-full border-color-3 shadow-sm rounded-lg text-sm focus:z-10 focus:border-color-2  disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:text-gray-400 dark:focus:ring-color-2"
                                               />
