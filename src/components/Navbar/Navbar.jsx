@@ -239,11 +239,13 @@ const Navbar = (props) => {
               </NavLink>
 
               <div className="pl-1 pt-2 font-semibold text-sm">
-                <p>{data.role === "admin" ? "Kelola Users" : "Kelola Data"}</p>
+                <p>
+                  {data.role === "pemilik" ? "Kelola Users" : "Kelola Data"}
+                </p>
               </div>
 
               {/* Kelola User */}
-              {data.role === "admin" && (
+              {data.role === "pemilik" && (
                 <NavLink
                   to={"/kelola-users"}
                   className={`flex items-center gap-x-3.5 py-5 px-2.5 text-sm rounded-lg font-semibold 

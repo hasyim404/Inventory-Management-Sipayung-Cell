@@ -11,7 +11,7 @@ import {
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, Title } from "chart.js";
 import { Pie } from "react-chartjs-2";
 ChartJS.register(ArcElement, Tooltip, Legend);
-import ModalImage from "react-modal-image";
+import Zoom from "react-medium-image-zoom";
 import Subnav from "../../components/Subnav";
 import MainTitle from "../../components/MainTitle";
 import Pagination from "../../components/Pagination/Pagination";
@@ -52,6 +52,13 @@ const Dashboard = () => {
     "rgba(75, 192, 192, 1)",
     "rgba(153, 102, 255, 1)",
   ];
+
+  const toIDR = new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  });
 
   return (
     <>
@@ -128,7 +135,7 @@ const Dashboard = () => {
                       Pemasukan Bulanan
                     </h3>
                     <p className="text-3xl font-semibold text-color-5">
-                      Rp.4.000.000
+                      {toIDR.format("4000000")}
                     </p>
                   </div>
                   <div className="ps-3"></div>
@@ -198,20 +205,16 @@ const Dashboard = () => {
                                     {item.jml_stok} -/{item.tipe_stok}
                                   </td>
                                   <td className="flex justify-center items-center px-6 py-4 whitespace-nowrap text-sm ">
-                                    <ModalImage
-                                      className="w-20 p-1 rounded-s-md border border-color-2 disabled:opacity-50 disabled:pointer-events-none dark:bg-color-2 dark:text-gray-400 dark:focus:ring-color-2"
-                                      small={`./src/assets/${
-                                        item.img !== ""
-                                          ? item.img
-                                          : "no-preview.png"
-                                      }`}
-                                      medium={`./src/assets/${
-                                        item.img !== ""
-                                          ? item.img
-                                          : "no-preview.png"
-                                      }`}
-                                      hideDownload
-                                    />
+                                    <Zoom>
+                                      <img
+                                        className="w-20 p-1 rounded-s-md border border-color-2 disabled:opacity-50 disabled:pointer-events-none dark:bg-color-2 dark:text-gray-400 dark:focus:ring-color-2"
+                                        src={`./src/assets/${
+                                          item.img !== ""
+                                            ? item.img
+                                            : "no-preview.png"
+                                        }`}
+                                      />
+                                    </Zoom>
                                   </td>
                                 </tr>
                               ))}

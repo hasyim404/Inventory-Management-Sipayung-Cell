@@ -426,7 +426,7 @@ const EditKelolaBarang = () => {
 
       {/* MODALS FORM EDIT */}
       <div
-        id="hs-danger-alert"
+        id="hs-edit-alert"
         className="hs-overlay hidden w-full h-full fixed top-0 start-0 z-[70] overflow-x-hidden overflow-y-auto"
       >
         <div className="hs-overlay-open:mt-10  hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all md:max-w-2xl md:w-full m-3 md:mx-auto">
@@ -435,7 +435,7 @@ const EditKelolaBarang = () => {
               <button
                 type="button"
                 className="flex justify-center items-center w-7 h-7 text-md font-semibold rounded-lg border border-transparent text-color-5 disabled:opacity-50 disabled:pointer-events-none dark:text-color-5 dark:border-transparent  dark:focus:outline-none "
-                data-hs-overlay="#hs-danger-alert"
+                data-hs-overlay="#hs-edit-alert"
               >
                 <span className="sr-only">Close</span>
                 <svg

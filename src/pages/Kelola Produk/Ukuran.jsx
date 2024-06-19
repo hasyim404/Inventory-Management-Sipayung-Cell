@@ -29,6 +29,67 @@ const Ukuran = () => {
   const [n_ukuran, setNUkuran] = useState("");
   const [catatan, setCatatan] = useState("");
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentItem, setCurrentItem] = useState();
+
+  // Function to open the modal with the selected item
+  const openModal = (item) => {
+    setCurrentItem({ ...item });
+    setIsModalOpen(true);
+  };
+
+  // Function to close the modal and reset currentItem
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setCurrentItem(null);
+  };
+
+  const handleEdit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("n_ukuran", currentItem.n_ukuran);
+    formData.append("catatan", currentItem.catatan);
+
+    try {
+      const url = `http://localhost:1023/api/v1/ukuran/${currentItem.id}`;
+      await axios.put(url, formData);
+      Swal.fire({
+        title: "Edit Data ukuran Berhasil!",
+        text: "Berhasil edit data ukuran!",
+        icon: "success",
+      }).then(() => {
+        window.location.reload();
+      });
+    } catch (error) {
+      if (error.response.status === 409) {
+        Swal.fire({
+          title: "Gagal edit ukuran!",
+          text: `Nama ukuran duplikat...`,
+          icon: "warning",
+        }).then(() => {
+          window.location.reload();
+        });
+      } else {
+        Swal.fire({
+          title: "Gagal edit ukuran!",
+          text: `Gagal karena ${error.response.data.message}`,
+          icon: "error",
+        }).then(() => {
+          window.location.reload();
+        });
+      }
+    }
+    closeModal();
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setCurrentItem((prevItem) => ({
+      ...prevItem,
+      [name]: value,
+    }));
+  };
+
   useEffect(() => {
     const allowed = checkRoleAndNavigate(["pemilik", "karyawan"], navigate);
 
@@ -58,14 +119,17 @@ const Ukuran = () => {
         title: "Tambah Data Ukuran Berhasil!",
         text: "Berhasil menambahkan data baru!",
         icon: "success",
+      }).then(() => {
+        window.location.reload();
       });
-      getUkuran();
     } catch (error) {
       console.log(error);
       Swal.fire({
-        title: "Gagal tambah data!",
-        text: "Gagal menambahkan data ukuran",
+        title: "Gagal tambah data ukuran!",
+        text: `Gagal karena ${error.response.data.message}`,
         icon: "error",
+      }).then(() => {
+        window.location.reload();
       });
     }
   };
@@ -95,16 +159,18 @@ const Ukuran = () => {
         await Swal.fire({
           title: "Hapus data ukuran berhasil!",
           icon: "success",
+        }).then(() => {
+          window.location.reload();
         });
-
-        window.location.reload();
       }
     } catch (error) {
       console.log(error);
       Swal.fire({
-        title: "Hapus data gagal!",
-        text: "Gagal menghapus data merk",
+        title: "Hapus data ukuran gagal!",
+        text: `Gagal karena ${error.response.data.message}`,
         icon: "error",
+      }).then(() => {
+        window.location.reload();
       });
     }
   };
@@ -202,18 +268,17 @@ const Ukuran = () => {
 
                                   <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
                                     <div className="text-center ">
-                                      <Link
+                                      {/* <Link
                                         to={`/kelola-produk/ukuran/edit/${item.id}`}
+                                      > */}
+                                      <button
+                                        className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-yellow-500 text-white hover:bg-yellow-600 disabled:opacity-50 disabled:pointer-events-none "
+                                        data-hs-overlay="#hs-edit-alert"
+                                        onClick={() => openModal(item)}
                                       >
-                                        <button
-                                          className="py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-yellow-500 text-white hover:bg-yellow-600 disabled:opacity-50 disabled:pointer-events-none "
-                                          data-hs-overlay="#hs-danger-alert"
-                                        >
-                                          <FontAwesomeIcon
-                                            icon={faPenToSquare}
-                                          />
-                                        </button>
-                                      </Link>
+                                        <FontAwesomeIcon icon={faPenToSquare} />
+                                      </button>
+                                      {/* </Link> */}
                                       <button
                                         onClick={() => deleteUkuran(item.id)}
                                         className="deleteBtn py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none "
@@ -344,6 +409,122 @@ const Ukuran = () => {
                               </div>
                             </div>
                           </div>
+
+                          {/* MODALS FORM Edit */}
+                          {isModalOpen && currentItem && (
+                            <div
+                              id="hs-edit-alert"
+                              className="hs-overlay hidden w-full h-full fixed top-0 start-0 z-[70] overflow-x-hidden overflow-y-auto"
+                            >
+                              <div className="hs-overlay-open:mt-10  hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all md:max-w-xl pt-20 md:w-full m-3 md:mx-auto">
+                                <div className="relative flex flex-col shadow-md rounded-xl overflow-hidden dark:bg-color-3 ">
+                                  <div className="absolute top-2 m-3 end-2">
+                                    <button
+                                      type="button"
+                                      className="flex justify-center items-center w-7 h-7 text-md font-semibold rounded-lg border border-transparent text-color-5 disabled:opacity-50 disabled:pointer-events-none dark:text-color-5 dark:border-transparent  dark:focus:outline-none "
+                                      data-hs-overlay="#hs-edit-alert"
+                                    >
+                                      <span className="sr-only">Close</span>
+                                      <svg
+                                        className="flex-shrink-0 w-4 h-4"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="24"
+                                        height="24"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                      >
+                                        <path d="M18 6 6 18" />
+                                        <path d="m6 6 12 12" />
+                                      </svg>
+                                    </button>
+                                  </div>
+
+                                  <form onSubmit={handleEdit}>
+                                    <div className="p-4 sm:p-10 overflow-y-auto">
+                                      <div className="flex gap-x-4 md:gap-x-7">
+                                        <div className="grow">
+                                          <h3 className="mb-2 text-3xl font-bold text-gray-800 dark:text-gray-700">
+                                            Form Edit ukuran
+                                          </h3>
+                                          <div className="mt-10 grid grid-cols-10 gap-3">
+                                            <div className="col-span-3 flex">
+                                              <label
+                                                htmlFor="hs-leading-icon"
+                                                className="mt-2 block text-md font-medium mb-2 dark:text-color-5"
+                                              >
+                                                Nama ukuran{" "}
+                                                <span className="italic text-color-warning">
+                                                  *
+                                                </span>
+                                              </label>
+
+                                              <p className="mt-2 ml-4">:</p>
+                                            </div>
+                                            <div className="col-span-7">
+                                              <div className="relative">
+                                                <input
+                                                  type="text"
+                                                  name="n_ukuran"
+                                                  value={currentItem.n_ukuran}
+                                                  onChange={handleChange}
+                                                  className="py-3 px-4 block w-full border-color-1 shadow-sm rounded-lg text-sm focus:z-10 focus:border-color-1 focus:ring-color-1 disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:border-color-1 dark:text-gray-400 dark:focus:ring-color-1"
+                                                  placeholder="..."
+                                                />
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div className="mt-5 grid grid-cols-10 gap-3">
+                                            <div className="col-span-3 flex">
+                                              <label
+                                                htmlFor="hs-leading-icon"
+                                                className="mt-2 block text-md font-medium mb-2 dark:text-color-5"
+                                              >
+                                                Catatan
+                                              </label>
+
+                                              <p className="mt-2 ml-20">:</p>
+                                            </div>
+                                            <div className="col-span-7">
+                                              <div className="relative">
+                                                <input
+                                                  type="text"
+                                                  name="catatan"
+                                                  value={currentItem.catatan}
+                                                  onChange={handleChange}
+                                                  className="py-3 px-4 block w-full border-color-1 shadow-sm rounded-lg text-sm focus:z-10 focus:border-color-1 focus:ring-color-1 disabled:opacity-50 disabled:pointer-events-none dark:bg-color-6 dark:border-color-1 dark:text-gray-400 dark:focus:ring-color-1"
+                                                  placeholder="Tambah Catatan"
+                                                />
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <div className="flex justify-end items-center gap-x-2 py-3 px-4 bg-gray-50 border-t  dark:border-gray-300">
+                                      <button
+                                        type="button"
+                                        className="py-2 px-5 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-color-5  shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-zinc-200 dark:border-color-5dark:text-color-5 dark:hover:bg-zinc-300 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-color-5"
+                                        data-hs-overlay="#hs-edit-alert"
+                                      >
+                                        Kembali
+                                      </button>
+                                      <button
+                                        type="submit"
+                                        className="py-2 px-8 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-yellow-500 text-white hover:bg-yellow-600 disabled:opacity-50 disabled:pointer-events-none "
+                                      >
+                                        Tambah ukuran
+                                      </button>
+                                    </div>
+                                  </form>
+                                </div>
+                              </div>
+                            </div>
+                          )}
                         </div>
                         <Pagination
                           currentPage={currentPage}

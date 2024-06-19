@@ -15,17 +15,26 @@ import Subnav from "../../components/Subnav";
 import MainTitle from "../../components/MainTitle";
 import { useUser } from "../../context/UserContext";
 
+import Pagination from "../../components/Pagination/Pagination";
+
 const Pengeluaran = () => {
   const { checkRoleAndNavigate } = useUser();
   const navigate = useNavigate();
 
   const [pengeluaran, setPengeluaran] = useState([]);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const recordsPerPage = 5;
+  const lastIndex = currentPage * recordsPerPage;
+  const firstIndex = lastIndex - recordsPerPage;
+  const records = pengeluaran.slice(firstIndex, lastIndex);
+  const npage = Math.ceil(pengeluaran.length / recordsPerPage);
+
   useEffect(() => {
     const allowed = checkRoleAndNavigate("pemilik", navigate);
 
     if (!allowed) {
-      return;
+      //
     }
 
     getPengeluaran();
@@ -38,6 +47,29 @@ const Pengeluaran = () => {
     );
     setPengeluaran(response.data.data);
   };
+
+  const toIDR = new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  });
+
+  records.map((record) => {
+    record.tgl = new Date(record.tgl);
+  });
+
+  const total = records
+    .map((item) => item.pengeluaran)
+    .reduce((a, b) => a + b, 0);
+  console.log(total);
+
+  const toDate = new Intl.DateTimeFormat("id-ID", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
 
   return (
     <>
@@ -74,7 +106,7 @@ const Pengeluaran = () => {
                       <p className="font-semibold">
                         Total pengeluaran:{" "}
                         <span className="font-normal text-color-4">
-                          Rp. 2.037.000
+                          {toIDR.format(total)}
                         </span>
                       </p>
                     </div>
@@ -137,7 +169,7 @@ const Pengeluaran = () => {
                                   scope="col"
                                   className="px-6 py-3 text-center text-sm font-boldtext-color-5 uppercase"
                                 >
-                                  Pemasukan
+                                  Total Pemasukan
                                 </th>
                                 <th
                                   scope="col"
@@ -148,131 +180,36 @@ const Pengeluaran = () => {
                               </tr>
                             </thead>
                             <tbody className="divide-y">
-                              <tr>
-                                <td className="px-6 text-center py-4 whitespace-nowrap text-sm font-medium text-color-5">
-                                  1.
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5">
-                                  Minggu, 20 Desember 2023
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5 text-center">
-                                  Kabel data Micro USB
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5 text-center">
-                                  9
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5 text-center">
-                                  Rp. 125000
-                                </td>
+                              {records.map((item, index) => (
+                                <tr key={index}>
+                                  <td className="px-6 text-center py-4 whitespace-nowrap text-sm font-medium text-color-5">
+                                    {index +
+                                      1 +
+                                      (currentPage - 1) * recordsPerPage}
+                                    .
+                                  </td>
+                                  <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5">
+                                    {toDate.format(item.tgl)}
+                                  </td>
+                                  <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5 text-center">
+                                    {item.nama}
+                                  </td>
+                                  <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5 text-center">
+                                    {item.qty}
+                                  </td>
+                                  <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5 text-center">
+                                    {toIDR.format(item.pengeluaran)}
+                                  </td>
 
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  <div className="text-center ">
-                                    <button className="deleteBtn py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none ">
-                                      <FontAwesomeIcon icon={faTrashCan} />
-                                    </button>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td className="px-6 text-center py-4 whitespace-nowrap text-sm font-medium text-color-5">
-                                  2.
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5">
-                                  Minggu, 16 Desember 2023
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5 text-center">
-                                  Kepala Charger 33 Watt
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5 text-center">
-                                  11
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5 text-center">
-                                  Rp. 128000
-                                </td>
-
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  <div className="text-center ">
-                                    <button className="deleteBtn py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none ">
-                                      <FontAwesomeIcon icon={faTrashCan} />
-                                    </button>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td className="px-6 text-center py-4 whitespace-nowrap text-sm font-medium text-color-5">
-                                  3.
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5">
-                                  Jumat, 15 Desember 2023
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5 text-center">
-                                  Power Bank 10000 mAh
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5 text-center">
-                                  5
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5 text-center">
-                                  Rp. 260000
-                                </td>
-
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  <div className="text-center ">
-                                    <button className="deleteBtn py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none ">
-                                      <FontAwesomeIcon icon={faTrashCan} />
-                                    </button>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td className="px-6 text-center py-4 whitespace-nowrap text-sm font-medium text-color-5">
-                                  4.
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5">
-                                  Jumat, 15 Desember 2023
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5 text-center">
-                                  Anti Gores Redmi Note 11
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5 text-center">
-                                  7
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5 text-center">
-                                  Rp. 75000
-                                </td>
-
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  <div className="text-center ">
-                                    <button className="deleteBtn py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none ">
-                                      <FontAwesomeIcon icon={faTrashCan} />
-                                    </button>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td className="px-6 text-center py-4 whitespace-nowrap text-sm font-medium text-color-5">
-                                  5.
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5">
-                                  Kamis, 14 Desember 2023
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5 text-center">
-                                  Kabel USB 120 W
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5 text-center">
-                                  8
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-color-5 text-center">
-                                  Rp. 85000
-                                </td>
-
-                                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
-                                  <div className="text-center ">
-                                    <button className="deleteBtn py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none ">
-                                      <FontAwesomeIcon icon={faTrashCan} />
-                                    </button>
-                                  </div>
-                                </td>
-                              </tr>
+                                  <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-color-5">
+                                    <div className="text-center ">
+                                      <button className="deleteBtn py-3 mx-1 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none ">
+                                        <FontAwesomeIcon icon={faTrashCan} />
+                                      </button>
+                                    </div>
+                                  </td>
+                                </tr>
+                              ))}
                             </tbody>
                           </table>
 
@@ -503,43 +440,15 @@ const Pengeluaran = () => {
                             </div>
                           </div>
                         </div>
-                        <div className=" py-1 px-8">
-                          <nav className="flex items-center justify-start space-x-1">
-                            <button
-                              type="button"
-                              className="p-2.5 inline-flex items-center gap-x-2 text-sm rounded-full text-color-5 hover:text-color-6 disabled:opacity-50 disabled:pointer-events-none dark:text-color-5 dark:hover:bg-color-1 "
-                            >
-                              <span aria-hidden="true">«</span>
-                              <span className="sr-only">Previous</span>
-                            </button>
-                            <button
-                              type="button"
-                              className="min-w-[40px] flex justify-center items-center text-color-5 bg-color-1 py-2.5 text-sm rounded-full disabled:opacity-50 disabled:pointer-events-none text-color-6 dark:hover:bg-color-1"
-                              aria-current="page"
-                            >
-                              1
-                            </button>
-                            <button
-                              type="button"
-                              className="min-w-[40px] flex justify-center items-center text-color-5 hover:bg-color-1 py-2.5 text-sm rounded-full disabled:opacity-50 disabled:pointer-events-none hover:text-color-6 dark:hover:bg-color-1"
-                            >
-                              2
-                            </button>
-                            <button
-                              type="button"
-                              className="min-w-[40px] flex justify-center items-center text-color-5 hover:bg-color-1 py-2.5 text-sm rounded-full disabled:opacity-50 disabled:pointer-events-none hover:text-color-6 dark:hover:bg-color-1"
-                            >
-                              3
-                            </button>
-                            <button
-                              type="button"
-                              className="p-2.5 inline-flex items-center gap-x-2 text-sm rounded-full text-color-5 hover:text-color-6 disabled:opacity-50 disabled:pointer-events-none dark:text-color-5 dark:hover:bg-color-1 "
-                            >
-                              <span className="sr-only">Next</span>
-                              <span aria-hidden="true">»</span>
-                            </button>
-                          </nav>
-                        </div>
+
+                        <Pagination
+                          currentPage={currentPage}
+                          setCurrentPage={setCurrentPage}
+                          npage={npage}
+                          data={pengeluaran.length}
+                          show={records.length}
+                          setName={"Pengeluaran"}
+                        />
                       </div>
                     </div>
                   </div>
