@@ -122,7 +122,7 @@ const createBarang = async (req, res) => {
           message: "Barang sudah ada / Terduplikasi",
         });
 
-      const result = await query(
+      const { resultId: id } = await query(
         "insert into barang(n_barang, jml_stok, tipe_stok, h_beli, h_jual, merk_id, img, kategori_id, ukuran_id, users_id) values(?,?,?,?,?,?,?,?,?,?)",
         [
           n_barang,
@@ -144,14 +144,14 @@ const createBarang = async (req, res) => {
       const pengeluaran = jml_stok * h_beli;
       // Tambahkan pengeluaran ke laporan keuangan
       await query(
-        `INSERT INTO pengeluaran (tgl, nama, qty, pengeluaran) VALUES (?,?,?,?)`,
-        [formattedDate, n_barang, jml_stok, pengeluaran]
+        `INSERT INTO pengeluaran (tgl, barang_id, qty, pemasukan) VALUES (?,?,?,?)`,
+        [formattedDate, barangId, jml_stok, pengeluaran]
       );
 
       return res.status(200).json({
         success: true,
         message: "Barang berhasil ditambahkan!",
-        data: { id: barangId, ...req.body },
+        data: { id, ...req.body },
       });
     } catch (error) {
       console.error(error.message);
@@ -183,56 +183,6 @@ const createBarang = async (req, res) => {
       });
     }
 
-    const {
-      n_barang,
-      jml_stok,
-      tipe_stok,
-      h_beli,
-      h_jual,
-      merk_id,
-      img = url,
-      kategori_id,
-      ukuran_id,
-      users_id,
-    } = req.body;
-
-    if (
-      n_barang === undefined ||
-      n_barang === "" ||
-      jml_stok === undefined ||
-      jml_stok === "" ||
-      tipe_stok === undefined ||
-      tipe_stok === "" ||
-      h_beli === undefined ||
-      h_beli === "" ||
-      h_jual === undefined ||
-      h_jual === "" ||
-      merk_id === undefined ||
-      merk_id === "" ||
-      kategori_id === undefined ||
-      kategori_id === "" ||
-      ukuran_id === undefined ||
-      ukuran_id === "" ||
-      users_id === undefined ||
-      users_id === ""
-    )
-      return res.status(400).json({
-        success: false,
-        message: "Data Wajib di isi!",
-        data: { ...req.body },
-      });
-
-    const isDuplicate = await query(
-      `SELECT id FROM barang WHERE n_barang = ?`,
-      [n_barang]
-    );
-
-    if (isDuplicate.length > 0)
-      return res.status(409).json({
-        success: false,
-        message: "Barang sudah ada / Terduplikasi",
-      });
-
     file.mv(`./public/images/${fileName}`, async (err) => {
       if (err) {
         return res.status(500).json({
@@ -242,7 +192,57 @@ const createBarang = async (req, res) => {
       }
 
       try {
-        const result = await query(
+        const {
+          n_barang,
+          jml_stok,
+          tipe_stok,
+          h_beli,
+          h_jual,
+          merk_id,
+          img = url,
+          kategori_id,
+          ukuran_id,
+          users_id,
+        } = req.body;
+
+        if (
+          n_barang === undefined ||
+          n_barang === "" ||
+          jml_stok === undefined ||
+          jml_stok === "" ||
+          tipe_stok === undefined ||
+          tipe_stok === "" ||
+          h_beli === undefined ||
+          h_beli === "" ||
+          h_jual === undefined ||
+          h_jual === "" ||
+          merk_id === undefined ||
+          merk_id === "" ||
+          kategori_id === undefined ||
+          kategori_id === "" ||
+          ukuran_id === undefined ||
+          ukuran_id === "" ||
+          users_id === undefined ||
+          users_id === ""
+        )
+          return res.status(400).json({
+            success: false,
+            message: "Data Wajib di isi!",
+            data: { ...req.body },
+          });
+
+        const isDuplicate = await query(
+          `SELECT id FROM barang WHERE n_barang = ?`,
+          [n_barang]
+        );
+
+        if (isDuplicate.length > 0)
+          return res.status(409).json({
+            success: false,
+            message: "Barang sudah ada / Terduplikasi",
+          });
+
+        const { resultId: id } = await query(
           "insert into barang(n_barang, jml_stok, tipe_stok, h_beli, h_jual, merk_id, img, kategori_id, ukuran_id, users_id) values(?,?,?,?,?,?,?,?,?,?)",
           [
             n_barang,
@@ -258,20 +258,17 @@ const createBarang = async (req, res) => {
           ]
         );
 
-        const date = new Date();
-        const formattedDate = date.toISOString().split("T")[0];
-        const barangId = result.insertId;
-        const pengeluaran = jml_stok * h_beli;
-        // Tambahkan pengeluaran ke laporan keuangan
-        await query(
-          `INSERT INTO pengeluaran (tgl, nama, qty, pengeluaran) VALUES (?,?,?,?)`,
-          [formattedDate, n_barang, jml_stok, pengeluaran]
-        );
+        // const pengeluaran = jml_stok * h_jual
+        // // Tambahkan pengeluaran ke laporan keuangan
+        // await query(
+        //   `INSERT INTO pengeluaran (tgl, barang_id, qty, pemasukan) VALUES (?,?,?,?)`,
+        //   []
+        // );
 
         return res.status(200).json({
           success: true,
           message: "Barang berhasil ditambahkan!",
-          data: { id: barangId, ...req.body },
+          data: { id, ...req.body },
         });
       } catch (error) {
         console.error(error.message);
@@ -285,52 +282,76 @@ const createBarang = async (req, res) => {
 };
 
 const updateBarang = async (req, res) => {
-  const { id } = req.params;
+  try {
+    const { id } = req.params;
 
-  const barang = await query(`SELECT * FROM barang WHERE id = ?`, [id]);
-  if (!barang) return res.status(404).json({ message: "No data found" });
+    let fileName = "";
+    const getImg = await query("SELECT img FROM barang WHERE id = ?", [id]);
+    const imgDB = getImg[0].img;
+    if (req.files === null) {
+      fileName = imgDB;
+      console.log("woi");
+    } else {
+      const file = req.files.img;
+      const fileSize = file.data.length;
+      const ext = path.extname(file.name);
+      fileName = Date.now() + "_" + file.md5 + ext;
+      const allowedType = [".png", ".jpg", ".jpeg"];
 
-  let fileName = "";
-  if (req.files === null) {
-    fileName = barang[0].img;
-  } else {
-    const file = req.files.img;
-    const fileSize = file.data.length;
-    const ext = path.extname(file.name);
-    fileName = Date.now() + "_" + file.md5 + ext;
-    const allowedType = [".png", ".jpeg", ".jpg"];
+      if (!allowedType.includes(ext.toLowerCase())) {
+        return res.status(422).json({
+          success: false,
+          message: "Format invalid, hanya bisa .png, .jpg dan .jpeg !",
+        });
+      }
 
-    if (!allowedType.includes(ext.toLowerCase())) {
-      return res.status(422).json({
-        success: false,
-        message: "Format invalid, hanya bisa .png, .jpg dan .jpeg !",
-      });
+      if (fileSize > 5000000) {
+        return res.status(422).json({
+          success: false,
+          message: "Size file terlalu besar, maksimal 5MB !",
+        });
+      }
+
+      fileName = imgDB.split("images/")[1] || imgDB;
+      const filePath = `./public/images/${fileName}`;
+
+      // console.log(imgDB);
+      // console.log(req.files);
+
+      if (imgDB === "") {
+        const file = req.files.img;
+        const ext = path.extname(file.name);
+        fileName = Date.now() + "_" + file.md5 + ext;
+        file.mv(`./public/images/${fileName}`, (err) => {
+          if (err) {
+            return res.status(500).json({
+              success: false,
+              message: err.message,
+            });
+          }
+        });
+      } else {
+        fileName = imgDB.split("images/")[1] || imgDB;
+        fs.unlinkSync(filePath);
+        file.mv(`./public/images/${fileName}`, (err) => {
+          if (err) {
+            return res.status(500).json({
+              success: false,
+              message: err.message,
+            });
+          }
+        });
+      }
     }
 
-    if (fileSize > 5000000) {
-      return res.status(422).json({
-        success: false,
-        message: "Size file terlalu besar, maksimal 5MB !",
-      });
-    }
-
-    const theImg = barang[0].img;
-    const split = theImg.split("images/")[1];
-    const filePath = `./public/images/${split}`;
-    if (split !== undefined) {
+    if (fileName.includes("images")) {
+      fileName = imgDB.split("images/")[1] || imgDB;
+      const filePath = `./public/images/${fileName}`;
       fs.unlinkSync(filePath);
     }
 
-    file.mv(`./public/images/${fileName}`, (err) => {
-      if (err) {
-        return res.status(500).json({ success: false, message: err.message });
-      }
-    });
-  }
+    const url = `${req.protocol}://${req.get("host")}/images/${fileName}`;
 
-  const url = `${req.protocol}://${req.get("host")}/images/${fileName}`;
-
-  try {
     const {
       n_barang,
       jml_stok,
@@ -343,6 +364,8 @@ const updateBarang = async (req, res) => {
       ukuran_id,
       users_id,
     } = req.body;
+
+    console.log(img);
 
     if (
       n_barang === undefined ||
@@ -385,51 +408,55 @@ const updateBarang = async (req, res) => {
       ]
     );
 
-    return res.status(200).json({
-      success: true,
-      message: "Data Barang berhasil diupdate!",
-      data: { id, ...req.body },
-    });
-  } catch (err) {
-    console.error(err.message);
+    if (data.affectedRows > 0) {
+      return res.status(200).json({
+        success: true,
+        message: "Data Barang berhasil diupdate!",
+        data: { id, ...req.body },
+      });
+    } else {
+      return res.status(400).json({
+        success: false,
+        message: "Data Barang tidak ditemukan / Gagal",
+      });
+    }
+  } catch (error) {
+    console.log(error);
     return res.status(500).json({
       success: false,
-      message: err.message,
+      message: error.message,
     });
   }
 };
 
 const deleteBarang = async (req, res) => {
   const { id } = req.params;
-  const getBarang = await query("SELECT id FROM barang WHERE id = ?", [id]);
 
-  if (getBarang.length === 0) {
+  if (!id) {
     return res.status(404).json({
       success: false,
-      message: "Data Barang tidak ditemukan!",
+      message: "Gagal menghapus, data Barang tidak ditemukan!",
     });
   }
 
   try {
     const getImg = await query("SELECT img FROM barang WHERE id = ?", [id]);
     const img = getImg[0].img;
+    const fileName = img.split("images/")[1] || img;
+    const filePath = `./public/images/${fileName}`;
 
-    if (img !== null && img.includes("images")) {
-      const fileName = img.split("images/")[1];
-      const filePath = `./public/images/${fileName}`;
-      fs.unlinkSync(filePath);
-    }
     await query("DELETE FROM barang WHERE id = ?", [id]);
+    fs.unlinkSync(filePath);
 
     return res.status(200).json({
       success: true,
       message: "Data Barang berhasil dihapus!",
     });
   } catch (error) {
-    console.error(error);
+    // console.error(error);
     return res.status(404).json({
       success: false,
-      message: error.message,
+      message: "Gagal menghapus, data Barang tidak ditemukan!",
     });
   }
 };

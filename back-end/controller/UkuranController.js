@@ -87,11 +87,12 @@ const updateUkuran = async (req, res) => {
   const { id } = req.params;
   const { n_ukuran, catatan } = req.body;
 
-  if (n_ukuran === undefined || n_ukuran === "")
+  if (n_ukuran === undefined || n_ukuran === "") {
     return res.status(400).json({
       success: false,
       message: "Nama Ukuran wajib di isi!",
     });
+  }
 
   try {
     const isDuplicate = await query(
@@ -136,20 +137,20 @@ const deleteUkuran = async (req, res) => {
   try {
     const data = await query("DELETE FROM ukuran WHERE id = ?", [id]);
 
-    if (data.affectedRows > 0) {
+    if (!data) {
+      const error = new Error("Data ini sedang digunakan, tidak bisa di hapus");
+      error.status = 400;
+      throw error;
+    } else if (data.affectedRows > 0) {
       return res.status(200).json({
         success: true,
         message: "Data Ukuran berhasil dihapus!",
       });
-    } else
-      res.status(400).json({
-        success: false,
-        message: "Data Ukuran tidak ditemukan! / Gagal",
-      });
+    }
   } catch (error) {
-    return res.status(500).json({
+    return res.status(error.status || 404).json({
       success: false,
-      message: "Error",
+      message: error.message,
     });
   }
 };

@@ -146,20 +146,20 @@ const deleteKategori = async (req, res) => {
   try {
     const data = await query("DELETE FROM kategori WHERE id = ?", [id]);
 
-    if (data.affectedRows > 0) {
+    if (!data) {
+      const error = new Error("Data ini sedang digunakan, tidak bisa di hapus");
+      error.status = 400;
+      throw error;
+    } else if (data.affectedRows > 0) {
       return res.status(200).json({
         success: true,
         message: "Data Kategori berhasil dihapus!",
       });
-    } else
-      res.status(400).json({
-        success: false,
-        message: "Data Kategori tidak ditemukan! / Gagal",
-      });
+    }
   } catch (error) {
-    return res.status(500).json({
+    return res.status(error.status || 404).json({
       success: false,
-      message: "Error",
+      message: error.message,
     });
   }
 };
