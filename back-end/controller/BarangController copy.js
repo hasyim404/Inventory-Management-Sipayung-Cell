@@ -4,6 +4,7 @@ const fs = require("fs");
 
 const getBarang = async (req, res) => {
   try {
+    console.log("ss");
     const data = await query(
       `SELECT barang.id AS id_barang, n_barang, jml_stok, tipe_stok, h_beli, h_jual, merk.id AS id_merk, n_merk, img, kategori.id AS id_kategori, n_kategori, ukuran.id AS id_ukuran, n_ukuran, f_name, l_name, barang.updated_at AS waktu
        FROM barang 
@@ -14,12 +15,6 @@ const getBarang = async (req, res) => {
        ORDER BY waktu DESC`
     );
 
-    const terendah = await query(
-      `
-      SELECT id, n_barang, jml_stok, tipe_stok, img FROM barang WHERE jml_stok <= 10 ORDER BY jml_stok DESC
-      `
-    );
-
     const { q } = req.query;
     const keys = ["n_barang", "n_merk"];
     const search = (data) => {
@@ -28,6 +23,14 @@ const getBarang = async (req, res) => {
       );
     };
     // console.log(q);
+
+    const terendah = await query(
+      `
+      SELECT id, n_barang, jml_stok, tipe_stok, img FROM barang WHERE jml_stok <= 7 ORDER BY jml_stok DESC
+      `
+    );
+
+    console.log(terendah);
 
     return res.status(200).json({
       success: true,

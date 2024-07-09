@@ -16,7 +16,7 @@ const getBarang = async (req, res) => {
 
     const terendah = await query(
       `
-      SELECT id, n_barang, jml_stok, tipe_stok, img FROM barang WHERE jml_stok <= 10 ORDER BY jml_stok DESC
+      SELECT id, n_barang, jml_stok, tipe_stok, img FROM barang WHERE jml_stok <= 7 ORDER BY jml_stok DESC
       `
     );
 

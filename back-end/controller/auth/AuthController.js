@@ -17,6 +17,29 @@ const signToken = (userId) => {
   });
 };
 
+const formatPhoneNumber = (phoneNumber) => {
+  // Hilangkan semua spasi, tanda kurung, dan strip
+  phoneNumber = phoneNumber.replace(/[\s\(\)\-]/g, "");
+
+  // Jika angka depan 0, ganti dengan 62
+  if (/^0/.test(phoneNumber)) {
+    phoneNumber = phoneNumber.replace(/^0/, "62");
+  }
+
+  // Jika angka depan +, hilangkan
+  else if (/^\+/.test(phoneNumber)) {
+    phoneNumber = phoneNumber.replace(/^\+/, "");
+  }
+
+  // Validasi nomor telepon
+  const validFormat = /^62\d{9,13}$/.test(phoneNumber);
+  if (!validFormat) {
+    return "Format nomor telepon tidak valid";
+  }
+
+  return phoneNumber;
+};
+
 const register = async (req, res) => {
   const {
     f_name,
@@ -45,12 +68,17 @@ const register = async (req, res) => {
     role === undefined ||
     role === "" ||
     phone_number === undefined ||
-    isNaN(+phone_number)
+    phone_number === "" ||
+    isNaN(phone_number)
   )
     return res.status(400).json("Data tidak Valid!");
 
   if (password !== confPassword)
     return res.status(400).json("Password tidak sama!");
+
+  if (formatPhoneNumber(phone_number) === "Format nomor telepon tidak valid") {
+    return res.status(400).json("Format nomor telepon salah!");
+  }
 
   try {
     const salt = await bcryptjs.genSalt(12);
@@ -60,7 +88,16 @@ const register = async (req, res) => {
       `
           INSERT INTO users(uuid, f_name, l_name, email, password, gender, role, phone_number) VALUES(?,?,?,?,?,?,?,?)
         `,
-      [randomUUID(), f_name, l_name, email, hash, gender, role, phone_number]
+      [
+        randomUUID(),
+        f_name,
+        l_name,
+        email,
+        hash,
+        gender,
+        role,
+        formatPhoneNumber(phone_number),
+      ]
     );
 
     const token = signToken(resultId); // Gunakan resultId langsung
