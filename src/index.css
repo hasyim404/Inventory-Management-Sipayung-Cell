@@ -17,3 +17,15 @@ input[type="number"] {
 body {
   background-color: #f8f5f2;
 }
+
+#login-page {
+  position: relative;
+  height: 100vh;
+}
+
+.login {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

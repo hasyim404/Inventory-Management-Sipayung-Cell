@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Navigate, useNavigate } from "react-router-dom";
 
@@ -27,7 +27,23 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = async () => {
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === "Enter") {
+        handleLogin(event);
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [email, password]);
+
+  const handleLogin = async (event) => {
+    event.preventDefault();
+
     try {
       if (!email || !password) {
         Swal.fire({
@@ -77,7 +93,7 @@ const Login = () => {
 
   return (
     <>
-      <div className="lg:px-0 lg:py-1 h-full bg-color-1 w-auto">
+      <div className="login lg:px-0 lg:py-1 h-full w-full flex items-center justify-center">
         <div className="mx-20 my-10">
           <div className="box-content h-full w-full flex flex-col bg-white shadow-md rounded-3xl hover:shadow-md transitioncol-span-2">
             <div className="">

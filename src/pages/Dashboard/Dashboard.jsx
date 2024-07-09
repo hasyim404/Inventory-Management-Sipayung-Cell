@@ -35,7 +35,7 @@ const Dashboard = () => {
   const lastIndex = currentPage * recordsPerPage;
   const firstIndex = lastIndex - recordsPerPage;
   const records = terendah.slice(firstIndex, lastIndex);
-  const npage = Math.ceil(barang.length / recordsPerPage);
+  const npage = Math.ceil(terendah.length / recordsPerPage);
 
   // Diagram
   const backgroundColor = [
@@ -110,7 +110,7 @@ const Dashboard = () => {
                       Perlu Restock
                     </h3>
                     <p className="text-5xl font-semibold text-color-5">
-                      {barang.filter((item) => item.jml_stok <= 10).length}{" "}
+                      {barang.filter((item) => item.jml_stok <= 7).length}{" "}
                       <span className="text-sm font-normal text-gray-500">
                         Barang
                       </span>
@@ -208,11 +208,11 @@ const Dashboard = () => {
                                     <Zoom>
                                       <img
                                         className="w-20 p-1 rounded-s-md border border-color-2 disabled:opacity-50 disabled:pointer-events-none dark:bg-color-2 dark:text-gray-400 dark:focus:ring-color-2"
-                                        src={`./src/assets/${
-                                          item.img !== ""
+                                        src={
+                                          item.img
                                             ? item.img
-                                            : "no-preview.png"
-                                        }`}
+                                            : "./src/assets/no-preview.png"
+                                        }
                                       />
                                     </Zoom>
                                   </td>
@@ -226,7 +226,7 @@ const Dashboard = () => {
                           setCurrentPage={setCurrentPage}
                           npage={npage}
                           data={
-                            barang.filter((item) => item.jml_stok <= 10).length
+                            barang.filter((item) => item.jml_stok <= 7).length
                           }
                           show={records.length}
                           setName={"Barang"}

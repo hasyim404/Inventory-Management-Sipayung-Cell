@@ -87,7 +87,7 @@ const KelolaUsers = () => {
           text: `Data user duplikat...`,
           icon: "warning",
         }).then(() => {
-          window.location.reload();
+          // window.location.reload();
         });
       } else {
         Swal.fire({
@@ -95,7 +95,7 @@ const KelolaUsers = () => {
           text: `Gagal karena ${error.response.data.message}`,
           icon: "error",
         }).then(() => {
-          window.location.reload();
+          // window.location.reload();
         });
       }
     }
@@ -161,10 +161,10 @@ const KelolaUsers = () => {
       console.error(error);
       Swal.fire({
         title: "Gagal menambah user!",
-        text: `Gagal karena ${error.response.data.message}`,
+        text: `Gagal karena ${error.response.data}`,
         icon: "error",
       }).then(() => {
-        window.location.reload();
+        // window.location.reload();
       });
     }
   };
@@ -684,7 +684,7 @@ const KelolaUsers = () => {
                                       <div className="flex gap-x-4 md:gap-x-7">
                                         <div className="grow">
                                           <h3 className="mb-2 text-3xl font-bold text-gray-800 dark:text-gray-700">
-                                            Form Tambah User
+                                            Form Edit User
                                           </h3>
                                           <div className="mt-10 grid grid-cols-10 gap-3">
                                             <div className="col-span-5">
@@ -918,9 +918,9 @@ const KelolaUsers = () => {
                                       </button>
                                       <button
                                         type="submit"
-                                        className="py-2 px-8 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-color-1 text-white hover:bg-6hover disabled:opacity-50 disabled:pointer-events-none "
+                                        className="py-2 px-8 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-yellow-500 text-white hover:bg-yellow-600 disabled:opacity-50 disabled:pointer-events-none "
                                       >
-                                        Tambah User
+                                        Edit User
                                       </button>
                                     </div>
                                   </form>

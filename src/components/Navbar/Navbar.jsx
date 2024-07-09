@@ -13,6 +13,8 @@ import Logout from "../Logout/Logout";
 import { useUser } from "../../context/UserContext";
 import logo from "../../assets/main-logo.svg";
 
+import Avatar from "react-avatar";
+
 const Navbar = (props) => {
   const { getUserData } = useUser();
   const data = getUserData();
@@ -66,7 +68,7 @@ const Navbar = (props) => {
   return (
     <>
       <div>
-        <header className="sticky top-0 inset-x-0 flex flex-wrap sm:justify-start sm:flex-nowrap z-[48] w-full border-b text-sm py-2.5 sm:py-4 lg:ps-64 bg-color-6 ">
+        <header className="sticky top-0 inset-x-0 flex flex-wrap sm:justify-start sm:flex-nowrap z-[48] w-full border-b text-sm py-2.5 sm:py- lg:ps-64 bg-color-6 ">
           <nav
             className="flex basis-full items-center w-full mx-auto px-4 sm:px-6 md:px-8"
             aria-label="Global"
@@ -112,10 +114,17 @@ const Navbar = (props) => {
                     type="button"
                     className="pr-5 py-0.5 inline-flex justify-center items-center gap-x-5 text-sm font-semibold rounded-full border border-transparent text-gray-800 disabled:opacity-50 disabled:pointer-events-none dark:text-color-5 bg-color-2 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-color-2 shadow-md"
                   >
-                    <img
+                    {/* <img
                       className="inline-block h-[2.375rem] w-[2.375rem] rounded-full "
                       src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=htmlFormat&fit=facearea&facepad=2&w=320&h=320&q=80"
                       alt="Image Description"
+                    /> */}
+                    <Avatar
+                      name={`${data.f_name} ${data.l_name}`}
+                      round={true}
+                      size="40"
+                      textSizeRatio={2.5}
+                      color="#078080"
                     />
                     <p>
                       {data.f_name} {data.l_name}
@@ -206,7 +215,7 @@ const Navbar = (props) => {
 
         <div
           id="application-sidebar"
-          className="hs-overlay hs-overlay-open:translate-x-0 -translate-x-full transition-all duration-300 transhtmlForm hidden fixed top-0 start-0 bottom-0 z-[60] w-64 bg-white border-e border-gray-200 pt-7 pb-10 overflow-y-auto lg:block lg:translate-x-0 lg:end-auto lg:bottom-0 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-slate-700 dark:[&::-webkit-scrollbar-thumb]:bg-slate-500 dark:bg-color-6 dark:border-color-3"
+          className="hs-overlay hs-overlay-open:translate-x-0 -translate-x-full transition-all duration-300 transhtmlForm hidden fixed top-0 start-0 bottom-0 z-[50] w-64 bg-white border-e border-gray-200 pt-7 pb-10 overflow-y-auto lg:block lg:translate-x-0 lg:end-auto lg:bottom-0 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-slate-700 dark:[&::-webkit-scrollbar-thumb]:bg-slate-500 dark:bg-color-6 dark:border-color-3"
         >
           <div className="px-6">
             <NavLink
@@ -218,7 +227,7 @@ const Navbar = (props) => {
           </div>
 
           <nav
-            className="hs-accordion-group p-6 mt-5 w-full flex flex-col flex-wrap"
+            className="hs-accordion-group p-6 mt-1 w-full flex flex-col flex-wrap"
             data-hs-accordion-always-open
           >
             <ul className="space-y-3">
@@ -252,7 +261,7 @@ const Navbar = (props) => {
                       ${
                         props.active4
                           ? "bg-color-1 dark:text-white"
-                          : "hover:bg-color-1 dark:hover:text-white"
+                          : "hover:bg-color-1 bg-color-3 dark:hover:text-white"
                       }`}
                 >
                   <li>
@@ -260,6 +269,14 @@ const Navbar = (props) => {
                     Users
                   </li>
                 </NavLink>
+              )}
+
+              {data.role === "pemilik" ? (
+                <div className="pl-1 pt-2 font-semibold text-sm">
+                  <p>Kelola Data</p>
+                </div>
+              ) : (
+                ""
               )}
 
               {/* Kelola Barang */}

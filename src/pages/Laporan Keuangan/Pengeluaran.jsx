@@ -62,7 +62,6 @@ const Pengeluaran = () => {
   const total = records
     .map((item) => item.pengeluaran)
     .reduce((a, b) => a + b, 0);
-  console.log(total);
 
   const toDate = new Intl.DateTimeFormat("id-ID", {
     weekday: "long",
